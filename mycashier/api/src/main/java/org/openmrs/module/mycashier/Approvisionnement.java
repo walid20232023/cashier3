@@ -41,18 +41,15 @@ public class Approvisionnement {
 	
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateCreation;
-	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
-		if (this.uuid == null) {
-			this.uuid = UUID.randomUUID().toString();
-		}
+	private LocalDateTime localDateTime;
+
+
+	//Constructeurs
+
+	public Approvisionnement() {
 	}
-	
+
+
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -110,14 +107,12 @@ public class Approvisionnement {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-	
 
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
+	}
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
+	}
 }

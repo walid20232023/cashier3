@@ -38,7 +38,12 @@ public class Payment implements Serializable {
 	
 	@Column(name = "mode_payment")
 	private String modePayment;
-	
+
+	//Constructeurs
+
+	public Payment() {
+	}
+
 
 	// Getters and Setters
 	

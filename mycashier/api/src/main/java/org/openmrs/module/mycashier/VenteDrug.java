@@ -41,7 +41,13 @@ public class VenteDrug implements Serializable {
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreation;
-	
+
+	//Constructeurs
+
+	public VenteDrug() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

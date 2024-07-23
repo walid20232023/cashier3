@@ -23,7 +23,13 @@ public class LigneApprovis {
 	
 	@Column(name = "quantite")
 	private Integer quantite;
-	
+
+	//Constructeurs
+
+	public LigneApprovis() {
+	}
+
+
 	// Getters and Setters
 	
 	public LigneApprovisId getId() {

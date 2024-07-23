@@ -34,7 +34,13 @@ public class VenteService {
 
 	@Column(name = "vente_validate", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean venteValidate;
-	
+
+	//Constructeurs
+
+	public VenteService() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

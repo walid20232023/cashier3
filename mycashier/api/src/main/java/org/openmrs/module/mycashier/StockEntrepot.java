@@ -21,8 +21,12 @@ public class StockEntrepot implements Serializable {
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;
 	
+    //Constructeurs
 
-	
+	public StockEntrepot() {
+	}
+
+
 	// Getters and Setters
 	
 	public StockEntrepotId getId() {

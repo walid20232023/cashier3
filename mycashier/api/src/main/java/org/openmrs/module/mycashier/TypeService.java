@@ -25,7 +25,14 @@ public class TypeService {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-	
+
+
+	//Consructeurs
+
+	public TypeService() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

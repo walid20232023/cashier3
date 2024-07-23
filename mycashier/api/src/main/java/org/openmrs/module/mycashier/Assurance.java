@@ -30,7 +30,12 @@ public class Assurance {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-	
+
+	//Constructeurs
+	public Assurance() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

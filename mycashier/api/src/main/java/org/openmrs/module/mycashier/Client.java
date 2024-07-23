@@ -40,7 +40,13 @@ public class Client {
 	
 	@Column(name = "patient_id")
 	private Integer patientId;
-	
+
+	//Consructeurs
+
+	public Client() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

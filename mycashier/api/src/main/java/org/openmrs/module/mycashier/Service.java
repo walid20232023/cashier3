@@ -31,7 +31,13 @@ public class Service {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-	
+
+	//Constructeurs
+
+	public Service() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

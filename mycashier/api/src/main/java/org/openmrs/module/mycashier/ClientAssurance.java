@@ -20,7 +20,13 @@ public class ClientAssurance {
 	@MapsId("clientId")
 	@JoinColumn(name = "client_id")
 	private Client client;
-	
+
+	//Constructeurs
+
+	public ClientAssurance() {
+	}
+
+
 	// Getters and Setters
 	
 	public ClientAssuranceId getId() {

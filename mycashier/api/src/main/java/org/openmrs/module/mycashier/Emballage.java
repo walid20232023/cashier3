@@ -25,7 +25,13 @@ public class Emballage {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-	
+
+	//Conctructeurs
+
+	public Emballage() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {

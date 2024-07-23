@@ -1,86 +1,55 @@
 package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.UUID;
 import org.openmrs.User;
 
 @Entity
 @Table(name = "agent", schema = "cashier")
-public class Agent {
-	
+public class Agent extends User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@ManyToOne
-	@JoinColumn(name = "agent_creator_id")
-	private User agentCreator;
-	
-	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime localDateTime;
-	
-	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
-	private String uuid = UUID.randomUUID().toString();
-	
+
 	@Column(name = "caisse")
 	private Long caisse;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-	
-	// Getters and Setters
-	
+
+	// Constructor that initializes Agent using User's attributes
+	public Agent() {
+		super();
+	}
+
+	public Agent(User user) {
+		super();
+		this.setUserId(user.getUserId());
+		this.setSystemId(user.getSystemId());
+		this.setUsername(user.getUsername());
+		this.setCreator(user.getCreator());
+		this.setDateCreated(user.getDateCreated());
+		this.setChangedBy(user.getChangedBy());
+		this.setDateChanged(user.getDateChanged());
+		this.setPerson(user.getPerson());
+		this.setRetired(user.getRetired());
+		this.setRetiredBy(user.getRetiredBy());
+		this.setDateRetired(user.getDateRetired());
+		this.setRetireReason(user.getRetireReason());
+		this.setUuid(user.getUuid());
+
+	}
+
+	// Getters and Setters for id and caisse
 	public Integer getId() {
 		return id;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public User getAgentCreator() {
-		return agentCreator;
-	}
-	
-	public void setAgentCreator(User agentCreator) {
-		this.agentCreator = agentCreator;
-	}
 
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
-	}
-
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-	
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-	
 	public Long getCaisse() {
 		return caisse;
 	}
-	
+
 	public void setCaisse(Long caisse) {
 		this.caisse = caisse;
 	}
-	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-
 }

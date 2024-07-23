@@ -33,7 +33,13 @@ public class Entrepot {
 	@ManyToOne
 	@JoinColumn(name = "agent_id")
 	private Agent agent;
-	
+
+	//Constructeurs
+
+	public Entrepot() {
+	}
+
+
 	// Getters and Setters
 	
 	public Integer getId() {
