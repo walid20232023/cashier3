@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-public interface ApprovisionnementService extends OpenmrsService {
+public interface ApprovisionnementService {
 
     @Transactional(readOnly = true)
     Approvisionnement getApprovisionnementByUuid(String uuid) throws APIException;

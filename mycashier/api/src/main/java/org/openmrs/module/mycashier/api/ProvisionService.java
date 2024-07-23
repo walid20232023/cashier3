@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface ProvisionService extends OpenmrsService {
+public interface ProvisionService {
 
     @Transactional(readOnly = true)
     Provision getProvisionByUuid(String uuid) throws APIException;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-public interface VersementService extends OpenmrsService {
+public interface VersementService  {
 
     @Transactional(readOnly = true)
     Versement getVersementByUuid(String uuid) throws APIException;

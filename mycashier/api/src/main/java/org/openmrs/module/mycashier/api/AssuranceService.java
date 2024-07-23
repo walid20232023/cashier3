@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface AssuranceService extends OpenmrsService {
+public interface AssuranceService  {
 
 	@Transactional(readOnly = true)
 	Assurance getAssuranceByUuid(String uuid) throws APIException;

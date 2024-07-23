@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface InventaireService extends OpenmrsService {
+public interface InventaireService {
 
     @Transactional(readOnly = true)
     Inventaire getInventaireByUuid(String uuid) throws APIException;

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface EmballageService extends OpenmrsService {
+public interface EmballageService {
 
     @Transactional(readOnly = true)
     Emballage getEmballageByUuid(String uuid) throws APIException;

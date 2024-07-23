@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface MyDrugAvarieService extends OpenmrsService {
+public interface MyDrugAvarieService {
 
     @Transactional(readOnly = true)
     MyDrugAvarie getMyDrugAvarieByUuid(String uuid) throws APIException;

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface ServService extends OpenmrsService {
+public interface ServService {
 	
 	@Transactional(readOnly = true)
 	Service getServiceByUuid(String uuid) throws APIException;

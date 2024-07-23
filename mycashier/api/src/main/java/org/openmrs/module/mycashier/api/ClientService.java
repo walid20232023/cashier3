@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public interface ClientService extends OpenmrsService {
+public interface ClientService {
 	
 	@Transactional(readOnly = true)
 	Client getClientByUuid(String uuid) throws APIException;

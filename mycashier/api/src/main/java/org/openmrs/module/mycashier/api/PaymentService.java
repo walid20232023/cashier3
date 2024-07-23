@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface PaymentService extends OpenmrsService {
+public interface PaymentService  {
 
     @Transactional(readOnly = true)
     Payment getPaymentByUuid(String uuid) throws APIException;

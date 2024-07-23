@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-public interface VenteDrugService extends OpenmrsService {
+public interface VenteDrugService {
 
     @Transactional(readOnly = true)
     VenteDrug getVenteDrugByUuid(String uuid) throws APIException;

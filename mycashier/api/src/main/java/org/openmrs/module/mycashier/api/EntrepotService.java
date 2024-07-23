@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
-public interface EntrepotService extends OpenmrsService {
+public interface EntrepotService  {
 
     @Transactional(readOnly = true)
     Entrepot getEntrepotByUuid(String uuid) throws APIException;

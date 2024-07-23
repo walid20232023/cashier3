@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public interface AgentService extends OpenmrsService {
+public interface AgentService {
 	
 	@Transactional(readOnly = true)
 	Agent getAgentByUuid(String uuid) throws APIException;
