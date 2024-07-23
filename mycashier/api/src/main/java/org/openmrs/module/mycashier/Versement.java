@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ public class Versement {
 	private Integer id;
 	
 	@Column(name = "date_versement")
-	private Date dateVersement;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "montant")
 	private Integer montant;
@@ -45,15 +46,15 @@ public class Versement {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Date getDateVersement() {
-		return dateVersement;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateVersement(Date dateVersement) {
-		this.dateVersement = dateVersement;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public Integer getMontant() {
 		return montant;
 	}
@@ -101,10 +102,5 @@ public class Versement {
 		}
 	}
 	
-	@Override
-	public String toString() {
-		return "Versement{" + "id=" + id + ", dateVersement=" + dateVersement + ", montant=" + montant
-		        + ", caisseAgentSource=" + caisseAgentSource + ", caisseAgentCible=" + caisseAgentCible + ", uuid='" + uuid
-		        + '\'' + ", dateCreation=" + dateCreation + '}';
-	}
+
 }

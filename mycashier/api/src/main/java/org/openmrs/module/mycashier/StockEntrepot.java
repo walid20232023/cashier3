@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,18 +16,12 @@ public class StockEntrepot implements Serializable {
 	
 	@Column(name = "date_modification")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateModification;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;
 	
-	@PrePersist
-	@PreUpdate
-	protected void onCreateOrUpdate() {
-		if (this.dateModification == null) {
-			this.dateModification = new Date();
-		}
-	}
+
 	
 	// Getters and Setters
 	
@@ -37,15 +32,16 @@ public class StockEntrepot implements Serializable {
 	public void setId(StockEntrepotId id) {
 		this.id = id;
 	}
-	
-	public Date getDateModification() {
-		return dateModification;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateModification(Date dateModification) {
-		this.dateModification = dateModification;
+
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public Integer getQuantiteStock() {
 		return quantiteStock;
 	}
@@ -54,11 +50,7 @@ public class StockEntrepot implements Serializable {
 		this.quantiteStock = quantiteStock;
 	}
 	
-	@Override
-	public String toString() {
-		return "StockEntrepot{" + "id=" + id + ", dateModification=" + dateModification + ", quantiteStock=" + quantiteStock
-		        + '}';
-	}
+
 	
 	@Embeddable
 	public static class StockEntrepotId implements Serializable {

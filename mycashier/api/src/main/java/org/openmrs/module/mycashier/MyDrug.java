@@ -7,7 +7,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "my_drug", schema = "cashier")
 public class MyDrug {
-	
+	//Faire un vrai travail de correspondance au niveau de la table
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -21,7 +21,7 @@ public class MyDrug {
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreation;
-	
+
 	@Column(name = "price")
 	private Long price;
 	

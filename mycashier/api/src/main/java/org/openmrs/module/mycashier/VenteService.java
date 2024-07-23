@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class VenteService {
 	
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateCreation;
+	private LocalDateTime localDateTime;
 
 	@Column(name = "vente_validate", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean venteValidate;
@@ -75,13 +76,13 @@ public class VenteService {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
 
 	public Boolean getVenteValidate() {
@@ -93,9 +94,5 @@ public class VenteService {
 		this.venteValidate = venteValidate;
 	}
 
-	@Override
-	public String toString() {
-		return "VenteService{" + "id=" + id + ", dateVente=" + dateVente + ", agent=" + agent + ", client=" + client
-		        + ", uuid='" + uuid + '\'' + ", dateCreation=" + dateCreation + '}';
-	}
+
 }

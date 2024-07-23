@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 import org.openmrs.User;
@@ -16,7 +17,7 @@ public class VenteDrug implements Serializable {
 	
 	@Column(name = "date_vente")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateVente;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
@@ -50,15 +51,15 @@ public class VenteDrug implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Date getDateVente() {
-		return dateVente;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateVente(Date dateVente) {
-		this.dateVente = dateVente;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -114,10 +115,5 @@ public class VenteDrug implements Serializable {
 		}
 	}
 	
-	@Override
-	public String toString() {
-		return "VenteDrug{" + "id=" + id + ", dateVente=" + dateVente + ", uuid='" + uuid + '\'' + ", agent=" + agent
-		        + ", client=" + client + ", entrepot=" + entrepot + ", user=" + user + ", dateCreation=" + dateCreation
-		        + '}';
-	}
+
 }

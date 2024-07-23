@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class Payment implements Serializable {
 	
 	@Column(name = "date_payment")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date datePayment;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
@@ -38,13 +39,7 @@ public class Payment implements Serializable {
 	@Column(name = "mode_payment")
 	private String modePayment;
 	
-	@PrePersist
-	protected void onCreate() {
-		if (this.datePayment == null) {
-			this.datePayment = new Date();
-		}
-	}
-	
+
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -54,15 +49,16 @@ public class Payment implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Date getDatePayment() {
-		return datePayment;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDatePayment(Date datePayment) {
-		this.datePayment = datePayment;
+
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -111,10 +107,5 @@ public class Payment implements Serializable {
 		this.modePayment = modePayment;
 	}
 	
-	@Override
-	public String toString() {
-		return "Payment{" + "id=" + id + ", datePayment=" + datePayment + ", uuid='" + uuid + '\'' + ", agent=" + agent
-		        + ", venteService=" + venteService + ", venteDrug=" + venteDrug + ", montant=" + montant + ", modePayment='"
-		        + modePayment + '\'' + '}';
-	}
+
 }

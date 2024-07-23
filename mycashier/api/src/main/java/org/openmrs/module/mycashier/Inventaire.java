@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,7 +26,8 @@ public class Inventaire {
 	private Agent superviseur;
 	
 	@Column(name = "date_creation")
-	private Date dateCreation;
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", length = 38)
 	private String uuid;
@@ -67,15 +69,15 @@ public class Inventaire {
 	public void setSuperviseur(Agent superviseur) {
 		this.superviseur = superviseur;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -84,16 +86,5 @@ public class Inventaire {
 		this.uuid = uuid;
 	}
 	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return "Inventaire{" + "id=" + id + ", entrepot=" + entrepot + ", agent=" + agent + ", superviseur=" + superviseur
-		        + ", dateCreation=" + dateCreation + ", uuid='" + uuid + '\'' + '}';
-	}
+
 }

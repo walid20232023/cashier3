@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -34,7 +35,8 @@ public class MyDrugAvarie {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	private Date dateCreation;
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime localDateTime;
 	
 	// Default constructor
 	public MyDrugAvarie() {
@@ -97,26 +99,15 @@ public class MyDrugAvarie {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return "MyDrugAvarie{" + "id=" + id + ", dateDeclaration=" + dateDeclaration + ", quantite=" + quantite
-		        + ", entrepot=" + entrepot + ", agent=" + agent + ", myDrug=" + myDrug + ", uuid='" + uuid + '\''
-		        + ", dateCreation=" + dateCreation + '}';
-	}
+
+
 }

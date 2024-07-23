@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 import org.openmrs.User;
@@ -19,7 +20,7 @@ public class Agent {
 	
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateCreation;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
@@ -48,15 +49,15 @@ public class Agent {
 	public void setAgentCreator(User agentCreator) {
 		this.agentCreator = agentCreator;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -81,9 +82,5 @@ public class Agent {
 		this.user = user;
 	}
 	
-	@Override
-	public String toString() {
-		return "Agent{" + "id=" + id + ", agentCreator=" + agentCreator + ", dateCreation=" + dateCreation + ", uuid='"
-		        + uuid + '\'' + ", caisse=" + caisse + ", user=" + user + '}';
-	}
+
 }

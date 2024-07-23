@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Service {
 	
 	@Column(name = "date_creation")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateCreation;
+	private LocalDateTime localDateTime;
 	
 	@Column(name = "user_id")
 	private Integer userId;
@@ -64,15 +65,15 @@ public class Service {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -89,9 +90,5 @@ public class Service {
 		this.uuid = uuid;
 	}
 	
-	@Override
-	public String toString() {
-		return "Service{" + "id=" + id + ", name='" + name + '\'' + ", typeService=" + typeService + ", price=" + price
-		        + ", dateCreation=" + dateCreation + ", userId=" + userId + ", uuid='" + uuid + '\'' + '}';
-	}
+
 }

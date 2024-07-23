@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public class Approvisionnement {
 	
 	@Column(name = "date_approvisionnement")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateApprovisionnement;
+	private LocalDateTime dateTimeApprovisionnement;
 	
 	@Column(name = "quantite_approvis")
 	private Integer quantiteApprovis;
@@ -61,15 +62,15 @@ public class Approvisionnement {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Date getDateApprovisionnement() {
-		return dateApprovisionnement;
+
+	public LocalDateTime getDateTimeApprovisionnement() {
+		return dateTimeApprovisionnement;
 	}
-	
-	public void setDateApprovisionnement(Date dateApprovisionnement) {
-		this.dateApprovisionnement = dateApprovisionnement;
+
+	public void setDateTimeApprovisionnement(LocalDateTime dateTimeApprovisionnement) {
+		this.dateTimeApprovisionnement = dateTimeApprovisionnement;
 	}
-	
+
 	public Integer getQuantiteApprovis() {
 		return quantiteApprovis;
 	}
@@ -118,10 +119,5 @@ public class Approvisionnement {
 		this.dateCreation = dateCreation;
 	}
 	
-	@Override
-	public String toString() {
-		return "Approvisionnement{" + "id=" + id + ", dateApprovisionnement=" + dateApprovisionnement
-		        + ", quantiteApprovis=" + quantiteApprovis + ", entrepotSource=" + entrepotSource + ", entrepotCible="
-		        + entrepotCible + ", agent=" + agent + ", uuid='" + uuid + '\'' + ", dateCreation=" + dateCreation + '}';
-	}
+
 }

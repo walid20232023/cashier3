@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -31,7 +32,8 @@ public class Provision {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	private Date dateCreation;
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime localDateTime;
 	
 	// Default constructor
 	public Provision() {
@@ -86,28 +88,15 @@ public class Provision {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
+
+	public LocalDateTime getLocalDateTime() {
+		return localDateTime;
 	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
+
+
+	public void setLocalDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
 	}
-	
-	@Override
-	public String toString() {
-		return "Provision{" + "id=" + id + ", agent=" + agent + ", client=" + client + ", somme=" + somme + ", total="
-		        + total + ", uuid='" + uuid + '\'' + ", dateCreation=" + dateCreation + '}';
-	}
-	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
-		if (this.uuid == null) {
-			this.uuid = java.util.UUID.randomUUID().toString();
-		}
-	}
+
+
 }

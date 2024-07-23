@@ -3,6 +3,7 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mycashier.Service;
 import org.openmrs.module.mycashier.VenteService;
 import org.openmrs.module.mycashier.LigneVenteService;
 import org.openmrs.module.mycashier.MycashierConfig;
@@ -26,6 +27,13 @@ public interface VenteServService extends OpenmrsService {
     @Authorized(MycashierConfig.MODULE_PRIVILEGE)
     @Transactional
     VenteService saveVenteService(VenteService venteService) throws APIException;
+
+    @Transactional
+    void addLigneToVenteService(VenteService venteService, Service service) throws APIException;
+
+    @Transactional
+    void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException;
+
 
     @Authorized(MycashierConfig.MODULE_PRIVILEGE)
     @Transactional
