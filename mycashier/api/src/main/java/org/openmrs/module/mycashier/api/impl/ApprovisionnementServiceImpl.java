@@ -1,63 +1,74 @@
 package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Approvisionnement;
 import org.openmrs.module.mycashier.LigneApprovis;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.ApprovisionnementService;
+import org.openmrs.module.mycashier.api.dao.AgentDao;
+import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ApprovisionnementServiceImpl implements ApprovisionnementService {
+public class ApprovisionnementServiceImpl extends BaseOpenmrsService implements ApprovisionnementService {
+
+    @Autowired
+    ApprovisionnementDao dao;
+
+    public void setDao(  ApprovisionnementDao dao) {
+        this.dao = dao;
+    }
     @Override
     public Approvisionnement getApprovisionnementByUuid(String uuid) throws APIException {
-        return null;
+        return dao.getApprovisionnementByUuid(uuid);
     }
 
     @Override
     public Approvisionnement getApprovisionnementById(Integer approvisionnementId) throws APIException {
-        return null;
+        return dao.getApprovisionnementById( approvisionnementId);
     }
 
     @Override
     public List<Approvisionnement> getAllApprovisionnements(LocalDateTime start, LocalDateTime end) throws APIException {
-        return null;
+        return dao.getAllApprovisionnements(start, end);
     }
 
     @Override
     public List<LigneApprovis> getAllLigneApprovisByDrug(LocalDateTime start, LocalDateTime end) throws APIException {
-        return null;
+        return dao. getAllLigneApprovisByDrug(start, end);
     }
 
     @Override
     public List<Approvisionnement> getAllApprovisionnementsByEntrepotSource(LocalDateTime start, LocalDateTime end, Integer entrepotSource) throws APIException {
-        return null;
+        return dao.getAllApprovisionnementsByEntrepotSource( start, end, entrepotSource);
     }
 
     @Override
     public List<Approvisionnement> getAllApprovisionnementsByEntrepotCible(LocalDateTime start, LocalDateTime end, Integer entrepotCible) throws APIException {
-        return null;
+        return dao.getAllApprovisionnementsByEntrepotCible(start, end,entrepotCible);
     }
 
     @Override
     public Approvisionnement saveApprovisionnement(Approvisionnement approvisionnement) throws APIException {
-        return null;
+        return dao. saveApprovisionnement(approvisionnement) ;
     }
 
     @Override
     public void addLigneApprovisToApprovisionnement(Approvisionnement approvisionnement, MyDrug myDrug, Integer quantite) throws APIException {
-
+        dao.addLigneApprovisToApprovisionnement(approvisionnement, myDrug, quantite);
     }
 
     @Override
     public void deleteLigneApprovisFRomApprovisionnement(Integer LigneApprovisId) throws APIException {
-
+        dao.deleteLigneApprovisFRomApprovisionnement(LigneApprovisId);
     }
 
     @Override
     public Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement, String motif) throws APIException {
-        return null;
+         return dao.deleteApprovisionnement( approvisionnement,motif) ;
     }
 
 

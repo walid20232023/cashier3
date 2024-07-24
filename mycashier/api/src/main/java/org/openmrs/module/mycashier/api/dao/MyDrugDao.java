@@ -1,14 +1,16 @@
 package org.openmrs.module.mycashier.api.dao;
 
+
 import org.hibernate.SessionFactory;
 import org.openmrs.module.mycashier.Emballage;
+import org.openmrs.module.mycashier.MyDrug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class EmballageDao{
+public class MyDrugDao {
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -21,23 +23,34 @@ public class EmballageDao{
     }
 
 
-    public Emballage getEmballageByUuid(String uuid) {
+    public MyDrug getMyDrugByUuid(String uuid) {
         return null;
     }
 
-    public Emballage getEmballageById(Integer emballageId) {
+    public MyDrug getMyDrugById(Integer myDrugId) {
         return null;
     }
 
-    public List<Emballage> getAllEmballages() {
+    public List<MyDrug> getAllMyDrugs() {
         return null;
     }
 
-    public Emballage saveEmballage(Emballage emballage) {
+    public List<MyDrug> getAllRetiredMyDrugs() {
         return null;
     }
 
-    public Emballage deleteEmballage(Emballage emballage) {
+    public MyDrug saveMyDrug(MyDrug myDrug) {
+        return null;
+    }
+
+    public void saveMyDrugEmballageUnits(Emballage emballage, Integer units) {
+    }
+
+    public Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) {
+        return null;
+    }
+
+    public MyDrug deleteMyDrug(MyDrug myDrug) {
         return null;
     }
 }

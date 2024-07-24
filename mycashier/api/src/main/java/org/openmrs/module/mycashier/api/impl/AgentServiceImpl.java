@@ -1,33 +1,43 @@
 package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Agent;
 import org.openmrs.module.mycashier.api.AgentService;
+import org.openmrs.module.mycashier.api.dao.AgentDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class AgentServiceImpl implements AgentService {
+public class AgentServiceImpl extends BaseOpenmrsService  implements AgentService {
+
+    @Autowired
+    AgentDao dao;
+
+    public void setDao(  AgentDao  dao) {
+        this.dao = dao;
+    }
     @Override
     public Agent getAgentByUuid(String uuid) throws APIException {
-        return null;
+        return dao.getAgentByUuid(uuid);
     }
 
     @Override
     public Agent getAgentById(Integer agentId) throws APIException {
-        return null;
+        return dao.getAgentById(agentId) ;
     }
 
     @Override
     public Agent getAllClients() throws APIException {
-        return null;
+        return dao.getAllClients();
     }
 
     @Override
     public Agent saveAgent(Agent agent) throws APIException {
-        return null;
+        return dao.saveAgent(agent) ;
     }
 
     @Override
     public Agent deleteAgent(Agent agent) throws APIException {
-        return null;
+        return dao.deleteAgent(agent);
     }
 
 }
