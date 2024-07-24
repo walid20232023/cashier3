@@ -4,7 +4,6 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.api.EmballageService;
-import org.openmrs.module.mycashier.api.dao.ClientDao;
 import org.openmrs.module.mycashier.api.dao.EmballageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -7,6 +7,8 @@ import org.openmrs.module.mycashier.api.AgentService;
 import org.openmrs.module.mycashier.api.dao.AgentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class AgentServiceImpl extends BaseOpenmrsService  implements AgentService {
 
     @Autowired
@@ -26,9 +28,10 @@ public class AgentServiceImpl extends BaseOpenmrsService  implements AgentServic
     }
 
     @Override
-    public Agent getAllClients() throws APIException {
-        return dao.getAllClients();
+    public List<Agent> getAllAgents() throws APIException {
+        return null;
     }
+
 
     @Override
     public Agent saveAgent(Agent agent) throws APIException {

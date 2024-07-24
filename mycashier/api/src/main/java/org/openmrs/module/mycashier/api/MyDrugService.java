@@ -33,7 +33,8 @@ public interface MyDrugService  {
     MyDrug saveMyDrug(MyDrug myDrug) throws APIException;
 
     @Transactional
-    void  saveMyDrugEmballageUnits(Emballage emballage, Integer units) throws APIException;
+
+    void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) throws APIException;
 
     @Transactional
     Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) throws APIException;

@@ -6,7 +6,6 @@ import org.openmrs.module.mycashier.Approvisionnement;
 import org.openmrs.module.mycashier.LigneApprovis;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.ApprovisionnementService;
-import org.openmrs.module.mycashier.api.dao.AgentDao;
 import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,9 +65,11 @@ public class ApprovisionnementServiceImpl extends BaseOpenmrsService implements 
         dao.deleteLigneApprovisFRomApprovisionnement(LigneApprovisId);
     }
 
+
+
     @Override
-    public Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement, String motif) throws APIException {
-         return dao.deleteApprovisionnement( approvisionnement,motif) ;
+    public Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException {
+         return dao.deleteApprovisionnement( approvisionnement) ;
     }
 
 

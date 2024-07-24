@@ -42,7 +42,7 @@ public class VenteDrugServiceImpl extends BaseOpenmrsService implements VenteDru
 
     @Override
     public List<LigneVenteDrug> getAllLIgneVenteDrugsByDrug(Integer myDrugId) throws APIException {
-        return dao.getAllLIgneVenteDrugsByDrug( myDrugId);
+        return dao.getAllLigneVenteDrugsByDrug( myDrugId);
     }
 
     @Override

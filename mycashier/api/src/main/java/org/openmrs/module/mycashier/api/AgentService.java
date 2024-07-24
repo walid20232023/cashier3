@@ -4,9 +4,12 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mycashier.Agent;
+import org.openmrs.module.mycashier.Approvisionnement;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public interface AgentService {
@@ -18,7 +21,7 @@ public interface AgentService {
 	Agent getAgentById(Integer agentId) throws APIException;
 	
 	@Transactional(readOnly = true)
-	Agent getAllClients() throws APIException;
+	List<Agent> getAllAgents() throws APIException;
 	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional

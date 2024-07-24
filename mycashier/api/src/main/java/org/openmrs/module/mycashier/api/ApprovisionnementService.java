@@ -56,5 +56,6 @@ public interface ApprovisionnementService {
 
     @Authorized(MycashierConfig.MODULE_PRIVILEGE)
     @Transactional
-    Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement, String motif) throws APIException;
+
+    Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException;
 }

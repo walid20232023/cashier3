@@ -5,7 +5,6 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.MyDrugService;
-import org.openmrs.module.mycashier.api.dao.MyDrugAvarieDao;
 import org.openmrs.module.mycashier.api.dao.MyDrugDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,9 +44,11 @@ public class MyDrugServiceImpl extends BaseOpenmrsService  implements MyDrugServ
     }
 
     @Override
-    public void saveMyDrugEmballageUnits(Emballage emballage, Integer units) throws APIException {
-     dao.saveMyDrugEmballageUnits( emballage, units);
+    public void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) throws APIException {
+     dao.saveMyDrugEmballageUnits( emballageId,drugId, units);
     }
+
+
 
     @Override
     public Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) throws APIException {

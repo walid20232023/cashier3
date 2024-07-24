@@ -29,7 +29,8 @@ public interface VenteServService {
     VenteService saveVenteService(VenteService venteService) throws APIException;
 
     @Transactional
-    void addLigneToVenteService(VenteService venteService, Service service) throws APIException;
+
+    void addLigneToVenteService(Integer venteServiceId, Integer serviceId) throws APIException;
 
     @Transactional
     void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException;
