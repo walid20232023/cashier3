@@ -5,30 +5,25 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.openmrs.api.db.hibernate.DbSession;
-import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Assurance;
 import org.openmrs.module.mycashier.Client;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
+@Component
 public class AssuranceDao {
 	
 	@Autowired
-	@Qualifier("cashierSessionFactory")
-	DbSessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
-	public DbSessionFactory getSessionFactory() {
+	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(DbSessionFactory sessionFactory) {
+	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
@@ -62,17 +57,15 @@ public class AssuranceDao {
 	}
 	
 	@Transactional
-	public Assurance deleteAssurance(Assurance assurance) {
-		DbSessionFactory session = sessionFactory;
-		//session.delete(assurance);
+	public Assurance saveAssurance(Assurance assurance) {
+		sessionFactory.getCurrentSession().saveOrUpdate(assurance);
 		return assurance;
 	}
 	
 	@Transactional
-	public Assurance saveAssurance(Assurance assurance) {
-		DbSession session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(assurance);
+	public Assurance deleteAssurance(Assurance assurance) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(assurance);
 		return assurance;
-		
 	}
 }

@@ -11,24 +11,26 @@ public class LigneApprovis {
 	@EmbeddedId
 	private LigneApprovisId id;
 	
-	@ManyToOne
 	@MapsId("approvisionnementId")
-	@JoinColumn(name = "approvisionnement_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "approvisionnement_id")
 	private Approvisionnement approvisionnement;
 	
-	@ManyToOne
 	@MapsId("myDrugId")
-	@JoinColumn(name = "my_drug_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "my_drug_id")
 	private MyDrug myDrug;
 	
 	@Column(name = "quantite")
 	private Integer quantite;
 	
-	// Constructeurs
+	//Constructeurs
+	
 	public LigneApprovis() {
 	}
 	
 	// Getters and Setters
+	
 	public LigneApprovisId getId() {
 		return id;
 	}
@@ -103,19 +105,5 @@ public class LigneApprovis {
 			this.myDrugId = myDrugId;
 		}
 		
-		@Override
-		public boolean equals(Object o) {
-			if (this == o)
-				return true;
-			if (o == null || getClass() != o.getClass())
-				return false;
-			LigneApprovisId that = (LigneApprovisId) o;
-			return Objects.equals(approvisionnementId, that.approvisionnementId) && Objects.equals(myDrugId, that.myDrugId);
-		}
-		
-		@Override
-		public int hashCode() {
-			return Objects.hash(approvisionnementId, myDrugId);
-		}
 	}
 }

@@ -23,10 +23,6 @@
 	<!-- Component scan to find your controllers -->
 	<context:component-scan base-package="org.openmrs.module.mycashier.web.controller" />
 
-	<!-- Spring MVC handler mappings and adapters -->
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
-
 
 
 
