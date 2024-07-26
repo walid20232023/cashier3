@@ -17,8 +17,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 import org.openmrs.api.UserService;
-import org.openmrs.module.mycashier.Assurance;
-import org.openmrs.module.mycashier.api.AssuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -39,9 +37,6 @@ public class MycashierController {
 	
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	AssuranceService assuranceService;
 	
 	/** Success form view name */
 	private final String VIEW = "/module/mycashier/mycashier";
@@ -86,9 +81,6 @@ public class MycashierController {
 		
 		// this object will be made available to the jsp page under the variable name
 		// that is defined in the @ModuleAttribute tag
-		
-		//-----------------------------------------------
-		
 		return users;
 	}
 	
