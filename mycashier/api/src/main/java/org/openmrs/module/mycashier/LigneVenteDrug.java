@@ -19,13 +19,12 @@ public class LigneVenteDrug {
 	@MapsId("myDrugId")
 	@JoinColumn(name = "my_drug_id")
 	private MyDrug myDrug;
-
+	
 	//Constructeurs
-
+	
 	public LigneVenteDrug() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public LigneVenteDrugId getId() {

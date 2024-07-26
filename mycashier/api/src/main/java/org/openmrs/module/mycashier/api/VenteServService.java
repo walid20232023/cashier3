@@ -14,43 +14,41 @@ import java.util.List;
 
 @Component
 public interface VenteServService {
-
-    @Transactional(readOnly = true)
-    VenteService getVenteServiceByUuid(String uuid) throws APIException;
-
-    @Transactional(readOnly = true)
-    VenteService getVenteServiceById(Integer venteServiceId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<VenteService> getAllVenteServices() throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    VenteService saveVenteService(VenteService venteService) throws APIException;
-
-    @Transactional
-
-    void addLigneToVenteService(Integer venteServiceId, Integer serviceId) throws APIException;
-
-    @Transactional
-    void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException;
-
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    VenteService deleteVenteService(VenteService venteService) throws APIException;
-
-    @Transactional(readOnly = true)
-    LigneVenteService getLigneVenteServiceById(Integer venteServiceId, Integer serviceId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<LigneVenteService> getAllLigneVenteServices() throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    LigneVenteService saveLigneVenteService(LigneVenteService ligneVenteService) throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    LigneVenteService deleteLigneVenteService(LigneVenteService ligneVenteService) throws APIException;
+	
+	@Transactional(readOnly = true)
+	VenteService getVenteServiceByUuid(String uuid) throws APIException;
+	
+	@Transactional(readOnly = true)
+	VenteService getVenteServiceById(Integer venteServiceId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<VenteService> getAllVenteServices() throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	VenteService saveVenteService(VenteService venteService) throws APIException;
+	
+	@Transactional
+	void addLigneToVenteService(Integer venteServiceId, Integer serviceId) throws APIException;
+	
+	@Transactional
+	void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	VenteService deleteVenteService(VenteService venteService) throws APIException;
+	
+	@Transactional(readOnly = true)
+	LigneVenteService getLigneVenteServiceById(Integer venteServiceId, Integer serviceId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<LigneVenteService> getAllLigneVenteServices() throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	LigneVenteService saveLigneVenteService(LigneVenteService ligneVenteService) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	LigneVenteService deleteLigneVenteService(LigneVenteService ligneVenteService) throws APIException;
 }

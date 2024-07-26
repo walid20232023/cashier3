@@ -16,18 +16,15 @@ public class Approvisionnement {
 	private Integer id;
 	
 	@Column(name = "date_approvisionnement")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime dateTimeApprovisionnement;
 	
 	@Column(name = "quantite_approvis")
 	private Integer quantiteApprovis;
 	
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "entrepot_source_id")
 	private Entrepot entrepotSource;
 	
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "entrepot_cible_id")
 	private Entrepot entrepotCible;
@@ -40,16 +37,13 @@ public class Approvisionnement {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
-
-
+	
 	//Constructeurs
-
+	
 	public Approvisionnement() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -59,15 +53,15 @@ public class Approvisionnement {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public LocalDateTime getDateTimeApprovisionnement() {
 		return dateTimeApprovisionnement;
 	}
-
+	
 	public void setDateTimeApprovisionnement(LocalDateTime dateTimeApprovisionnement) {
 		this.dateTimeApprovisionnement = dateTimeApprovisionnement;
 	}
-
+	
 	public Integer getQuantiteApprovis() {
 		return quantiteApprovis;
 	}
@@ -107,11 +101,11 @@ public class Approvisionnement {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}

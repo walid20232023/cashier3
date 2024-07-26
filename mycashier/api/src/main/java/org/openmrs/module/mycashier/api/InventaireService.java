@@ -14,35 +14,30 @@ import java.util.List;
 
 @Component
 public interface InventaireService {
-
-    @Transactional(readOnly = true)
-    Inventaire getInventaireByUuid(String uuid) throws APIException;
-
-    @Transactional(readOnly = true)
-    Inventaire getInventaireById(Integer inventaireId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Inventaire> getAllInventaires() throws APIException;
-
-
-    @Transactional(readOnly = true)
-    List<DrugInventaire> getAllDrugInventairesByDrug(Integer myDrugId) throws APIException;
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Inventaire saveInventaire(Inventaire inventaire) throws APIException;
-
-
-    @Transactional
-    void addDrugInventaire (Integer inventaireId,
-                            Integer drugIg,
-                            Integer realQuantity,
-                            String motif)  throws APIException;
-
-    @Transactional
-    void deleteDrugInventaire (Integer inventaireId, Integer drugId )  throws APIException;
-
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Inventaire deleteInventaire(Inventaire inventaire, String motif, Agent agent) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Inventaire getInventaireByUuid(String uuid) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Inventaire getInventaireById(Integer inventaireId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Inventaire> getAllInventaires() throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<DrugInventaire> getAllDrugInventairesByDrug(Integer myDrugId) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Inventaire saveInventaire(Inventaire inventaire) throws APIException;
+	
+	@Transactional
+	void addDrugInventaire(Integer inventaireId, Integer drugIg, Integer realQuantity, String motif) throws APIException;
+	
+	@Transactional
+	void deleteDrugInventaire(Integer inventaireId, Integer drugId) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Inventaire deleteInventaire(Inventaire inventaire, String motif, Agent agent) throws APIException;
 }

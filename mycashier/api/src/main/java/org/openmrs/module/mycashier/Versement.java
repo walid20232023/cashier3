@@ -46,15 +46,15 @@ public class Versement {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public Integer getMontant() {
 		return montant;
 	}
@@ -102,5 +102,4 @@ public class Versement {
 		}
 	}
 	
-
 }

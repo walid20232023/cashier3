@@ -14,7 +14,6 @@ public class VenteService {
 	private Integer id;
 	
 	@Column(name = "date_vente")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateVente;
 	
 	@ManyToOne
@@ -29,18 +28,16 @@ public class VenteService {
 	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
-
+	
 	@Column(name = "vente_validate", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean venteValidate;
-
+	
 	//Constructeurs
-
+	
 	public VenteService() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -82,23 +79,21 @@ public class VenteService {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public Boolean getVenteValidate() {
 		return venteValidate;
 	}
-
-
+	
 	public void setVenteValidate(Boolean venteValidate) {
 		this.venteValidate = venteValidate;
 	}
-
-
+	
 }

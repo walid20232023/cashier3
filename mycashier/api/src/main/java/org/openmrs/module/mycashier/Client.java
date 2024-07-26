@@ -29,7 +29,6 @@ public class Client {
 	private String telephone;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
@@ -40,13 +39,12 @@ public class Client {
 	
 	@Column(name = "patient_id")
 	private Integer patientId;
-
+	
 	//Consructeurs
-
+	
 	public Client() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -104,15 +102,15 @@ public class Client {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -137,5 +135,4 @@ public class Client {
 		this.patientId = patientId;
 	}
 	
-
 }

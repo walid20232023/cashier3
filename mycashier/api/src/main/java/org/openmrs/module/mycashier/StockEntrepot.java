@@ -15,18 +15,16 @@ public class StockEntrepot implements Serializable {
 	private StockEntrepotId id;
 	
 	@Column(name = "date_modification")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;
 	
-    //Constructeurs
-
+	//Constructeurs
+	
 	public StockEntrepot() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public StockEntrepotId getId() {
@@ -36,16 +34,15 @@ public class StockEntrepot implements Serializable {
 	public void setId(StockEntrepotId id) {
 		this.id = id;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public Integer getQuantiteStock() {
 		return quantiteStock;
 	}
@@ -53,8 +50,6 @@ public class StockEntrepot implements Serializable {
 	public void setQuantiteStock(Integer quantiteStock) {
 		this.quantiteStock = quantiteStock;
 	}
-	
-
 	
 	@Embeddable
 	public static class StockEntrepotId implements Serializable {

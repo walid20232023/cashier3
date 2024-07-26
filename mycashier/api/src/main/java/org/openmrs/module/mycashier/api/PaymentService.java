@@ -12,32 +12,31 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface PaymentService  {
-
-    @Transactional(readOnly = true)
-    Payment getPaymentByUuid(String uuid) throws APIException;
-
-    @Transactional(readOnly = true)
-    Payment getPaymentById(Integer paymentId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Payment> getPaymentsByVenteService(Integer venteServiceId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Payment> getPaymentsByVenteDrug(Integer venteDrugId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Payment> getAllPayments() throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Payment> getAllRetiredPayments() throws APIException;
-
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Payment savePayment(Payment payment) throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Payment deletePayment(Payment payment) throws APIException;
+public interface PaymentService {
+	
+	@Transactional(readOnly = true)
+	Payment getPaymentByUuid(String uuid) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Payment getPaymentById(Integer paymentId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Payment> getPaymentsByVenteService(Integer venteServiceId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Payment> getPaymentsByVenteDrug(Integer venteDrugId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Payment> getAllPayments() throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Payment> getAllRetiredPayments() throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Payment savePayment(Payment payment) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Payment deletePayment(Payment payment) throws APIException;
 }

@@ -15,7 +15,6 @@ public class Payment implements Serializable {
 	private Integer id;
 	
 	@Column(name = "date_payment")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
@@ -38,13 +37,12 @@ public class Payment implements Serializable {
 	
 	@Column(name = "mode_payment")
 	private String modePayment;
-
+	
 	//Constructeurs
-
+	
 	public Payment() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -54,16 +52,15 @@ public class Payment implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -112,5 +109,4 @@ public class Payment implements Serializable {
 		this.modePayment = modePayment;
 	}
 	
-
 }

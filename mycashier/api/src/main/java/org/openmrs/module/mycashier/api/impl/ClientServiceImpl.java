@@ -12,50 +12,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public class ClientServiceImpl extends BaseOpenmrsService implements ClientService {
-
-    @Autowired
-    ClientDao dao;
-
-    public void setDao( ClientDao dao) {
-        this.dao = dao;
-    }
-    @Override
-    public Client getClientByUuid(String uuid) throws APIException {
-        return dao.getClientByUuid(uuid);
-    }
-
-    @Override
-    public Client getClientById(Integer clientId) throws APIException {
-        return dao.getClientById( clientId) ;
-    }
-
-    @Override
-    public Client saveClient(Client client) throws APIException {
-        return dao.saveClient( client);
-    }
-
-    @Override
-    public void addAssuranceToClient(Assurance assurance, Client client) throws APIException {
-     dao.addAssuranceToClient( assurance, client);
-    }
-
-    @Override
-    public void deleteAssuranceFromClient(Assurance assurance, Client client) throws APIException {
-        dao.deleteAssuranceFromClient(assurance,  client);
-    }
-
-    @Override
-    public Client deleteClient(Client client) throws APIException {
-        return dao.deleteClient(client);
-    }
-
-    @Override
-    public List<Assurance> getAssurancesByClient(Client client) throws APIException {
-        return dao.getAssurancesByClient(client);
-    }
-
-    @Override
-    public List<Client> getAllClients() throws APIException {
-        return dao.getAllClients() ;
-    }
+	
+	@Autowired
+	ClientDao dao;
+	
+	public void setDao(ClientDao dao) {
+		this.dao = dao;
+	}
+	
+	@Override
+	public Client getClientByUuid(String uuid) throws APIException {
+		return dao.getClientByUuid(uuid);
+	}
+	
+	@Override
+	public Client getClientById(Integer clientId) throws APIException {
+		return dao.getClientById(clientId);
+	}
+	
+	@Override
+	public Client saveClient(Client client) throws APIException {
+		return dao.saveClient(client);
+	}
+	
+	@Override
+	public void addAssuranceToClient(Assurance assurance, Client client) throws APIException {
+		dao.addAssuranceToClient(assurance, client);
+	}
+	
+	@Override
+	public void deleteAssuranceFromClient(Assurance assurance, Client client) throws APIException {
+		dao.deleteAssuranceFromClient(assurance, client);
+	}
+	
+	@Override
+	public Client deleteClient(Client client) throws APIException {
+		return dao.deleteClient(client);
+	}
+	
+	@Override
+	public List<Assurance> getAssurancesByClient(Client client) throws APIException {
+		return dao.getAssurancesByClient(client);
+	}
+	
+	@Override
+	public List<Client> getAllClients() throws APIException {
+		return dao.getAllClients();
+	}
 }

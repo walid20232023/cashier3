@@ -8,20 +8,21 @@ import java.util.Date;
 @Entity
 @Table(name = "my_drug", schema = "cashier")
 public class MyDrug extends Drug {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	@Column(name = "base_inam")
 	private Integer baseInam;
-
+	
 	@Column(name = "price")
 	private Long price;
-
+	
 	public MyDrug() {
 		super();
 	}
-
+	
 	public MyDrug(Drug drug) {
 		super();
 		this.setDrugId(drug.getDrugId());
@@ -42,30 +43,29 @@ public class MyDrug extends Drug {
 		this.setRetireReason(drug.getRetireReason());
 		this.setUuid(drug.getUuid());
 		this.setStrength(drug.getStrength());
-
-
+		
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public Integer getBaseInam() {
 		return baseInam;
 	}
-
+	
 	public void setBaseInam(Integer baseInam) {
 		this.baseInam = baseInam;
 	}
-
+	
 	public Long getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(Long price) {
 		this.price = price;
 	}

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -20,14 +19,61 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
+    <context:component-scan base-package="org.openmrs.module.mycashier" />
     <context:component-scan base-package="org.openmrs.module.mycashier.web.controller" />
 
-    <context:component-scan base-package="org.openmrs.module.mycashier" />
-
-    <bean class="org.openmrs.ui.framework.StandardModuleUiConfiguration">
-        <property name="moduleId" value="${project.parent.artifactId}" />
+    <!-- Configuration du datasource pour cashier -->
+    <bean id="cashierDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${cashier.datasource.driverClassName}" />
+        <property name="url" value="${cashier.datasource.url}" />
+        <property name="username" value="${cashier.datasource.username}" />
+        <property name="password" value="${cashier.datasource.password}" />
     </bean>
 
+    <!-- Configuration de la sessionFactory pour cashier -->
+    <bean id="cashierSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="cashierDataSource" />
+        <property name="packagesToScan" value="org.openmrs.module.mycashier" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${cashier.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${cashier.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${cashier.hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${cashier.hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
+    </bean>
 
+    <!-- Gestionnaire de transactions pour cashier -->
+    <bean id="cashierTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="cashierSessionFactory" />
+    </bean>
+
+    <!-- Déclaration de AppFrameworkService -->
+    <bean id="appFrameworkService" class="org.openmrs.module.appframework.service.AppFrameworkServiceImpl">
+        <property name="appDescriptorService" ref="appDescriptorService" />
+        <property name="appFrameworkRepository" ref="appFrameworkRepository" />
+        <property name="allComponentsState" ref="allComponentsState" />
+        <!-- Ajoutez d'autres propriétés si nécessaire -->
+    </bean>
+
+    <!-- Déclaration de appDescriptorService -->
+    <bean id="appDescriptorService" class="org.openmrs.module.appframework.service.AppDescriptorServiceImpl">
+        <!-- Configuration des propriétés nécessaires -->
+    </bean>
+
+    <!-- Déclaration de appFrameworkRepository -->
+    <bean id="appFrameworkRepository" class="org.openmrs.module.appframework.repository.AppFrameworkRepositoryImpl">
+        <!-- Configuration des propriétés nécessaires -->
+    </bean>
+
+    <!-- Déclaration de allComponentsState -->
+    <bean id="allComponentsState" class="org.openmrs.module.appframework.repository.AllComponentsStateImpl">
+        <!-- Configuration des propriétés nécessaires -->
+    </bean>
+
+    <tx:annotation-driven transaction-manager="cashierTransactionManager" />
+
+    <!-- Autres configurations de beans -->
 
 </beans>

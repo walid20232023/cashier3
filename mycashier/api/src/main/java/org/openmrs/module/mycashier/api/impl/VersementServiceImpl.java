@@ -11,48 +11,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VersementServiceImpl  extends BaseOpenmrsService implements VersementService {
-
-    @Autowired
-    VersementDao dao;
-
-    public void setDao( VersementDao dao) {
-        this.dao = dao;
-    }
-
-
-    @Override
-    public Versement getVersementByUuid(String uuid) throws APIException {
-        return dao.getVersementByUuid(uuid);
-    }
-
-    @Override
-    public Versement getVersementById(Integer versementId) throws APIException {
-        return dao.getVersementById( versementId) ;
-    }
-
-    @Override
-    public List<Versement> getAllVersements(LocalDateTime start, LocalDateTime end) throws APIException {
-        return dao.getAllVersements( start,  end);
-    }
-
-    @Override
-    public List<Versement> getAllVersementsByAgentSource(Integer agentSourceId, LocalDateTime start, LocalDateTime end) throws APIException {
-        return dao.getAllVersementsByAgentSource(agentSourceId, start, end);
-    }
-
-    @Override
-    public List<Versement> getAllVersementsByAgentCible(Integer agentCibleId, LocalDateTime start, LocalDateTime end) throws APIException {
-        return dao.getAllVersementsByAgentCible( agentCibleId,start, end) ;
-    }
-
-    @Override
-    public Versement saveVersement(Versement versement) throws APIException {
-        return dao.saveVersement( versement) ;
-    }
-
-    @Override
-    public Versement deleteVersement(Versement versement, String motif) throws APIException {
-        return dao.deleteVersement(versement, motif) ;
-    }
+public class VersementServiceImpl extends BaseOpenmrsService implements VersementService {
+	
+	@Autowired
+	VersementDao dao;
+	
+	public void setDao(VersementDao dao) {
+		this.dao = dao;
+	}
+	
+	@Override
+	public Versement getVersementByUuid(String uuid) throws APIException {
+		return dao.getVersementByUuid(uuid);
+	}
+	
+	@Override
+	public Versement getVersementById(Integer versementId) throws APIException {
+		return dao.getVersementById(versementId);
+	}
+	
+	@Override
+	public List<Versement> getAllVersements(LocalDateTime start, LocalDateTime end) throws APIException {
+		return dao.getAllVersements(start, end);
+	}
+	
+	@Override
+	public List<Versement> getAllVersementsByAgentSource(Integer agentSourceId, LocalDateTime start, LocalDateTime end)
+	        throws APIException {
+		return dao.getAllVersementsByAgentSource(agentSourceId, start, end);
+	}
+	
+	@Override
+	public List<Versement> getAllVersementsByAgentCible(Integer agentCibleId, LocalDateTime start, LocalDateTime end)
+	        throws APIException {
+		return dao.getAllVersementsByAgentCible(agentCibleId, start, end);
+	}
+	
+	@Override
+	public Versement saveVersement(Versement versement) throws APIException {
+		return dao.saveVersement(versement);
+	}
+	
+	@Override
+	public Versement deleteVersement(Versement versement, String motif) throws APIException {
+		return dao.deleteVersement(versement, motif);
+	}
 }

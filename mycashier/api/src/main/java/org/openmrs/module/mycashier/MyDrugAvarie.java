@@ -35,7 +35,6 @@ public class MyDrugAvarie {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	// Default constructor
@@ -99,15 +98,13 @@ public class MyDrugAvarie {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
-
+	
 }

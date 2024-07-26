@@ -2,7 +2,6 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -22,7 +21,6 @@ public class Assurance {
 	private String telephone;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "user_id")
@@ -30,12 +28,11 @@ public class Assurance {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-
+	
 	//Constructeurs
 	public Assurance() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -69,15 +66,15 @@ public class Assurance {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -94,5 +91,4 @@ public class Assurance {
 		this.uuid = uuid;
 	}
 	
-
 }

@@ -16,7 +16,6 @@ public class VenteDrug implements Serializable {
 	private Integer id;
 	
 	@Column(name = "date_vente")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
@@ -39,15 +38,13 @@ public class VenteDrug implements Serializable {
 	private User user;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreation;
-
+	
 	//Constructeurs
-
+	
 	public VenteDrug() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -57,15 +54,15 @@ public class VenteDrug implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -121,5 +118,4 @@ public class VenteDrug implements Serializable {
 		}
 	}
 	
-
 }

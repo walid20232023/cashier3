@@ -23,13 +23,12 @@ public class MyDrugEmballage implements Serializable {
 	
 	@Column(name = "unit_number")
 	private Integer unitNumber;
-
+	
 	//Constructeurs
-
+	
 	public MyDrugEmballage() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public MyDrugEmballageId getId() {

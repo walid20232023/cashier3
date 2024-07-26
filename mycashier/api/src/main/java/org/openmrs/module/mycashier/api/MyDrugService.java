@@ -13,35 +13,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public interface MyDrugService  {
-
-    @Transactional(readOnly = true)
-    MyDrug getMyDrugByUuid(String uuid) throws APIException;
-
-    @Transactional(readOnly = true)
-    MyDrug getMyDrugById(Integer myDrugId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<MyDrug> getAllMyDrugs() throws APIException;
-
-    @Transactional(readOnly = true)
-    List<MyDrug> getAllRetiredMyDrugs() throws APIException;
-
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    MyDrug saveMyDrug(MyDrug myDrug) throws APIException;
-
-    @Transactional
-
-    void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) throws APIException;
-
-    @Transactional
-    Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    MyDrug deleteMyDrug(MyDrug myDrug) throws APIException;
-
-
+public interface MyDrugService {
+	
+	@Transactional(readOnly = true)
+	MyDrug getMyDrugByUuid(String uuid) throws APIException;
+	
+	@Transactional(readOnly = true)
+	MyDrug getMyDrugById(Integer myDrugId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<MyDrug> getAllMyDrugs() throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<MyDrug> getAllRetiredMyDrugs() throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	MyDrug saveMyDrug(MyDrug myDrug) throws APIException;
+	
+	@Transactional
+	void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) throws APIException;
+	
+	@Transactional
+	Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	MyDrug deleteMyDrug(MyDrug myDrug) throws APIException;
+	
 }

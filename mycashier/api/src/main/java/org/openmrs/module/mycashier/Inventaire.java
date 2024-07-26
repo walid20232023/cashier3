@@ -26,7 +26,6 @@ public class Inventaire {
 	private Agent superviseur;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "uuid", length = 38)
@@ -69,15 +68,15 @@ public class Inventaire {
 	public void setSuperviseur(Agent superviseur) {
 		this.superviseur = superviseur;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -86,5 +85,4 @@ public class Inventaire {
 		this.uuid = uuid;
 	}
 	
-
 }

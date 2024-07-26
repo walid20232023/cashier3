@@ -6,32 +6,31 @@ import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mycashier.Assurance;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
-public interface AssuranceService  {
-
+@Service
+public interface AssuranceService {
+	
 	@Transactional(readOnly = true)
 	Assurance getAssuranceByUuid(String uuid) throws APIException;
-
+	
 	@Transactional(readOnly = true)
 	Assurance getAssuranceById(Integer assuranceId) throws APIException;
 	
-
 	@Transactional(readOnly = true)
 	List<Assurance> getAllAssurances() throws APIException;
 	
 	@Transactional(readOnly = true)
 	List<Assurance> getAllClientsByAssurance(Assurance assurance) throws APIException;
 	
-
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Assurance saveAssurance(Assurance assurance) throws APIException;
 	
-
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Assurance deleteAssurance(Assurance assurance) throws APIException;

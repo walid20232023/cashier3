@@ -23,7 +23,6 @@ public class Entrepot {
 	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@ManyToOne
@@ -33,13 +32,12 @@ public class Entrepot {
 	@ManyToOne
 	@JoinColumn(name = "agent_id")
 	private Agent agent;
-
+	
 	//Constructeurs
-
+	
 	public Entrepot() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -65,15 +63,15 @@ public class Entrepot {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public User getCreator() {
 		return creator;
 	}
@@ -90,5 +88,4 @@ public class Entrepot {
 		this.agent = agent;
 	}
 	
-
 }

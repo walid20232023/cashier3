@@ -21,13 +21,12 @@ public class LigneVenteService implements Serializable {
 	@MapsId("serviceId")
 	@JoinColumn(name = "service_id")
 	private Service service;
-
+	
 	//Construteurs
-
+	
 	public LigneVenteService() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public LigneVenteServiceId getId() {

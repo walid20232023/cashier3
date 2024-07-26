@@ -12,21 +12,21 @@ import java.util.List;
 
 @Component
 public interface ProvisionService {
-
-    @Transactional(readOnly = true)
-    Provision getProvisionByUuid(String uuid) throws APIException;
-
-    @Transactional(readOnly = true)
-    Provision getProvisionById(Integer provisionId) throws APIException;
-
-    @Transactional(readOnly = true)
-    List<Provision> getAllProvisions() throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Provision saveProvision(Provision provision) throws APIException;
-
-    @Authorized(MycashierConfig.MODULE_PRIVILEGE)
-    @Transactional
-    Provision deleteProvision(Provision provision) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Provision getProvisionByUuid(String uuid) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Provision getProvisionById(Integer provisionId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Provision> getAllProvisions() throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Provision saveProvision(Provision provision) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Provision deleteProvision(Provision provision) throws APIException;
 }

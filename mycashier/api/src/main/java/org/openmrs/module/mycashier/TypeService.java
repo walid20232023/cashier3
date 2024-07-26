@@ -17,7 +17,6 @@ public class TypeService {
 	private String name;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	@Column(name = "user_id")
@@ -25,14 +24,12 @@ public class TypeService {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
-
-
+	
 	//Consructeurs
-
+	
 	public TypeService() {
 	}
-
-
+	
 	// Getters and Setters
 	
 	public Integer getId() {
@@ -50,15 +47,15 @@ public class TypeService {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -75,5 +72,4 @@ public class TypeService {
 		this.uuid = uuid;
 	}
 	
-
 }

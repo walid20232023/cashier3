@@ -32,7 +32,6 @@ public class Provision {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime localDateTime;
 	
 	// Default constructor
@@ -88,15 +87,13 @@ public class Provision {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-
-
+	
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-
-
+	
 }
