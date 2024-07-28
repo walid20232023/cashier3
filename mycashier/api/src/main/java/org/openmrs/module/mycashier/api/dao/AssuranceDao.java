@@ -5,25 +5,27 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Assurance;
-import org.openmrs.module.mycashier.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Repository("mycashier.AssuranceDao")
 public class AssuranceDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
@@ -47,15 +49,17 @@ public class AssuranceDao {
 		return (List<Assurance>) criteria.list();
 	}
 	
-	@Transactional
-	@SuppressWarnings("unchecked")
-	public List<Assurance> getAllClientsByAssurance(Assurance assurance) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Client.class, "client");
-		criteria.createAlias("client.assurances", "assurance");
-		criteria.add(Restrictions.eq("assurance.id", assurance.getId()));
-		return (List<Assurance>) criteria.list();
-	}
-	
+	/**
+	 * @Transactional
+	 * @SuppressWarnings("unchecked") public List<Assurance> getAllClientsByAssurance(Assurance
+	 *                                assurance) { Criteria criteria =
+	 *                                sessionFactory.getCurrentSession
+	 *                                ().createCriteria(Client.class, "client");
+	 *                                criteria.createAlias("client.assurances", "assurance");
+	 *                                criteria.add(Restrictions.eq("assurance.id",
+	 *                                assurance.getId())); return (List<Assurance>) criteria.list();
+	 *                                }
+	 **/
 	@Transactional
 	public Assurance saveAssurance(Assurance assurance) {
 		sessionFactory.getCurrentSession().saveOrUpdate(assurance);
@@ -64,7 +68,7 @@ public class AssuranceDao {
 	
 	@Transactional
 	public Assurance deleteAssurance(Assurance assurance) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(assurance);
 		return assurance;
 	}

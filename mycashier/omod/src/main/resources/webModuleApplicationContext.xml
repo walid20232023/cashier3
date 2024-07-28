@@ -23,10 +23,11 @@
 	<!-- Component scan to find your controllers -->
 	<context:component-scan base-package="org.openmrs.module.mycashier.web.controller" />
 
+	
 
-	<!-- Annotation based controllers -->
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+	<bean class="org.openmrs.ui.framework.StandardModuleUiConfiguration">
+		<property name="moduleId" value="${project.parent.artifactId}"/>
+	</bean>
 
 
 

@@ -1,18 +1,20 @@
 package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
-import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Agent;
+
 import org.openmrs.module.mycashier.DrugInventaire;
 import org.openmrs.module.mycashier.Inventaire;
+import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.InventaireService;
-import org.openmrs.module.mycashier.api.dao.EntrepotDao;
 import org.openmrs.module.mycashier.api.dao.InventaireDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class InventaireServiceImpl extends BaseOpenmrsService implements InventaireService {
+@Service("inventaireService")
+public class InventaireServiceImpl implements InventaireService {
 	
 	@Autowired
 	InventaireDao dao;
@@ -47,14 +49,14 @@ public class InventaireServiceImpl extends BaseOpenmrsService implements Inventa
 	}
 	
 	@Override
-	public void addDrugInventaire(Integer inventaireId, Integer drugIg, Integer realQuantity, String motif)
+	public void addDrugInventaire(Inventaire inventaire, MyDrug myDrug, Integer realQuantity, Integer ecart, String motif)
 	        throws APIException {
-		dao.addDrugInventaire(inventaireId, drugIg, realQuantity, motif);
+		dao.addDrugInventaire(inventaire, myDrug, realQuantity, ecart, motif);
 	}
 	
 	@Override
-	public void deleteDrugInventaire(Integer inventaireId, Integer drugId) throws APIException {
-		dao.deleteDrugInventaire(inventaireId, drugId);
+	public void deleteDrugInventaire(Inventaire inventaire, MyDrug myDrug) throws APIException {
+		dao.deleteDrugInventaire(inventaire, myDrug);
 	}
 	
 	@Override

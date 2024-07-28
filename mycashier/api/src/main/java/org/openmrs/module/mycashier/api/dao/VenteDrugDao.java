@@ -4,114 +4,136 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.LigneVenteDrug;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.VenteDrug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Component
+@Repository("mycashier.VenteDrugDao")
 public class VenteDrugDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	@Transactional
 	public VenteDrug getVenteDrugByUuid(String uuid) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(VenteDrug.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
 		return (VenteDrug) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public VenteDrug getVenteDrugById(Integer venteDrugId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(VenteDrug.class);
 		criteria.add(Restrictions.eq("id", venteDrugId));
 		return (VenteDrug) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public List<VenteDrug> getAllVenteDrugs() {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(VenteDrug.class);
 		return criteria.list();
 	}
 	
+	@Transactional
 	public List<VenteDrug> getAllVenteDrugs(LocalDateTime start, LocalDateTime end) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(VenteDrug.class);
 		criteria.add(Restrictions.between("dateVente", start, end));
 		return criteria.list();
 	}
 	
+	@Transactional
 	public List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer myDrugId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
 		criteria.add(Restrictions.eq("myDrug.id", myDrugId));
 		return criteria.list();
 	}
 	
+	@Transactional
 	public VenteDrug saveVenteDrug(VenteDrug venteDrug) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(venteDrug);
 		return venteDrug;
 	}
 	
-	public void addLigneToVenteDrug(Integer venteDrugId, Integer myDrugId, Integer quantity) {
-		Session session = sessionFactory.getCurrentSession();
+	@Transactional
+	public void addLigneToVenteDrug(MyDrug myDrug, VenteDrug venteDrug, Integer quantity) {
+		DbSession session = sessionFactory.getCurrentSession();
 		
-		// Check if the LigneVenteDrug entry exists
+		// Check if LigneVenteDrug entry exists
 		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
-		criteria.add(Restrictions.eq("venteDrug.id", venteDrugId));
-		criteria.add(Restrictions.eq("myDrug.id", myDrugId));
+		criteria.add(Restrictions.eq("id.venteDrugId", venteDrug.getId()));
+		criteria.add(Restrictions.eq("id.myDrugId", myDrug.getId()));
+		
 		LigneVenteDrug ligneVenteDrug = (LigneVenteDrug) criteria.uniqueResult();
 		
 		if (ligneVenteDrug != null) {
-			// If exists, handle updating quantity if needed (assumed to be handled elsewhere)
-			// No implementation for quantity update in the current method
+			// Update quantity if the entry already exists
+			// Here, you might need to implement a way to update the quantity.
+			// For example, you can add a `quantity` field in the LigneVenteDrug class
+			// and update it accordingly.
+			// Assuming there's a `quantity` field in LigneVenteDrug:
+			ligneVenteDrug.setQuantity(ligneVenteDrug.getQuantity() + quantity);
+			session.update(ligneVenteDrug);
 		} else {
-			// Create new entry
-			session.beginTransaction();
+			// Create new LigneVenteDrug entry if it does not exist
 			LigneVenteDrug newLigneVenteDrug = new LigneVenteDrug();
-			newLigneVenteDrug.setVenteDrug((VenteDrug) session.load(VenteDrug.class, venteDrugId));
-			newLigneVenteDrug.setMyDrug((MyDrug) session.load(MyDrug.class, myDrugId));
-			// Set quantity if needed (assumed to be handled elsewhere)
+			LigneVenteDrug.LigneVenteDrugId ligneVenteDrugId = new LigneVenteDrug.LigneVenteDrugId(venteDrug.getId(),
+			        myDrug.getId());
+			newLigneVenteDrug.setId(ligneVenteDrugId);
+			newLigneVenteDrug.setVenteDrug(venteDrug);
+			newLigneVenteDrug.setMyDrug(myDrug);
+			// Assuming there's a `quantity` field in LigneVenteDrug:
+			newLigneVenteDrug.setQuantity(quantity);
+			
 			session.save(newLigneVenteDrug);
-			session.getTransaction().commit();
 		}
 	}
 	
-	public void deleteLigneFromVenteDrug(Integer venteDrugId, Integer myDrugId) {
-		Session session = sessionFactory.getCurrentSession();
+	@Transactional
+	public VenteDrug deleteVenteDrug(VenteDrug venteDrug) {
+		DbSession session = sessionFactory.getCurrentSession();
+		session.delete(venteDrug);
+		return venteDrug;
+	}
+	
+	@Transactional
+	public void deleteLigneFromVenteDrug(MyDrug myDrug, VenteDrug venteDrug) {
+		DbSession session = sessionFactory.getCurrentSession();
 		
+		// Create Criteria to find the LigneVenteDrug entry for the given VenteDrug and MyDrug
 		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
-		criteria.add(Restrictions.eq("venteDrug.id", venteDrugId));
-		criteria.add(Restrictions.eq("myDrug.id", myDrugId));
+		criteria.add(Restrictions.eq("id.venteDrugId", venteDrug.getId()));
+		criteria.add(Restrictions.eq("id.myDrugId", myDrug.getId()));
+		
 		LigneVenteDrug ligneVenteDrug = (LigneVenteDrug) criteria.uniqueResult();
 		
+		// If the entry exists, delete it
 		if (ligneVenteDrug != null) {
-			session.beginTransaction();
 			session.delete(ligneVenteDrug);
-			session.getTransaction().commit();
 		}
-	}
-	
-	public VenteDrug deleteVenteDrug(VenteDrug venteDrug) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		session.delete(venteDrug);
-		session.getTransaction().commit();
-		return venteDrug;
 	}
 	
 }

@@ -2,14 +2,16 @@ package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
 import org.openmrs.module.mycashier.LigneVenteService;
-import org.openmrs.module.mycashier.Service;
+
 import org.openmrs.module.mycashier.VenteService;
 import org.openmrs.module.mycashier.api.VenteServService;
 import org.openmrs.module.mycashier.api.dao.VenteServDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("venteServService")
 public class VenteServServiceImpl implements VenteServService {
 	
 	@Autowired
@@ -42,11 +44,6 @@ public class VenteServServiceImpl implements VenteServService {
 	@Override
 	public void addLigneToVenteService(Integer venteServiceId, Integer serviceId) throws APIException {
 		dao.addLigneToVenteService(venteServiceId, serviceId);
-	}
-	
-	@Override
-	public void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException {
-		dao.deleteLigneFromVenteService(venteService, service);
 	}
 	
 	@Override

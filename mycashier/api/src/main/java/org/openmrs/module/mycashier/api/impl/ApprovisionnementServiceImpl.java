@@ -3,16 +3,18 @@ package org.openmrs.module.mycashier.api.impl;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Approvisionnement;
-import org.openmrs.module.mycashier.LigneApprovis;
+
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.ApprovisionnementService;
 import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ApprovisionnementServiceImpl extends BaseOpenmrsService implements ApprovisionnementService {
+@Service("approvisionnementService")
+public class ApprovisionnementServiceImpl implements ApprovisionnementService {
 	
 	@Autowired
 	ApprovisionnementDao dao;
@@ -36,11 +38,11 @@ public class ApprovisionnementServiceImpl extends BaseOpenmrsService implements 
 		return dao.getAllApprovisionnements(start, end);
 	}
 	
-	@Override
-	public List<LigneApprovis> getAllLigneApprovisByDrug(LocalDateTime start, LocalDateTime end) throws APIException {
-		return dao.getAllLigneApprovisByDrug(start, end);
-	}
-	
+	/**
+	 * @Override public List<LigneApprovis> getAllLigneApprovisByDrug(LocalDateTime start,
+	 *           LocalDateTime end) throws APIException { return
+	 *           dao.getAllLigneApprovisByDrug(start, end); }
+	 **/
 	@Override
 	public List<Approvisionnement> getAllApprovisionnementsByEntrepotSource(LocalDateTime start, LocalDateTime end,
 	        Integer entrepotSource) throws APIException {

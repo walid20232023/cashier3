@@ -4,14 +4,15 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Versement;
 import org.openmrs.module.mycashier.api.VersementService;
-import org.openmrs.module.mycashier.api.dao.VenteDrugDao;
 import org.openmrs.module.mycashier.api.dao.VersementDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VersementServiceImpl extends BaseOpenmrsService implements VersementService {
+@Service("versementService")
+public class VersementServiceImpl implements VersementService {
 	
 	@Autowired
 	VersementDao dao;

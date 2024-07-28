@@ -16,6 +16,7 @@ import org.openmrs.module.BaseModuleActivator;
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
  */
+
 public class MycashierActivator extends BaseModuleActivator {
 	
 	private Log log = LogFactory.getLog(this.getClass());
@@ -27,11 +28,9 @@ public class MycashierActivator extends BaseModuleActivator {
 		log.info("Started Mycashier");
 	}
 	
-	/**
-	 * @see #shutdown()
-	 */
+	//@see #shutdown()
+	
 	public void shutdown() {
 		log.info("Shutdown Mycashier");
 	}
-	
 }

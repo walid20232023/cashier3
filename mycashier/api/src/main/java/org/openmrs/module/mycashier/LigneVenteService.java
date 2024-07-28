@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ligne_vente_service", schema = "cashier")
+@Table(name = "ligne_vente_service")
 public class LigneVenteService implements Serializable {
 	
 	@EmbeddedId
@@ -18,9 +18,9 @@ public class LigneVenteService implements Serializable {
 	private VenteService venteService;
 	
 	@ManyToOne
-	@MapsId("serviceId")
+	@MapsId("myServiceId")
 	@JoinColumn(name = "service_id")
-	private Service service;
+	private MyService myservice;
 	
 	//Construteurs
 	
@@ -45,17 +45,12 @@ public class LigneVenteService implements Serializable {
 		this.venteService = venteService;
 	}
 	
-	public Service getService() {
-		return service;
+	public MyService getMyservice() {
+		return myservice;
 	}
 	
-	public void setService(Service service) {
-		this.service = service;
-	}
-	
-	@Override
-	public String toString() {
-		return "LigneVenteService{" + "id=" + id + ", venteService=" + venteService + ", service=" + service + '}';
+	public void setMyservice(MyService myservice) {
+		this.myservice = myservice;
 	}
 	
 	@Embeddable
@@ -65,7 +60,7 @@ public class LigneVenteService implements Serializable {
 		private Integer venteServiceId;
 		
 		@Column(name = "service_id")
-		private Integer serviceId;
+		private Integer myServiceId;
 		
 		// Default constructor
 		
@@ -74,9 +69,9 @@ public class LigneVenteService implements Serializable {
 		
 		// Parameterized constructor
 		
-		public LigneVenteServiceId(Integer venteServiceId, Integer serviceId) {
+		public LigneVenteServiceId(Integer venteServiceId, Integer myServiceId) {
 			this.venteServiceId = venteServiceId;
-			this.serviceId = serviceId;
+			this.myServiceId = myServiceId;
 		}
 		
 		// Getters and Setters
@@ -89,13 +84,12 @@ public class LigneVenteService implements Serializable {
 			this.venteServiceId = venteServiceId;
 		}
 		
-		public Integer getServiceId() {
-			return serviceId;
+		public Integer getMyServiceId() {
+			return myServiceId;
 		}
 		
-		public void setServiceId(Integer serviceId) {
-			this.serviceId = serviceId;
+		public void setMyServiceId(Integer myServiceId) {
+			this.myServiceId = myServiceId;
 		}
-		
 	}
 }

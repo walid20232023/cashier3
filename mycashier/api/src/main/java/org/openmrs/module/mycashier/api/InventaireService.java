@@ -3,16 +3,16 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.Agent;
-import org.openmrs.module.mycashier.DrugInventaire;
-import org.openmrs.module.mycashier.MycashierConfig;
-import org.openmrs.module.mycashier.Inventaire;
+import org.openmrs.module.mycashier.*;
+
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Service
 public interface InventaireService {
 	
 	@Transactional(readOnly = true)
@@ -32,10 +32,11 @@ public interface InventaireService {
 	Inventaire saveInventaire(Inventaire inventaire) throws APIException;
 	
 	@Transactional
-	void addDrugInventaire(Integer inventaireId, Integer drugIg, Integer realQuantity, String motif) throws APIException;
+	void addDrugInventaire(Inventaire inventaire, MyDrug myDrug, Integer realQuantity, Integer ecart, String motif)
+	        throws APIException;
 	
 	@Transactional
-	void deleteDrugInventaire(Integer inventaireId, Integer drugId) throws APIException;
+	void deleteDrugInventaire(Inventaire inventaire, MyDrug myDrug) throws APIException;
 	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional

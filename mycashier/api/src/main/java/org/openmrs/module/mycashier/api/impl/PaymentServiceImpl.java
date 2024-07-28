@@ -7,10 +7,12 @@ import org.openmrs.module.mycashier.api.PaymentService;
 import org.openmrs.module.mycashier.api.dao.MyDrugDao;
 import org.openmrs.module.mycashier.api.dao.PaymentDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class PaymentServiceImpl extends BaseOpenmrsService implements PaymentService {
+@Service("paymentService ")
+public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	PaymentDao dao;

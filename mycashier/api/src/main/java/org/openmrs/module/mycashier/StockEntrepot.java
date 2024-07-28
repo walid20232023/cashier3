@@ -8,14 +8,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "stock_entrepot", schema = "cashier")
+@Table(name = "stock_entrepot")
 public class StockEntrepot implements Serializable {
 	
 	@EmbeddedId
 	private StockEntrepotId id;
 	
 	@Column(name = "date_modification")
-	private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;

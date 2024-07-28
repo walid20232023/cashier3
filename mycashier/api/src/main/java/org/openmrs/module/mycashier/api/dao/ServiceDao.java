@@ -4,56 +4,59 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.openmrs.module.mycashier.Service;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
+import org.openmrs.module.mycashier.MyService;
 import org.openmrs.module.mycashier.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository("mycashier.ServiceDao ")
 public class ServiceDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
 	// TypeService Methods
 	
 	public TypeService deleteTypeService(TypeService typeService) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(typeService);
 		return typeService;
 	}
 	
 	public TypeService saveTypeService(TypeService typeService) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(typeService);
 		return typeService;
 	}
 	
 	public List<TypeService> getAllTypeServices() {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(TypeService.class);
 		return criteria.list();
 	}
 	
 	public TypeService getTypeServiceById(Integer typeServiceId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(TypeService.class);
 		criteria.add(Restrictions.eq("id", typeServiceId));
 		return (TypeService) criteria.uniqueResult();
 	}
 	
 	public TypeService getTypeServiceByUuid(String uuid) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(TypeService.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
 		return (TypeService) criteria.uniqueResult();
@@ -61,49 +64,49 @@ public class ServiceDao {
 	
 	// Service Methods
 	
-	public Service deleteService(Service service) {
-		Session session = sessionFactory.getCurrentSession();
+	public MyService deleteService(MyService service) {
+		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(service);
 		return service;
 	}
 	
-	public Service saveService(Service service) {
-		Session session = sessionFactory.getCurrentSession();
+	public MyService saveService(MyService service) {
+		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(service);
 		return service;
 	}
 	
-	public List<Service> getAllServicesByTypeService(Integer typeServiceId) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Service.class);
+	public List<MyService> getAllServicesByTypeService(Integer typeServiceId) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MyService.class);
 		criteria.add(Restrictions.eq("typeService.id", typeServiceId));
 		return criteria.list();
 	}
 	
-	public List<Service> getAllServices() {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Service.class);
+	public List<MyService> getAllServices() {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MyService.class);
 		return criteria.list();
 	}
 	
-	public Service getServiceByName(String serviceName) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Service.class);
+	public MyService getServiceByName(String serviceName) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MyService.class);
 		criteria.add(Restrictions.eq("name", serviceName));
-		return (Service) criteria.uniqueResult();
+		return (MyService) criteria.uniqueResult();
 	}
 	
-	public Service getServiceById(Integer serviceId) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Service.class);
+	public MyService getServiceById(Integer serviceId) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MyService.class);
 		criteria.add(Restrictions.eq("id", serviceId));
-		return (Service) criteria.uniqueResult();
+		return (MyService) criteria.uniqueResult();
 	}
 	
-	public Service getServiceByUuid(String uuid) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(Service.class);
+	public MyService getServiceByUuid(String uuid) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MyService.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
-		return (Service) criteria.uniqueResult();
+		return (MyService) criteria.uniqueResult();
 	}
 }

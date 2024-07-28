@@ -2,16 +2,19 @@ package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.mycashier.Service;
+import org.openmrs.module.mycashier.MyService;
+import org.openmrs.module.mycashier.MyService;
 import org.openmrs.module.mycashier.TypeService;
 import org.openmrs.module.mycashier.api.ServService;
 import org.openmrs.module.mycashier.api.dao.ProvisionDao;
 import org.openmrs.module.mycashier.api.dao.ServiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ServServiceImpl extends BaseOpenmrsService implements ServService {
+@Service("servService")
+public class ServServiceImpl implements ServService {
 	
 	@Autowired
 	ServiceDao dao;
@@ -21,37 +24,37 @@ public class ServServiceImpl extends BaseOpenmrsService implements ServService {
 	}
 	
 	@Override
-	public Service getServiceByUuid(String uuid) throws APIException {
+	public MyService getServiceByUuid(String uuid) throws APIException {
 		return dao.getServiceByUuid(uuid);
 	}
 	
 	@Override
-	public Service getServiceById(Integer serviceId) throws APIException {
+	public MyService getServiceById(Integer serviceId) throws APIException {
 		return dao.getServiceById(serviceId);
 	}
 	
 	@Override
-	public Service getServiceByName(String serviceName) throws APIException {
+	public MyService getServiceByName(String serviceName) throws APIException {
 		return dao.getServiceByName(serviceName);
 	}
 	
 	@Override
-	public List<Service> getAllServices() throws APIException {
+	public List<MyService> getAllServices() throws APIException {
 		return dao.getAllServices();
 	}
 	
 	@Override
-	public List<Service> getAllServicesByTypeService(Integer typeServiceId) throws APIException {
+	public List<MyService> getAllServicesByTypeService(Integer typeServiceId) throws APIException {
 		return dao.getAllServicesByTypeService(typeServiceId);
 	}
 	
 	@Override
-	public Service saveService(Service service) throws APIException {
+	public MyService saveService(MyService service) throws APIException {
 		return dao.saveService(service);
 	}
 	
 	@Override
-	public Service deleteService(Service service) throws APIException {
+	public MyService deleteService(MyService service) throws APIException {
 		return dao.deleteService(service);
 	}
 	

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ligne_approvis", schema = "cashier")
+@Table(name = "ligne_approvis")
 public class LigneApprovis {
 	
 	@EmbeddedId
@@ -61,12 +61,6 @@ public class LigneApprovis {
 	
 	public void setQuantite(Integer quantite) {
 		this.quantite = quantite;
-	}
-	
-	@Override
-	public String toString() {
-		return "LigneApprovis{" + "id=" + id + ", approvisionnement=" + approvisionnement + ", myDrug=" + myDrug
-		        + ", quantite=" + quantite + '}';
 	}
 	
 	@Embeddable

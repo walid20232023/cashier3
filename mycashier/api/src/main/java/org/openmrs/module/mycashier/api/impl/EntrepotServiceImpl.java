@@ -1,20 +1,22 @@
 package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
-import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.mycashier.Approvisionnement;
+
 import org.openmrs.module.mycashier.Entrepot;
+
+import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.StockEntrepot;
-import org.openmrs.module.mycashier.VenteDrug;
 import org.openmrs.module.mycashier.api.EntrepotService;
-import org.openmrs.module.mycashier.api.dao.EmballageDao;
+
 import org.openmrs.module.mycashier.api.dao.EntrepotDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class EntrepotServiceImpl extends BaseOpenmrsService implements EntrepotService {
+@Service("entrepotService")
+public class EntrepotServiceImpl implements EntrepotService {
 	
 	@Autowired
 	EntrepotDao dao;
@@ -39,6 +41,12 @@ public class EntrepotServiceImpl extends BaseOpenmrsService implements EntrepotS
 	}
 	
 	@Override
+	public void saveDrugQuantityForEntrepot(MyDrug myDrug, Entrepot entrepot, Integer quantity) throws APIException {
+		
+		dao.saveDrugQuantityForEntrepot(myDrug, entrepot, quantity);
+	}
+	
+	@Override
 	public List<StockEntrepot> getAllStockEntrepotsByEntrepot(Integer entrepotId) throws APIException {
 		return dao.getAllStockEntrepotsByEntrepot(entrepotId);
 	}
@@ -48,33 +56,21 @@ public class EntrepotServiceImpl extends BaseOpenmrsService implements EntrepotS
 		return dao.getStockByEntrepotAndDrug(entrepotId, drugId);
 	}
 	
-	@Override
-	public List<VenteDrug> getAllVenteDrugByEntrepot(LocalDateTime start, LocalDateTime end) {
-		return dao.getAllVenteDrugByEntrepot(start, end);
-	}
-	
-	@Override
-	public List<VenteDrug> getAllVenteDrugByEntrepotAndDrug(LocalDateTime start, LocalDateTime end, Integer myDrugId)
-	        throws APIException {
-		return dao.getAllVenteDrugByEntrepotAndDrug(start, end, myDrugId);
-	}
-	
-	@Override
-	public List<VenteDrug> getAllDrugAvarieByEntrepot(LocalDateTime start, LocalDateTime end) throws APIException {
-		return dao.getAllDrugAvarieByEntrepot(start, end);
-	}
-	
-	@Override
-	public List<Approvisionnement> getAllDrugApprovisByEntrepot(LocalDateTime start, LocalDateTime end) throws APIException {
-		return dao.getAllDrugApprovisByEntrepot(start, end);
-	}
-	
-	@Override
-	public List<VenteDrug> getAllDrugApprovisByEntrepotAndDrug(LocalDateTime start, LocalDateTime end, Integer myDrugId)
-	        throws APIException {
-		return dao.getAllDrugApprovisByEntrepotAndDrug(start, end, myDrugId);
-	}
-	
+	/* @Override public List<VenteDrug> getAllVenteDrugByEntrepot(LocalDateTime start, LocalDateTime
+	*           end) { return dao.getAllVenteDrugByEntrepot(start, end); }
+	* @Override public List<VenteDrug> getAllVenteDrugByEntrepotAndDrug(LocalDateTime start,
+	*           LocalDateTime end, Integer myDrugId) throws APIException { return
+	*           dao.getAllVenteDrugByEntrepotAndDrug(start, end, myDrugId); }
+	* @Override public List<VenteDrug> getAllDrugAvarieByEntrepot(LocalDateTime start,
+	*           LocalDateTime end) throws APIException { return
+	*           dao.getAllDrugAvarieByEntrepot(start, end); }
+	* @Override public List<Approvisionnement> getAllDrugApprovisByEntrepot(LocalDateTime start,
+	*           LocalDateTime end) throws APIException { return
+	*           dao.getAllDrugApprovisByEntrepot(start, end); }
+	* @Override public List<VenteDrug> getAllDrugApprovisByEntrepotAndDrug(LocalDateTime start,
+	*           LocalDateTime end, Integer myDrugId) throws APIException { return
+	*           dao.getAllDrugApprovisByEntrepotAndDrug(start, end, myDrugId); }
+	**/
 	@Override
 	public Entrepot saveEntrepot(Entrepot entrepot) throws APIException {
 		return dao.saveEntrepot(entrepot);

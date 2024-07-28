@@ -4,35 +4,36 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.LigneVenteService;
-import org.openmrs.module.mycashier.Service;
+import org.openmrs.module.mycashier.MyService;
 import org.openmrs.module.mycashier.VenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
-@Component
+@Repository("mycashier.VenteServDao")
 public class VenteServDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	@Transactional
 	public VenteService getVenteServiceByUuid(String uuid) {
 		// Obtention de la session Hibernate actuelle
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Création d'une requête Criteria pour la classe VenteService
 		Criteria criteria = session.createCriteria(VenteService.class);
@@ -44,9 +45,10 @@ public class VenteServDao {
 		return (VenteService) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public VenteService getVenteServiceById(Integer venteServiceId) {
 		// Obtention de la session Hibernate actuelle
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Création d'une requête Criteria pour la classe VenteService
 		Criteria criteria = session.createCriteria(VenteService.class);
@@ -58,9 +60,10 @@ public class VenteServDao {
 		return (VenteService) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public List<VenteService> getAllVenteServices() {
 		// Obtention de la session Hibernate actuelle
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Création d'une requête Criteria pour la classe VenteService
 		Criteria criteria = session.createCriteria(VenteService.class);
@@ -69,79 +72,53 @@ public class VenteServDao {
 		return criteria.list();
 	}
 	
+	@Transactional
 	public VenteService saveVenteService(VenteService venteService) {
 		// Obtention de la session Hibernate actuelle
-		Session session = sessionFactory.getCurrentSession();
-		
-		// Début de la transaction
-		session.beginTransaction();
-		
+		DbSession session = sessionFactory.getCurrentSession();
 		// Sauvegarde ou mise à jour de l'objet VenteService
 		session.saveOrUpdate(venteService);
-		
-		// Commit de la transaction
-		session.getTransaction().commit();
 		
 		// Retourner l'objet VenteService sauvegardé/ mis à jour
 		return venteService;
 	}
 	
+	@Transactional
 	public void addLigneToVenteService(Integer venteServiceId, Integer serviceId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Check if the LigneVenteService entry exists
 		Criteria criteria = session.createCriteria(LigneVenteService.class);
-		criteria.add(Restrictions.eq("venteService.id", venteServiceId));
-		criteria.add(Restrictions.eq("service.id", serviceId));
+		criteria.add(Restrictions.eq("id.venteServiceId", venteServiceId));
+		criteria.add(Restrictions.eq("id.myServiceId", serviceId));
 		LigneVenteService existingLigne = (LigneVenteService) criteria.uniqueResult();
 		
 		if (existingLigne == null) {
-			// Create new entry
-			session.beginTransaction();
 			LigneVenteService newLigne = new LigneVenteService();
+			LigneVenteService.LigneVenteServiceId id = new LigneVenteService.LigneVenteServiceId(venteServiceId, serviceId);
+			newLigne.setId(id);
 			newLigne.setVenteService((VenteService) session.load(VenteService.class, venteServiceId));
-			newLigne.setService((Service) session.load(Service.class, serviceId));
+			newLigne.setMyservice((MyService) session.load(MyService.class, serviceId));
 			session.save(newLigne);
-			session.getTransaction().commit();
 		}
 	}
 	
+	@Transactional
 	public LigneVenteService getLigneVenteServiceById(Integer venteServiceId, Integer serviceId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Création des critères pour la recherche
 		Criteria criteria = session.createCriteria(LigneVenteService.class);
-		criteria.add(Restrictions.eq("venteService.id", venteServiceId));
-		criteria.add(Restrictions.eq("service.id", serviceId));
+		criteria.add(Restrictions.eq("id.venteServiceId", venteServiceId));
+		criteria.add(Restrictions.eq("id.myServiceId", serviceId));
 		
 		// Exécution de la requête et récupération du résultat
 		return (LigneVenteService) criteria.uniqueResult();
 	}
 	
-	public void deleteLigneFromVenteService(VenteService venteService, Service service) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		
-		// Création des critères pour la recherche de la ligne à supprimer
-		Criteria criteria = session.createCriteria(LigneVenteService.class);
-		criteria.add(Restrictions.eq("venteService", venteService));
-		criteria.add(Restrictions.eq("service", service));
-		
-		// Récupération de la ligne à supprimer
-		LigneVenteService ligne = (LigneVenteService) criteria.uniqueResult();
-		
-		if (ligne != null) {
-			// Suppression de la ligne trouvée
-			session.delete(ligne);
-		}
-		
-		session.getTransaction().commit();
-	}
-	
+	@Transactional
 	public VenteService deleteVenteService(VenteService venteService) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		
+		DbSession session = sessionFactory.getCurrentSession();
 		// Récupération de l'entité VenteService à supprimer
 		VenteService existingVenteService = (VenteService) session.get(VenteService.class, venteService.getId());
 		
@@ -150,47 +127,36 @@ public class VenteServDao {
 			session.delete(existingVenteService);
 		}
 		
-		session.getTransaction().commit();
-		
 		// Retourner l'objet supprimé ou null si non trouvé
 		return existingVenteService;
 	}
 	
+	@Transactional
 	public List<LigneVenteService> getAllLigneVenteServices() {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		
+		DbSession session = sessionFactory.getCurrentSession();
 		// Création d'une requête Criteria pour récupérer toutes les lignes de vente de services
 		Criteria criteria = session.createCriteria(LigneVenteService.class);
 		
 		// Exécution de la requête et récupération des résultats
 		List<LigneVenteService> lignes = criteria.list();
 		
-		session.getTransaction().commit();
-		
 		return lignes;
 	}
 	
+	@Transactional
 	public LigneVenteService saveLigneVenteService(LigneVenteService ligneVenteService) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		
+		DbSession session = sessionFactory.getCurrentSession();
 		// Sauvegarde ou mise à jour de l'objet LigneVenteService
 		session.saveOrUpdate(ligneVenteService);
-		
-		session.getTransaction().commit();
 		
 		return ligneVenteService;
 	}
 	
+	@Transactional
 	public LigneVenteService deleteLigneVenteService(LigneVenteService ligneVenteService) {
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		
+		DbSession session = sessionFactory.getCurrentSession();
 		// Suppression de l'objet LigneVenteService
 		session.delete(ligneVenteService);
-		
-		session.getTransaction().commit();
 		
 		return ligneVenteService;
 	}

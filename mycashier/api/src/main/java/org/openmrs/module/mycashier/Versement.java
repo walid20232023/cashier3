@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
-@Table(name = "versement", schema = "cashier")
+@Table(name = "versement")
 public class Versement {
 	
 	@Id
@@ -14,7 +15,7 @@ public class Versement {
 	private Integer id;
 	
 	@Column(name = "date_versement")
-	private LocalDateTime localDateTime;
+	private LocalDateTime dateVersement;
 	
 	@Column(name = "montant")
 	private Integer montant;
@@ -27,32 +28,37 @@ public class Versement {
 	@JoinColumn(name = "caisse_agent_cible_id")
 	private Agent caisseAgentCible;
 	
-	@Column(name = "uuid", length = 38)
-	private String uuid;
+	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
+	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	private Date dateCreation;
+	private LocalDateTime dateCreation = LocalDateTime.now();; // Default constructor public
 	
-	// Default constructor
 	public Versement() {
 	}
 	
-	// Getters and Setters
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
+	}
+	
+	void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(Integer id) {
-		this.id = id;
+	public LocalDateTime getDateVersement() {
+		return dateVersement;
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+	public void setDateVersement(LocalDateTime dateVersement) {
+		this.dateVersement = dateVersement;
 	}
 	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+	public void setDateCreation(LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 	
 	public Integer getMontant() {
@@ -85,21 +91,6 @@ public class Versement {
 	
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
-	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-	
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
 	}
 	
 }

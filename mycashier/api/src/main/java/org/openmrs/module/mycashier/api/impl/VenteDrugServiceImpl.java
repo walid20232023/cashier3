@@ -1,18 +1,20 @@
 package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
-import org.openmrs.api.impl.BaseOpenmrsService;
+
 import org.openmrs.module.mycashier.LigneVenteDrug;
+import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.VenteDrug;
 import org.openmrs.module.mycashier.api.VenteDrugService;
-import org.openmrs.module.mycashier.api.dao.ServiceDao;
 import org.openmrs.module.mycashier.api.dao.VenteDrugDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VenteDrugServiceImpl extends BaseOpenmrsService implements VenteDrugService {
+@Service("venteDrugService")
+public class VenteDrugServiceImpl implements VenteDrugService {
 	
 	@Autowired
 	VenteDrugDao dao;
@@ -52,13 +54,13 @@ public class VenteDrugServiceImpl extends BaseOpenmrsService implements VenteDru
 	}
 	
 	@Override
-	public void addLigneToVenteDrug(Integer venteDrugId, Integer myDrugId, Integer quantity) throws APIException {
-		dao.addLigneToVenteDrug(venteDrugId, myDrugId, quantity);
+	public void addLigneToVenteDrug(MyDrug myDrug, VenteDrug venteDrug, Integer quantity) throws APIException {
+		dao.addLigneToVenteDrug(myDrug, venteDrug, quantity);
 	}
 	
 	@Override
-	public void deleteLigneFromVenteDrug(Integer venteDrugId, Integer myDrugId) throws APIException {
-		dao.deleteLigneFromVenteDrug(venteDrugId, myDrugId);
+	public void deleteLigneFromVenteDrug(MyDrug myDrug, VenteDrug venteDrug) throws APIException {
+		dao.deleteLigneFromVenteDrug(myDrug, venteDrug);
 	}
 	
 	@Override

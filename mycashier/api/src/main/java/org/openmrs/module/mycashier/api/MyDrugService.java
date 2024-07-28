@@ -6,13 +6,14 @@ import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.Emballage;
-import org.openmrs.module.mycashier.MyDrugEmballage;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Service
 public interface MyDrugService {
 	
 	@Transactional(readOnly = true)

@@ -8,18 +8,15 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "approvisionnement", schema = "cashier")
+@Table(name = "approvisionnement")
 public class Approvisionnement {
 	
 	@Id
-	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(name = "date_approvisionnement")
 	private LocalDateTime dateTimeApprovisionnement;
-	
-	@Column(name = "quantite_approvis")
-	private Integer quantiteApprovis;
 	
 	@ManyToOne
 	@JoinColumn(name = "entrepot_source_id")
@@ -37,7 +34,7 @@ public class Approvisionnement {
 	private String uuid;
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	//Constructeurs
 	
@@ -60,14 +57,6 @@ public class Approvisionnement {
 	
 	public void setDateTimeApprovisionnement(LocalDateTime dateTimeApprovisionnement) {
 		this.dateTimeApprovisionnement = dateTimeApprovisionnement;
-	}
-	
-	public Integer getQuantiteApprovis() {
-		return quantiteApprovis;
-	}
-	
-	public void setQuantiteApprovis(Integer quantiteApprovis) {
-		this.quantiteApprovis = quantiteApprovis;
 	}
 	
 	public Entrepot getEntrepotSource() {

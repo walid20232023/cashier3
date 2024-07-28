@@ -6,10 +6,12 @@ import org.openmrs.module.mycashier.Agent;
 import org.openmrs.module.mycashier.api.AgentService;
 import org.openmrs.module.mycashier.api.dao.AgentDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class AgentServiceImpl extends BaseOpenmrsService implements AgentService {
+@Service("agentService")
+public class AgentServiceImpl implements AgentService {
 	
 	@Autowired
 	AgentDao dao;

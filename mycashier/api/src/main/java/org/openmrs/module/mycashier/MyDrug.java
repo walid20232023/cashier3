@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "my_drug", schema = "cashier")
+@Table(name = "my_drug")
 public class MyDrug extends Drug {
 	
 	@Id
@@ -32,7 +32,6 @@ public class MyDrug extends Drug {
 		this.setDosageForm(drug.getDosageForm());
 		this.setMaximumDailyDose(drug.getMaximumDailyDose());
 		this.setMinimumDailyDose(drug.getMinimumDailyDose());
-		this.setRoute(drug.getRoute());
 		this.setCreator(drug.getCreator());
 		this.setDateCreated(drug.getDateCreated());
 		this.setRetired(drug.getRetired());

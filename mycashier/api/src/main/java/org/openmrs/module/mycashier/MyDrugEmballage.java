@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "my_drug_emballage", schema = "cashier")
+@Table(name = "my_drug_emballage")
 public class MyDrugEmballage implements Serializable {
 	
 	@EmbeddedId

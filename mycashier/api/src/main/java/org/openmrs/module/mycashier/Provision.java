@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
-@Table(name = "provision", schema = "cashier")
+@Table(name = "provision")
 public class Provision {
 	
 	@Id
@@ -28,8 +29,8 @@ public class Provision {
 	@Column(name = "total")
 	private Integer total;
 	
-	@Column(name = "uuid", unique = true, length = 38)
-	private String uuid;
+	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
+	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
 	private LocalDateTime localDateTime;

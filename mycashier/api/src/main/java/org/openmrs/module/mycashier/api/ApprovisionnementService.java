@@ -3,17 +3,19 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.LigneApprovis;
+
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.Approvisionnement;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
+@Service
 public interface ApprovisionnementService {
 	
 	@Transactional(readOnly = true)
@@ -25,9 +27,10 @@ public interface ApprovisionnementService {
 	@Transactional(readOnly = true)
 	List<Approvisionnement> getAllApprovisionnements(LocalDateTime start, LocalDateTime end) throws APIException;
 	
-	@Transactional(readOnly = true)
-	List<LigneApprovis> getAllLigneApprovisByDrug(LocalDateTime start, LocalDateTime end) throws APIException;
-	
+	/**
+	 * @Transactional(readOnly = true) List<LigneApprovis> getAllLigneApprovisByDrug(LocalDateTime
+	 *                         start, LocalDateTime end) throws APIException;
+	 **/
 	//Les approvisionnement effectués d'un entrepot durant une période donnée
 	@Transactional(readOnly = true)
 	List<Approvisionnement> getAllApprovisionnementsByEntrepotSource(LocalDateTime start, LocalDateTime end,
@@ -52,4 +55,5 @@ public interface ApprovisionnementService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException;
+	
 }

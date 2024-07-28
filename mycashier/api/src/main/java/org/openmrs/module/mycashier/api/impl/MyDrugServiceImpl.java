@@ -7,10 +7,12 @@ import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.api.MyDrugService;
 import org.openmrs.module.mycashier.api.dao.MyDrugDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class MyDrugServiceImpl extends BaseOpenmrsService implements MyDrugService {
+@Service("MyDrugService")
+public class MyDrugServiceImpl implements MyDrugService {
 	
 	@Autowired
 	MyDrugDao dao;

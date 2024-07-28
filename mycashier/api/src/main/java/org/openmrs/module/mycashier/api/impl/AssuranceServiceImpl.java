@@ -4,7 +4,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Assurance;
 import org.openmrs.module.mycashier.api.AssuranceService;
-import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
+//import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
 import org.openmrs.module.mycashier.api.dao.AssuranceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service("assuranceService")
-public class AssuranceServiceImpl extends BaseOpenmrsService implements AssuranceService {
+public class AssuranceServiceImpl implements AssuranceService {
 	
 	@Autowired
 	AssuranceDao dao;
@@ -38,9 +38,13 @@ public class AssuranceServiceImpl extends BaseOpenmrsService implements Assuranc
 	
 	@Override
 	public List<Assurance> getAllClientsByAssurance(Assurance assurance) throws APIException {
-		return dao.getAllClientsByAssurance(assurance);
+		return null;
 	}
 	
+	/**
+	 * @Override public List<Assurance> getAllClientsByAssurance(Assurance assurance) throws
+	 *           APIException { return dao.getAllClientsByAssurance(assurance); }
+	 **/
 	@Override
 	public Assurance saveAssurance(Assurance assurance) throws APIException {
 		return dao.saveAssurance(assurance);

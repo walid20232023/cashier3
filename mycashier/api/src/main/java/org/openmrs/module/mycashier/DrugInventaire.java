@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "drug_inventaire", schema = "cashier")
+@Table(name = "drug_inventaire")
 public class DrugInventaire {
 	
 	@EmbeddedId
@@ -24,8 +24,19 @@ public class DrugInventaire {
 	@Column(name = "real_quantity")
 	private Integer realQuantity;
 	
+	@Column(name = "ecart")
+	private Integer ecart;
+	
+	public void setEcart(Integer ecart) {
+		this.ecart = ecart;
+	}
+	
 	@Column(name = "motif")
 	private String motif;
+	
+	public Integer getEcart() {
+		return ecart;
+	}
 	
 	// Default constructor
 	public DrugInventaire() {

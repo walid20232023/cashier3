@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "vente_service", schema = "cashier")
+@Table(name = "vente_service")
 public class VenteService {
 	
 	@Id
@@ -14,7 +14,7 @@ public class VenteService {
 	private Integer id;
 	
 	@Column(name = "date_vente")
-	private Date dateVente;
+	private LocalDateTime dateVente;
 	
 	@ManyToOne
 	@JoinColumn(name = "agent_id")
@@ -28,7 +28,7 @@ public class VenteService {
 	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	@Column(name = "vente_validate", columnDefinition = "BOOLEAN DEFAULT FALSE")
 	private Boolean venteValidate;
@@ -48,11 +48,11 @@ public class VenteService {
 		this.id = id;
 	}
 	
-	public Date getDateVente() {
+	public LocalDateTime getDateVente() {
 		return dateVente;
 	}
 	
-	public void setDateVente(Date dateVente) {
+	public void setDateVente(LocalDateTime dateVente) {
 		this.dateVente = dateVente;
 	}
 	

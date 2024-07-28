@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
-@Table(name = "my_drug_avarie", schema = "cashier")
+@Table(name = "my_drug_avarie")
 public class MyDrugAvarie {
 	
 	@Id
@@ -31,11 +32,11 @@ public class MyDrugAvarie {
 	@JoinColumn(name = "my_drug_id")
 	private MyDrug myDrug;
 	
-	@Column(name = "uuid", length = 38)
-	private String uuid;
+	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
+	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime dateCreation = LocalDateTime.now();
 	
 	// Default constructor
 	public MyDrugAvarie() {
@@ -99,12 +100,11 @@ public class MyDrugAvarie {
 		this.uuid = uuid;
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
 	}
 	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+	public void setDateCreation(LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
-	
 }

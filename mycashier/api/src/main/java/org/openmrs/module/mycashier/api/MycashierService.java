@@ -12,13 +12,14 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.Item;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The main service of this module, which is exposed for other modules. See
- * moduleApplicationContext.xml on how it is wired up.
+ * import org.openmrs.module.mycashier.MycashierConfig; import org.openmrs.module.mycashier.Item;
+ * import org.springframework.transaction.annotation.Transactional; /** The main service of this
+ * module, which is exposed for other modules. See moduleApplicationContext.xml on how it is wired
+ * up.
  */
 public interface MycashierService extends OpenmrsService {
 	
@@ -30,7 +31,7 @@ public interface MycashierService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized()
+	//	@Authorized()
 	@Transactional(readOnly = true)
 	Item getItemByUuid(String uuid) throws APIException;
 	
@@ -42,7 +43,8 @@ public interface MycashierService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	
+	//@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Item saveItem(Item item) throws APIException;
 }

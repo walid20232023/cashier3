@@ -32,6 +32,7 @@ public class MycashierServiceImpl extends BaseOpenmrsService implements Mycashie
 	/**
 	 * Injected in moduleApplicationContext.xml
 	 */
+	
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
@@ -46,7 +47,6 @@ public class MycashierServiceImpl extends BaseOpenmrsService implements Mycashie
 		if (item.getOwner() == null) {
 			item.setOwner(userService.getUser(1));
 		}
-		
 		return dao.saveItem(item);
 	}
 }

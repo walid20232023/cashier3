@@ -4,13 +4,14 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Provision;
 import org.openmrs.module.mycashier.api.ProvisionService;
-import org.openmrs.module.mycashier.api.dao.PaymentDao;
 import org.openmrs.module.mycashier.api.dao.ProvisionDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class ProvisionServiceImpl extends BaseOpenmrsService implements ProvisionService {
+@Service("provisionService")
+public class ProvisionServiceImpl implements ProvisionService {
 	
 	@Autowired
 	ProvisionDao dao;

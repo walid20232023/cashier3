@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 /**
  * Contains module's config.
  */
+
 @Component("mycashier.MycashierConfig")
 public class MycashierConfig {
 	

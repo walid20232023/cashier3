@@ -4,70 +4,76 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.MyDrug;
+
 import org.openmrs.module.mycashier.MyDrugEmballage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Repository("mycashier.MyDrugDao")
 public class MyDrugDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
 	public MyDrug getMyDrugByUuid(String uuid) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
 		return (MyDrug) criteria.uniqueResult();
 	}
 	
 	public MyDrug getMyDrugById(Integer myDrugId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
 		criteria.add(Restrictions.eq("id", myDrugId));
 		return (MyDrug) criteria.uniqueResult();
 	}
 	
 	public List<MyDrug> getAllMyDrugs() {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
 		return criteria.list();
 	}
 	
 	public List<MyDrug> getAllRetiredMyDrugs() {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
 		criteria.add(Restrictions.eq("retired", 1)); // Assuming retired is marked with 1
 		return criteria.list();
 	}
 	
 	public MyDrug saveMyDrug(MyDrug myDrug) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(myDrug);
 		return myDrug;
 	}
 	
 	@Transactional
 	public void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Check if MyDrugEmballage entry exists
 		Criteria criteria = session.createCriteria(MyDrugEmballage.class);
-		criteria.add(Restrictions.eq("myDrug.id", drugId));
-		criteria.add(Restrictions.eq("emballage.id", emballageId));
+		criteria.createAlias("myDrug", "md");
+		criteria.createAlias("emballage", "e");
+		criteria.add(Restrictions.eq("md.id", drugId));
+		criteria.add(Restrictions.eq("e.id", emballageId));
 		
 		MyDrugEmballage myDrugEmballage = (MyDrugEmballage) criteria.uniqueResult();
 		
@@ -96,7 +102,7 @@ public class MyDrugDao {
 	
 	@Transactional
 	public Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Create Criteria to find MyDrugEmballage entry for the given Emballage and MyDrug
 		Criteria criteria = session.createCriteria(MyDrugEmballage.class);
@@ -110,7 +116,7 @@ public class MyDrugDao {
 	}
 	
 	public MyDrug deleteMyDrug(MyDrug myDrug) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		// Delete the MyDrug entity
 		session.delete(myDrug);

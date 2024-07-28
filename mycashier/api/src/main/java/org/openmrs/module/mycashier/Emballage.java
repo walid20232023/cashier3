@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "emballage", schema = "cashier")
+@Table(name = "emballage")
 public class Emballage {
 	
 	@Id

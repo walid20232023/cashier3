@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ligne_vente_drug", schema = "cashier")
+@Table(name = "ligne_vente_drug")
 public class LigneVenteDrug {
 	
 	@EmbeddedId
@@ -19,6 +19,9 @@ public class LigneVenteDrug {
 	@MapsId("myDrugId")
 	@JoinColumn(name = "my_drug_id")
 	private MyDrug myDrug;
+	
+	@Column(name = "quantity")
+	private Integer quantity;
 	
 	//Constructeurs
 	
@@ -51,9 +54,18 @@ public class LigneVenteDrug {
 		this.myDrug = myDrug;
 	}
 	
+	public Integer getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
 	@Override
 	public String toString() {
-		return "LigneVenteDrug{" + "id=" + id + ", venteDrug=" + venteDrug + ", myDrug=" + myDrug + '}';
+		return "LigneVenteDrug{" + "id=" + id + ", venteDrug=" + venteDrug + ", myDrug=" + myDrug + ", quantity=" + quantity
+		        + '}';
 	}
 	
 	@Embeddable

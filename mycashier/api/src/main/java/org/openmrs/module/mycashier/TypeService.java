@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "type_service", schema = "cashier")
+@Table(name = "type_service")
 public class TypeService {
 	
 	@Id
@@ -17,7 +17,7 @@ public class TypeService {
 	private String name;
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	@Column(name = "user_id")
 	private Integer userId;

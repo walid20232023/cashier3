@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "client", schema = "cashier")
+@Table(name = "client")
 public class Client {
 	
 	@Id
@@ -38,15 +38,9 @@ public class Client {
 	private Integer userId;
 	
 	@Column(name = "patient_id")
-	private Integer patientId;
+	private Integer patientId; //Consructeurs public Client() { } //
 	
-	//Consructeurs
-	
-	public Client() {
-	}
-	
-	// Getters and Setters
-	
+	//     Getters and Setters
 	public Integer getId() {
 		return id;
 	}
@@ -134,5 +128,4 @@ public class Client {
 	public void setPatientId(Integer patientId) {
 		this.patientId = patientId;
 	}
-	
 }

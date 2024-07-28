@@ -4,29 +4,32 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Provision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository("mycashier.ProvisionDao")
 public class ProvisionDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
 	// Get Provision by UUID
 	public Provision getProvisionByUuid(String uuid) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(Provision.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
 		return (Provision) criteria.uniqueResult();
@@ -34,7 +37,7 @@ public class ProvisionDao {
 	
 	// Get Provision by ID
 	public Provision getProvisionById(Integer provisionId) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(Provision.class);
 		criteria.add(Restrictions.eq("id", provisionId));
 		return (Provision) criteria.uniqueResult();
@@ -42,21 +45,21 @@ public class ProvisionDao {
 	
 	// Get All Provisions
 	public List<Provision> getAllProvisions() {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(Provision.class);
 		return criteria.list();
 	}
 	
 	// Save or Update Provision
 	public Provision saveProvision(Provision provision) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(provision);
 		return provision;
 	}
 	
 	// Delete Provision
 	public Provision deleteProvision(Provision provision) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(provision);
 		return provision;
 	}

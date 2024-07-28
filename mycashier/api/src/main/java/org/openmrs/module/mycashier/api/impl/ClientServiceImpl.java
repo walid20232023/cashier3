@@ -8,10 +8,11 @@ import org.openmrs.module.mycashier.api.ClientService;
 import org.openmrs.module.mycashier.api.dao.AssuranceDao;
 import org.openmrs.module.mycashier.api.dao.ClientDao;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
-public class ClientServiceImpl extends BaseOpenmrsService implements ClientService {
+@Service("clientService")
+public class ClientServiceImpl implements ClientService {
 	
 	@Autowired
 	ClientDao dao;

@@ -3,16 +3,19 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.Service;
-import org.openmrs.module.mycashier.VenteService;
 import org.openmrs.module.mycashier.LigneVenteService;
+import org.openmrs.module.mycashier.MyService;
+import org.openmrs.module.mycashier.VenteService;
+//import org.openmrs.module.mycashier.LigneVenteService;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Service
 public interface VenteServService {
 	
 	@Transactional(readOnly = true)
@@ -31,9 +34,6 @@ public interface VenteServService {
 	@Transactional
 	void addLigneToVenteService(Integer venteServiceId, Integer serviceId) throws APIException;
 	
-	@Transactional
-	void deleteLigneFromVenteService(VenteService venteService, Service service) throws APIException;
-	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	VenteService deleteVenteService(VenteService venteService) throws APIException;
@@ -51,4 +51,5 @@ public interface VenteServService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	LigneVenteService deleteLigneVenteService(LigneVenteService ligneVenteService) throws APIException;
+	
 }

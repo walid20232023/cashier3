@@ -5,25 +5,28 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Assurance;
 import org.openmrs.module.mycashier.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Repository("mycashier.ClientDao")
 public class ClientDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	DbSessionFactory sessionFactory;
 	
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 	
@@ -47,7 +50,7 @@ public class ClientDao {
 	
 	@Transactional
 	public void addAssuranceToClient(Assurance assurance, Client client) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		// Ajout d'une assurance au client via la table client_assurance
 		session.createSQLQuery("INSERT INTO client_assurance (client_id, assurance_id) VALUES (:clientId, :assuranceId)")
 		        .setParameter("clientId", client.getId()).setParameter("assuranceId", assurance.getId()).executeUpdate();
@@ -55,7 +58,7 @@ public class ClientDao {
 	
 	@Transactional
 	public void deleteAssuranceFromClient(Assurance assurance, Client client) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		// Suppression de l'assurance du client via la table client_assurance
 		session.createSQLQuery("DELETE FROM client_assurance WHERE client_id = :clientId AND assurance_id = :assuranceId")
 		        .setParameter("clientId", client.getId()).setParameter("assuranceId", assurance.getId()).executeUpdate();
@@ -63,7 +66,7 @@ public class ClientDao {
 	
 	@Transactional
 	public Client deleteClient(Client client) {
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(client);
 		return client;
 	}

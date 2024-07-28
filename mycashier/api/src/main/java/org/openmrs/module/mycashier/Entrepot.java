@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "entrepot", schema = "cashier")
+@Table(name = "entrepot")
 public class Entrepot {
 	
 	@Id
@@ -23,7 +23,7 @@ public class Entrepot {
 	private String uuid = UUID.randomUUID().toString();
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	@ManyToOne
 	@JoinColumn(name = "creator_id")

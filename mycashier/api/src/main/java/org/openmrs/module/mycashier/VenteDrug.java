@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.openmrs.User;
 
 @Entity
-@Table(name = "vente_drug", schema = "cashier")
+@Table(name = "vente_drug")
 public class VenteDrug implements Serializable {
 	
 	@Id
@@ -33,12 +33,8 @@ public class VenteDrug implements Serializable {
 	@JoinColumn(name = "entrepot_id")
 	private Entrepot entrepot;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-	
 	@Column(name = "date_creation")
-	private Date dateCreation;
+	private LocalDateTime dateCreation = LocalDateTime.now();
 	
 	//Constructeurs
 	
@@ -95,27 +91,11 @@ public class VenteDrug implements Serializable {
 		this.entrepot = entrepot;
 	}
 	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-	
-	public void setDateCreation(Date dateCreation) {
+	public void setDateCreation(LocalDateTime dateCreation) {
 		this.dateCreation = dateCreation;
 	}
 	
-	@PrePersist
-	protected void onCreate() {
-		if (this.dateCreation == null) {
-			this.dateCreation = new Date();
-		}
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
 	}
-	
 }

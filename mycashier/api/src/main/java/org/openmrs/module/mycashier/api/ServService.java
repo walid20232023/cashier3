@@ -2,40 +2,41 @@ package org.openmrs.module.mycashier.api;
 
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
-import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.Service;
+import org.openmrs.module.mycashier.MyService;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.TypeService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Service
 public interface ServService {
 	
 	@Transactional(readOnly = true)
-	Service getServiceByUuid(String uuid) throws APIException;
+	MyService getServiceByUuid(String uuid) throws APIException;
 	
 	@Transactional(readOnly = true)
-	Service getServiceById(Integer serviceId) throws APIException;
+	MyService getServiceById(Integer serviceId) throws APIException;
 	
 	@Transactional(readOnly = true)
-	Service getServiceByName(String serviceName) throws APIException;
+	MyService getServiceByName(String serviceName) throws APIException;
 	
 	@Transactional(readOnly = true)
-	List<Service> getAllServices() throws APIException;
+	List<MyService> getAllServices() throws APIException;
 	
 	@Transactional(readOnly = true)
-	List<Service> getAllServicesByTypeService(Integer typeServiceId) throws APIException;
+	List<MyService> getAllServicesByTypeService(Integer typeServiceId) throws APIException;
 	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-	Service saveService(Service service) throws APIException;
+	MyService saveService(MyService service) throws APIException;
 	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-	Service deleteService(Service service) throws APIException;
+	MyService deleteService(MyService service) throws APIException;
 	
 	@Transactional(readOnly = true)
 	TypeService getTypeServiceByUuid(String uuid) throws APIException;

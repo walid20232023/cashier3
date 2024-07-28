@@ -6,10 +6,12 @@ import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.api.EmballageService;
 import org.openmrs.module.mycashier.api.dao.EmballageDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class EmballageServiceImpl extends BaseOpenmrsService implements EmballageService {
+@Service("emballageService")
+public class EmballageServiceImpl implements EmballageService {
 	
 	@Autowired
 	EmballageDao dao;

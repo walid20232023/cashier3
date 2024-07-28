@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "payment", schema = "cashier")
+@Table(name = "payment")
 public class Payment implements Serializable {
 	
 	@Id
@@ -15,7 +15,7 @@ public class Payment implements Serializable {
 	private Integer id;
 	
 	@Column(name = "date_payment")
-	private LocalDateTime localDateTime;
+	private LocalDateTime datePayment = LocalDateTime.now();
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
@@ -53,12 +53,12 @@ public class Payment implements Serializable {
 		this.id = id;
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+	public LocalDateTime getDatePayment() {
+		return datePayment;
 	}
 	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+	public void setDatePayment(LocalDateTime datePayment) {
+		this.datePayment = datePayment;
 	}
 	
 	public String getUuid() {

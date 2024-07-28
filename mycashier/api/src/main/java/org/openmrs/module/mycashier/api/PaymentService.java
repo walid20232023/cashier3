@@ -7,11 +7,13 @@ import org.openmrs.module.mycashier.Payment;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.VenteService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Service
 public interface PaymentService {
 	
 	@Transactional(readOnly = true)

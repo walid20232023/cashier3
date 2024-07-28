@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
-@Table(name = "inventaire", schema = "cashier")
+@Table(name = "inventaire")
 public class Inventaire {
 	
 	@Id
@@ -26,10 +27,10 @@ public class Inventaire {
 	private Agent superviseur;
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime;
+	private LocalDateTime dateCreation = LocalDateTime.now();
 	
-	@Column(name = "uuid", length = 38)
-	private String uuid;
+	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
+	private String uuid = UUID.randomUUID().toString();
 	
 	// Default constructor
 	public Inventaire() {
@@ -69,12 +70,12 @@ public class Inventaire {
 		this.superviseur = superviseur;
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
 	}
 	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+	public void setDateCreation(LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 	
 	public String getUuid() {
