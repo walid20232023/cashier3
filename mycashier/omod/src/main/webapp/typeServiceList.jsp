@@ -51,7 +51,7 @@
 
 <div class="container">
     <h1>Liste de types de services</h1>
-    <a href="<%= request.getContextPath() %>/module/mycashier/assuranceForm.form" class="add-button">
+    <a href="<%= request.getContextPath() %>/module/mycashier/typeServiceForm.form" class="add-button">
         <i class="icon-plus"></i> Ajouter un type de service
     </a>
     <table>
@@ -62,7 +62,7 @@
         </thead>
         <tbody>
             <c:forEach var="typeService" items="${typeServiceList}">
-                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/assuranceForm.form?id=${assurance.id}'">
+                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/typeServiceForm.form?id=${typeService.id}'">
                     <td>${typeService.name}</td>
                 </tr>
             </c:forEach>
