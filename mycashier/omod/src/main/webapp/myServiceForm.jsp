@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ajouter/Modifier Assurance</title>
+    <title>Ajouter/Modifier Service</title>
     <style>
         .container {
             padding: 20px;
@@ -44,23 +44,23 @@
 <body>
 
 <div class="container">
-    <h1>Ajouter/Modifier Assurance</h1>
+    <h1>Ajouter/Modifier Service</h1>
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>
     </c:if>
     <form action="<%= request.getContextPath() %>/module/mycashier/assuranceForm.form" method="post">
-        <input type="hidden" id="id" name="id" value="${assurance.id}">
+        <input type="hidden" id="id" name="id" value="${myService.id}">
         <div class="form-group">
             <label for="name">Nom de l'Assurance</label>
-            <input type="text" id="name" name="name" value="${assurance.name}" required>
+            <input type="text" id="name" name="name" value="${myService.name}" required>
         </div>
         <div class="form-group">
             <label for="address">Adresse</label>
-            <input type="text" id="address" name="address" value="${assurance.address}">
+            <input type="text" id="address" name="address" value="${myService.address}">
         </div>
         <div class="form-group">
             <label for="telephone">Téléphone</label>
-            <input type="text" id="telephone" name="telephone" value="${assurance.telephone}">
+            <input type="text" id="telephone" name="telephone" value="${myService.telephone}">
         </div>
         <button type="submit" class="submit-button">Enregistrer Assurance</button>
     </form>
