@@ -43,7 +43,7 @@ public class AdminList extends AdministrationSectionExt {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
-		map.put("module/mycashier/test.form", "mycashier.title");
+		map.put("module/mycashier/assuranceList.form", "mycashier.manage.assurance");
 		
 		return map;
 	}
