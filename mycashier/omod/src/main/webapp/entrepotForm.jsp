@@ -43,29 +43,26 @@
 <body>
 
 <div class="container">
-    <h1>Ajouter/Modifier Service</h1>
+    <h1>Ajouter/Modifier Entrepot</h1>
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>
     </c:if>
-    <form action="<%= request.getContextPath() %>/module/mycashier/serviceForm.form" method="post">
-        <input type="hidden" id="id" name="id" value="${service.id}">
+    <form action="<%= request.getContextPath() %>/module/mycashier/entrepotForm.form" method="post">
+        <input type="hidden" id="id" name="id" value="${entrepot.id}">
         <div class="form-group">
-            <label for="name">Nom du service</label>
-            <input type="text" id="name" name="name" value="${service.name}" required>
+            <label for="name">Nom entrepot</label>
+            <input type="text" id="name" name="name" value="${entrepot.name}" required>
         </div>
         <div class="form-group">
-            <label for="typeServiceId">Type du service</label>
-            <select id="typeServiceId" name="typeServiceId" required>
-                <c:forEach var="typeService" items="${typeServices}">
-                    <option value="${typeService.id}" <c:if test="${typeService.id == service.typeService.id}">selected</c:if>>${typeService.name}</option>
+            <label for="agentId">Agent</label>
+            <select id="agentId" name="agentId" required>
+                <c:forEach var="agent" items="${agents}">
+                    <option value="${agent.id}" <c:if test="${agent.id == entrepot.agent.id}">selected</c:if>>${agent.username}</option>
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
-            <label for="price">Prix</label>
-            <input type="number" id="price" name="price" value="${service.price}" required>
-        </div>
-        <button type="submit" class="submit-button">Enregistrer Service</button>
+
+        <button type="submit" class="submit-button">Enregistrer</button>
     </form>
 </div>
 

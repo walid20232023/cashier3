@@ -50,26 +50,20 @@
 <body>
 
 <div class="container">
-    <h1>Liste des Assurances</h1>
-    <a href="<%= request.getContextPath() %>/module/mycashier/assuranceForm.form" class="add-button">
-        <i class="icon-plus"></i> Ajouter Assurance
+    <h1>Liste de types de services</h1>
+    <a href="<%= request.getContextPath() %>/module/mycashier/emballageForm.form" class="add-button">
+        <i class="icon-plus"></i> Ajouter un emballage
     </a>
     <table>
         <thead>
             <tr>
-                <th>Nom Assurance</th>
-                <th>Adresse</th>
-                <th>Téléphone</th>
-                <th>Date de Création</th>
+                <th>Libellé</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="assurance" items="${assuranceList}">
-                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/assuranceForm.form?id=${assurance.id}'">
-                    <td>${assurance.name}</td>
-                    <td>${assurance.address}</td>
-                    <td>${assurance.telephone}</td>
-                    <td>${assurance.localDateTime}</td>
+            <c:forEach var="emballage" items="${emballages}">
+                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/emballageForm.form?id=${emballage.id}'">
+                    <td>${emballage.name}</td>
                 </tr>
             </c:forEach>
         </tbody>

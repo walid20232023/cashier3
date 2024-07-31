@@ -40,7 +40,6 @@ public class AgentDao {
 	}
 	
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public List<Agent> getAllAgents() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Agent.class);
 		criteria.addOrder(Order.asc("username")); // Tri par username, changez selon votre besoin

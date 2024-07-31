@@ -32,7 +32,7 @@ public class AgentServiceImpl implements AgentService {
 	
 	@Override
 	public List<Agent> getAllAgents() throws APIException {
-		return null;
+		return dao.getAllAgents();
 	}
 	
 	@Override

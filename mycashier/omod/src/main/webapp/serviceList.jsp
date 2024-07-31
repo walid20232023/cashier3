@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Liste des Assurances</title>
+    <title>Liste des Services</title>
     <style>
         /* Style for the table */
         table {
@@ -51,25 +51,24 @@
 
 <div class="container">
     <h1>Liste des Assurances</h1>
-    <a href="<%= request.getContextPath() %>/module/mycashier/assuranceForm.form" class="add-button">
-        <i class="icon-plus"></i> Ajouter Assurance
+    <a href="<%= request.getContextPath() %>/module/mycashier/serviceForm.form" class="add-button">
+        <i class="icon-plus"></i> Ajouter Service
     </a>
     <table>
         <thead>
             <tr>
-                <th>Nom Assurance</th>
-                <th>Adresse</th>
-                <th>Téléphone</th>
+                <th>Nom Service</th>
+                <th>Type du service</th>
+                <th>Prix</th>
                 <th>Date de Création</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="assurance" items="${assuranceList}">
-                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/assuranceForm.form?id=${assurance.id}'">
-                    <td>${assurance.name}</td>
-                    <td>${assurance.address}</td>
-                    <td>${assurance.telephone}</td>
-                    <td>${assurance.localDateTime}</td>
+            <c:forEach var="service" items="${serviceList}">
+                <tr onclick="window.location='<%= request.getContextPath() %>/module/mycashier/serviceForm.form?id=${service.id}'">
+                    <td>${service.name}</td>
+                    <td>${service.typeService.name}</td>
+                    <td>${service.price}</td>
                 </tr>
             </c:forEach>
         </tbody>

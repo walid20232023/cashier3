@@ -1,13 +1,12 @@
 package org.openmrs.module.mycashier;
 
-import org.openmrs.Drug;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "my_drug")
-public class MyDrug extends Drug {
+public class MyDrug {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,33 +16,24 @@ public class MyDrug extends Drug {
 	private Integer baseInam;
 	
 	@Column(name = "price")
-	private Long price;
+	private Integer price;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "date_creation")
+	private LocalDateTime dateCreated = LocalDateTime.now();
+	
+	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
+	private String uuid = UUID.randomUUID().toString();
+	
+	@Column(name = "drug_id")
+	private Integer drugId;
 	
 	public MyDrug() {
-		super();
 	}
 	
-	public MyDrug(Drug drug) {
-		super();
-		this.setDrugId(drug.getDrugId());
-		this.setConcept(drug.getConcept());
-		this.setName(drug.getName());
-		this.setCombination(drug.getCombination());
-		this.setDosageForm(drug.getDosageForm());
-		this.setMaximumDailyDose(drug.getMaximumDailyDose());
-		this.setMinimumDailyDose(drug.getMinimumDailyDose());
-		this.setCreator(drug.getCreator());
-		this.setDateCreated(drug.getDateCreated());
-		this.setRetired(drug.getRetired());
-		this.setChangedBy(drug.getChangedBy());
-		this.setDateChanged(drug.getDateChanged());
-		this.setRetiredBy(drug.getRetiredBy());
-		this.setDateRetired(drug.getDateRetired());
-		this.setRetireReason(drug.getRetireReason());
-		this.setUuid(drug.getUuid());
-		this.setStrength(drug.getStrength());
-		
-	}
+	// Getters and setters for all fields
 	
 	public Integer getId() {
 		return id;
@@ -61,11 +51,44 @@ public class MyDrug extends Drug {
 		this.baseInam = baseInam;
 	}
 	
-	public Long getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 	
-	public void setPrice(Long price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setDateCreated(LocalDateTime dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+	
+	public LocalDateTime getDateCreated() {
+		return dateCreated;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+	
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public Integer getDrugId() {
+		return drugId;
+	}
+	
+	public void setDrugId(Integer drugId) {
+		this.drugId = drugId;
+	}
+	
 }

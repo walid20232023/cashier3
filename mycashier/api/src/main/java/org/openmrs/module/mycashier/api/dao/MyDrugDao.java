@@ -31,6 +31,7 @@ public class MyDrugDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	@Transactional
 	public MyDrug getMyDrugByUuid(String uuid) {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
@@ -38,6 +39,7 @@ public class MyDrugDao {
 		return (MyDrug) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public MyDrug getMyDrugById(Integer myDrugId) {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
@@ -45,12 +47,14 @@ public class MyDrugDao {
 		return (MyDrug) criteria.uniqueResult();
 	}
 	
+	@Transactional
 	public List<MyDrug> getAllMyDrugs() {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
 		return criteria.list();
 	}
 	
+	@Transactional
 	public List<MyDrug> getAllRetiredMyDrugs() {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
@@ -58,6 +62,7 @@ public class MyDrugDao {
 		return criteria.list();
 	}
 	
+	@Transactional
 	public MyDrug saveMyDrug(MyDrug myDrug) {
 		DbSession session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(myDrug);

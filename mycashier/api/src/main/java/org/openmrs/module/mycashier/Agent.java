@@ -1,6 +1,10 @@
 package org.openmrs.module.mycashier;
 
+import org.openmrs.User;
+import org.openmrs.api.context.Context;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,7 +22,7 @@ public class Agent {
 	@Column(name = "user_id")
 	private Integer userId;
 	
-	@Column(name = "system_id", nullable = false, length = 50)
+	@Column(name = "system_id", length = 50)
 	private String systemId;
 	
 	@Column(name = "username", length = 50)
@@ -28,11 +32,10 @@ public class Agent {
 	private String secretQuestion;
 	
 	@Column(name = "creator", nullable = false)
-	private Integer creator;
+	private Integer creator = Context.getAuthenticatedUser().getId();
 	
 	@Column(name = "date_created")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateCreated;
+	private LocalDateTime dateCreated = LocalDateTime.now();
 	
 	@Column(name = "changed_by")
 	private Integer changedBy;
@@ -51,7 +54,6 @@ public class Agent {
 	private Integer retiredBy;
 	
 	@Column(name = "date_retired")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateRetired;
 	
 	@Column(name = "retire_reason", length = 255)
@@ -62,6 +64,16 @@ public class Agent {
 	
 	// Default constructor
 	public Agent() {
+	}
+	
+	public static Agent userToAgent(User user) {
+		Agent agent = new Agent();
+		agent.setUserId(user.getUserId());
+		agent.setUsername(user.getUsername());
+		agent.setPersonId(user.getPerson().getId());
+		agent.setSystemId(user.getSystemId());
+		return agent;
+		
 	}
 	
 	// Getters and setters
@@ -121,11 +133,11 @@ public class Agent {
 		this.creator = creator;
 	}
 	
-	public Date getDateCreated() {
+	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
 	
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(LocalDateTime dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 	

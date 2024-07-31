@@ -45,7 +45,11 @@ public class AdminList extends AdministrationSectionExt {
 		
 		map.put("module/mycashier/assuranceList.form", "mycashier.manage.assurance");
 		map.put("module/mycashier/typeServiceList.form", "mycashier.manage.typeService");
-		
+		map.put("module/mycashier/serviceList.form", "mycashier.manage.service");
+		map.put("module/mycashier/emballageList.form", "mycashier.manage.emballage");
+		map.put("module/mycashier/agentList.form", "mycashier.manage.agent");
+		map.put("module/mycashier/entrepotList.form", "mycashier.manage.entrepot");
+		map.put("module/mycashier/drugList.form", "mycashier.manage.medicament");
 		return map;
 	}
 	

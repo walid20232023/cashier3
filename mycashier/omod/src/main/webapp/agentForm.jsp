@@ -47,25 +47,21 @@
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>
     </c:if>
-    <form action="<%= request.getContextPath() %>/module/mycashier/serviceForm.form" method="post">
-        <input type="hidden" id="id" name="id" value="${service.id}">
+    <form action="<%= request.getContextPath() %>/module/mycashier/agentForm.form" method="post">
+        <input type="hidden" id="id" name="id" value="${agent.id}">
         <div class="form-group">
-            <label for="name">Nom du service</label>
-            <input type="text" id="name" name="name" value="${service.name}" required>
+            <label for="name">Nom Agent</label>
+            <input type="text" id="name" name="name" value="${agent.username}" required>
         </div>
         <div class="form-group">
-            <label for="typeServiceId">Type du service</label>
-            <select id="typeServiceId" name="typeServiceId" required>
-                <c:forEach var="typeService" items="${typeServices}">
-                    <option value="${typeService.id}" <c:if test="${typeService.id == service.typeService.id}">selected</c:if>>${typeService.name}</option>
+            <label for="userId">User</label>
+            <select id="userId" name="userId" required>
+                <c:forEach var="user" items="${users}">
+                    <option value="${user.id}" <c:if test="${user.id == agent.userId}">selected</c:if>>${user.username}</option>
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
-            <label for="price">Prix</label>
-            <input type="number" id="price" name="price" value="${service.price}" required>
-        </div>
-        <button type="submit" class="submit-button">Enregistrer Service</button>
+        <button type="submit" class="submit-button">Enregistrer Agent</button>
     </form>
 </div>
 

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ajouter/Modifier Service</title>
+    <title>Ajouter/Modifier Medicament</title>
     <style>
         .container {
             padding: 20px;
@@ -43,29 +43,31 @@
 <body>
 
 <div class="container">
-    <h1>Ajouter/Modifier Service</h1>
+    <h1>Ajouter/Modifier Medicament</h1>
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>
     </c:if>
-    <form action="<%= request.getContextPath() %>/module/mycashier/serviceForm.form" method="post">
-        <input type="hidden" id="id" name="id" value="${service.id}">
+    <form action="<%= request.getContextPath() %>/module/mycashier/drugForm.form" method="post">
+        <input type="hidden" id="id" name="id" value="${drug.id}">
+       <div class="form-group">
+           <label for="baseInam">Base INAM</label>
+           <input type="number" id="baseInam" name="baseInam" value="${drug.baseInam}">
+       </div>
+
+       <div class="form-group">
+           <label for="price">Prix</label>
+           <input type="number" id="price" name="price" value="${drug.price}">
+       </div>
         <div class="form-group">
-            <label for="name">Nom du service</label>
-            <input type="text" id="name" name="name" value="${service.name}" required>
-        </div>
-        <div class="form-group">
-            <label for="typeServiceId">Type du service</label>
-            <select id="typeServiceId" name="typeServiceId" required>
-                <c:forEach var="typeService" items="${typeServices}">
-                    <option value="${typeService.id}" <c:if test="${typeService.id == service.typeService.id}">selected</c:if>>${typeService.name}</option>
+            <label for="drugId">Medicament de référence</label>
+            <select id="drugId" name="drugId" required>
+                <c:forEach var="originDrug" items="${drugs}">
+                    <option value="${originDrug.id}" <c:if test="${originDrug.id == drug.drugId}">selected</c:if>>${originDrug.name}</option>
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
-            <label for="price">Prix</label>
-            <input type="number" id="price" name="price" value="${service.price}" required>
-        </div>
-        <button type="submit" class="submit-button">Enregistrer Service</button>
+
+        <button type="submit" class="submit-button">Enregistrer</button>
     </form>
 </div>
 
