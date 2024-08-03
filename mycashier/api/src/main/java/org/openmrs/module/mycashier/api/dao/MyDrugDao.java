@@ -3,6 +3,7 @@ package org.openmrs.module.mycashier.api.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
@@ -129,4 +130,23 @@ public class MyDrugDao {
 		// Return the deleted entity or null if needed
 		return myDrug;
 	}
+	
+	@Transactional
+	public List<MyDrug> searchDrugs(String query) {
+		// Créer un objet Criteria pour MyDrug
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MyDrug.class);
+		
+		// Créer une disjonction pour combiner les conditions OR
+		Disjunction disjunction = Restrictions.disjunction();
+		disjunction.add(Restrictions.ilike("name", "%" + query + "%"));
+		disjunction.add(Restrictions.ilike("dci", "%" + query + "%"));
+		disjunction.add(Restrictions.ilike("groupeTherap", "%" + query + "%"));
+		
+		// Ajouter la disjonction au critère
+		criteria.add(disjunction);
+		
+		// Exécuter la requête et retourner les résultats
+		return criteria.list();
+	}
+	
 }

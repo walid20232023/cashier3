@@ -14,11 +14,37 @@ public class StockEntrepot implements Serializable {
 	@EmbeddedId
 	private StockEntrepotId id;
 	
+	@ManyToOne
+	@MapsId("myDrugId")
+	@JoinColumn(name = "my_drug_id")
+	private MyDrug myDrug;
+	
+	@ManyToOne
+	@MapsId("entrepotId")
+	@JoinColumn(name = "entrepot_id")
+	private Entrepot entrepot;
+	
 	@Column(name = "date_modification")
 	private LocalDateTime localDateTime = LocalDateTime.now();
 	
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;
+	
+	public void setMyDrug(MyDrug myDrug) {
+		this.myDrug = myDrug;
+	}
+	
+	public void setEntrepot(Entrepot entrepot) {
+		this.entrepot = entrepot;
+	}
+	
+	public MyDrug getMyDrug() {
+		return myDrug;
+	}
+	
+	public Entrepot getEntrepot() {
+		return entrepot;
+	}
 	
 	//Constructeurs
 	

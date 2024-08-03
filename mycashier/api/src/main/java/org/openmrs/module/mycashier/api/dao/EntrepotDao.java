@@ -62,8 +62,11 @@ public class EntrepotDao {
 	@Transactional
 	public StockEntrepot getStockByEntrepotAndDrug(Integer entrepotId, Integer drugId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(StockEntrepot.class);
-		criteria.add(Restrictions.eq("entrepotId", entrepotId));
-		criteria.add(Restrictions.eq("myDrugId", drugId));
+		criteria.createAlias("myDrug", "md");
+		criteria.createAlias("entrepot", "e");
+		criteria.add(Restrictions.eq("md.id", drugId));
+		criteria.add(Restrictions.eq("e.id", entrepotId));
+		
 		return (StockEntrepot) criteria.uniqueResult();
 	}
 	

@@ -31,8 +31,8 @@ public class Agent {
 	@Column(name = "secret_question", length = 255)
 	private String secretQuestion;
 	
-	@Column(name = "creator", nullable = false)
-	private Integer creator = Context.getAuthenticatedUser().getId();
+	@Column(name = "creator")
+	private Integer creator;
 	
 	@Column(name = "date_created")
 	private LocalDateTime dateCreated = LocalDateTime.now();

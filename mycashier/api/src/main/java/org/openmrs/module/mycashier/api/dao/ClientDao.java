@@ -3,6 +3,7 @@ package org.openmrs.module.mycashier.api.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
@@ -87,4 +88,22 @@ public class ClientDao {
 		criteria.addOrder(Order.asc("name")); // Tri par nom, changez selon votre besoin
 		return (List<Client>) criteria.list();
 	}
+	
+	@Transactional
+	public List<Client> searchClients(String query) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Client.class);
+		
+		System.out.println("Méthode client appellée dans le DAO");
+		// Utiliser une disjonction pour combiner plusieurs conditions
+		Disjunction disjunction = Restrictions.disjunction();
+		//disjunction.add(Restrictions.ilike("id", "%" + query + "%"));
+		disjunction.add(Restrictions.ilike("name", "%" + query + "%"));
+		disjunction.add(Restrictions.ilike("firstnames", "%" + query + "%"));
+		
+		// Appliquer la disjonction au critère
+		criteria.add(disjunction);
+		
+		return criteria.list();
+	}
+	
 }

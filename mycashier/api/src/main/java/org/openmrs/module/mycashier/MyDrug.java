@@ -21,6 +21,15 @@ public class MyDrug {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "cip")
+	private String cip;
+	
+	@Column(name = "groupe_therap")
+	private String groupeTherap;
+	
+	@Column(name = "dci")
+	private String dci;
+	
 	@Column(name = "date_creation")
 	private LocalDateTime dateCreated = LocalDateTime.now();
 	
@@ -31,6 +40,30 @@ public class MyDrug {
 	private Integer drugId;
 	
 	public MyDrug() {
+	}
+	
+	public String getCip() {
+		return cip;
+	}
+	
+	public String getGroupeTherap() {
+		return groupeTherap;
+	}
+	
+	public void setCip(String cip) {
+		this.cip = cip;
+	}
+	
+	public void setGroupeTherap(String groupeTherap) {
+		this.groupeTherap = groupeTherap;
+	}
+	
+	public void setDci(String dci) {
+		this.dci = dci;
+	}
+	
+	public String getDci() {
+		return dci;
 	}
 	
 	// Getters and setters for all fields

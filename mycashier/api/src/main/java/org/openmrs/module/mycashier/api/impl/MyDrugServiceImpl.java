@@ -60,4 +60,9 @@ public class MyDrugServiceImpl implements MyDrugService {
 	public MyDrug deleteMyDrug(MyDrug myDrug) throws APIException {
 		return dao.deleteMyDrug(myDrug);
 	}
+	
+	@Override
+	public List<MyDrug> searchDrugs(String query) {
+		return dao.searchDrugs(query);
+	}
 }

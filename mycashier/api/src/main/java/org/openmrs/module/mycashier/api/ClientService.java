@@ -40,4 +40,7 @@ public interface ClientService {
 	
 	@Transactional(readOnly = true)
 	List<Client> getAllClients() throws APIException;
+	
+	@Transactional(readOnly = true)
+	List<Client> searchClients(String query) throws APIException;
 }

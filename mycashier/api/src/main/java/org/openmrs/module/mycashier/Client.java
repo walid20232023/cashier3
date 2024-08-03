@@ -1,8 +1,11 @@
 package org.openmrs.module.mycashier;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,16 +16,22 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
+	
+	@Column(name = "firstnames")
+	private String firstnames;
 	
 	@Column(name = "birth_date")
 	private Date birthDate;
 	
+	@Column(name = "age")
 	private Integer age;
 	
+	@Column(name = "sex")
 	private String sex;
 	
+	@Column(name = "address")
 	private String address;
 	
 	@Column(name = "telephon")
@@ -39,6 +48,25 @@ public class Client {
 	
 	@Column(name = "patient_id")
 	private Integer patientId; //Consructeurs public Client() { } //
+	
+	@Transient
+	private List<Assurance> assuranceList;
+	
+	public List<Assurance> getAssuranceList() {
+		return assuranceList;
+	}
+	
+	public void setAssuranceList(List<Assurance> assuranceList) {
+		this.assuranceList = assuranceList;
+	}
+	
+	public String getFirstnames() {
+		return firstnames;
+	}
+	
+	public void setFirstnames(String firstnames) {
+		this.firstnames = firstnames;
+	}
 	
 	//     Getters and Setters
 	public Integer getId() {

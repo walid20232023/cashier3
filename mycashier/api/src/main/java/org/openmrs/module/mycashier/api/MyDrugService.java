@@ -42,4 +42,6 @@ public interface MyDrugService {
 	@Transactional
 	MyDrug deleteMyDrug(MyDrug myDrug) throws APIException;
 	
+	@Transactional
+	List<MyDrug> searchDrugs(String query);
 }

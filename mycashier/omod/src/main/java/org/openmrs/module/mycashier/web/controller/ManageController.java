@@ -9,11 +9,13 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.mycashier.*;
 import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,18 +46,49 @@ public class ManageController {
 	@Autowired
 	private ConceptService conceptService;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	//______________________________AFFICHAGE ASSURANCES____________________________________________________________________
-	@RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET)
-	public String assuranceListView(ModelMap model) {
-		List<Assurance> assuranceList = null;
+	/**
+	 * @ResponseBody
+	 * @RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET, produces =
+	 *                       "application/json") public List<Client> assuranceListView(ModelMap
+	 *                       model) { List<Assurance> assuranceList = null; try { assuranceList =
+	 *                       assuranceService.getAllAssurances(); } catch (Exception exception) {}
+	 *                       // Ajouter la liste au modèle model.addAttribute("assuranceList",
+	 *                       assuranceList); List<Client> clients =
+	 *                       clientService.searchClients("gogo"); return clients; //return
+	 *                       "module/mycashier/assuranceList"; // Assurez-vous que cette vue existe
+	 *                       dans le bon dossier }
+	 **/
+	
+	@ResponseBody
+	@RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET, produces = "application/json")
+	public List<Client> assuranceListView() {
+		List<Client> clients = null;
 		try {
-			assuranceList = assuranceService.getAllAssurances();
+			// Optionnel: si vous avez besoin de récupérer des assurances
+			List<Assurance> assuranceList = assuranceService.getAllAssurances();
+			// Vous pouvez traiter assuranceList ici si nécessaire
 		}
-		catch (Exception exception) {}
-		// Ajouter la liste au modèle
-		model.addAttribute("assuranceList", assuranceList);
-		return "module/mycashier/assuranceList"; // Assurez-vous que cette vue existe dans le bon dossier
+		catch (Exception exception) {
+			// Gérer les exceptions ici si nécessaire
+			exception.printStackTrace(); // pour le débogage
+		}
+		// Retourne directement la liste des clients en format JSON
+		clients = clientService.searchClients("gogo");
+		return clients;
 	}
+	
+	//------------------Search client Controller------------------------------------------------
+	/**
+	 * @ResponseBody
+	 * @RequestMapping(value = "/searchClient.form", method = RequestMethod.GET) public List<Client>
+	 *                       searchClient(@RequestParam("query") String query) {
+	 *                       System.out.println("Méthode client appellée dans le controleur");
+	 *                       return clientService.searchClients(query); }
+	 **/
 	
 	//______________________AJOUT ASSURANCE----------------------------------------------------------------------
 	
@@ -492,7 +525,7 @@ public class ManageController {
 			
 			myDrug.setPrice(price);
 			myDrug.setBaseInam(baseInam);
-
+			
 			myDrugService.saveMyDrug(myDrug);
 			return "redirect:/module/mycashier/drugList.form";
 		}

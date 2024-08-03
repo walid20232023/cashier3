@@ -60,4 +60,9 @@ public class ClientServiceImpl implements ClientService {
 	public List<Client> getAllClients() throws APIException {
 		return dao.getAllClients();
 	}
+	
+	@Override
+	public List<Client> searchClients(String query) throws APIException {
+		return dao.searchClients(query);
+	}
 }
