@@ -54,11 +54,6 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	}
 	
 	@Override
-	public void addLigneToVenteDrug(MyDrug myDrug, VenteDrug venteDrug, Integer quantity) throws APIException {
-		dao.addLigneToVenteDrug(myDrug, venteDrug, quantity);
-	}
-	
-	@Override
 	public void deleteLigneFromVenteDrug(MyDrug myDrug, VenteDrug venteDrug) throws APIException {
 		dao.deleteLigneFromVenteDrug(myDrug, venteDrug);
 	}
@@ -66,5 +61,17 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	@Override
 	public VenteDrug deleteVenteDrug(VenteDrug venteDrug) throws APIException {
 		return dao.deleteVenteDrug(venteDrug);
+	}
+	
+	@Override
+	public List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException {
+		dao.getAllLignesByVenteDrug(venteDrug);
+		return null;
+	}
+	
+	@Override
+	public void addLigneToVenteDrug(VenteDrug venteDrug, LigneVenteDrug ligneVenteDrug) {
+		dao.addLigneToVenteDrug(venteDrug, ligneVenteDrug);
+		
 	}
 }

@@ -1,5 +1,6 @@
 package org.openmrs.module.mycashier.api.impl;
 
+import org.openmrs.User;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Agent;
@@ -43,6 +44,11 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public Agent deleteAgent(Agent agent) throws APIException {
 		return dao.deleteAgent(agent);
+	}
+	
+	@Override
+	public Agent getAgentByUserId(User user) throws APIException {
+		return dao.getAgentByUserId(user);
 	}
 	
 }

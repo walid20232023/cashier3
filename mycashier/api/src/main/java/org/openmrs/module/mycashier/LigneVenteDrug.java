@@ -23,12 +23,23 @@ public class LigneVenteDrug {
 	@Column(name = "quantity")
 	private Integer quantity;
 	
+	@Column(name = "price")
+	private Integer price;
+	
 	//Constructeurs
 	
 	public LigneVenteDrug() {
 	}
 	
 	// Getters and Setters
+	
+	public Integer getPrice() {
+		return price;
+	}
+	
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
 	
 	public LigneVenteDrugId getId() {
 		return id;

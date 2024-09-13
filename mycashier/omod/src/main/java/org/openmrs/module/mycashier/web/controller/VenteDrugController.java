@@ -1,20 +1,20 @@
 package org.openmrs.module.mycashier.web.controller;
 
-import org.openmrs.api.ConceptService;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.mycashier.Assurance;
-import org.openmrs.module.mycashier.Client;
-import org.openmrs.module.mycashier.ClientAssurance;
-
+import org.openmrs.module.mycashier.*;
 import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +26,18 @@ public class VenteDrugController {
 	
 	@Autowired
 	private AssuranceService assuranceService;
+	
+	@Autowired
+	private VenteDrugService venteDrugService;
+	
+	@Autowired
+	private AgentService agentService;
+	
+	@Autowired
+	private EntrepotService entrepotService;
+	
+	@Autowired
+	private MyDrugService myDrugService;
 	
 	//______________________________AFFICHAGE ACCUEIL PHARMACIE____________________________________________________________________
 	@RequestMapping(value = "/accueilPharmacie.form", method = RequestMethod.GET)
@@ -53,56 +65,176 @@ public class VenteDrugController {
 	}
 	
 	@RequestMapping(value = "/client.form", method = RequestMethod.POST)
-	public String saveClient(@ModelAttribute("client") Client client,
-	        @RequestParam(value = "assuranceList", required = false) List<Integer> assuranceList, HttpServletRequest request) {
-		client.setUserId(Context.getAuthenticatedUser().getUserId());
+	public String saveClient(@RequestParam(value = "id", required = false) Integer clientId,
+	        @RequestParam("name") String name, @RequestParam("firstnames") String firstnames,
+	        @RequestParam("birthDate") String birthDateString, @RequestParam("age") Integer age,
+	        @RequestParam("sex") String sex, @RequestParam("address") String address,
+	        @RequestParam("telephone") String telephone,
+	        @RequestParam(value = "assuranceList", required = false) List<Integer> assuranceList, HttpServletRequest request)
+	        throws ParseException {
 		
-		// Calculate age from birth date
-		if (client.getBirthDate() != null) {
-			client.setAge(calculateAge(client.getBirthDate()));
-		} else if (client.getAge() != null) {
-			client.setBirthDate(calculateBirthDate(client.getAge()));
+		System.out.println("La birthDate en string :" + birthDateString);
+		// Créez un objet Client et définissez ses propriétés
+		Client client = clientId != null ? clientService.getClientById(clientId) : new Client();
+		client.setName(name);
+		client.setFirstnames(firstnames);
+		client.setSex(sex);
+		
+		if (!birthDateString.isEmpty()) {
+			client.setBirthDate(ClientResponse.convertStringToDate(birthDateString));
+		} else {
+			client.setBirthDate(null);
 		}
 		
-		// Clear existing assurances
+		client.setAddress(address);
+		client.setTelephone(telephone);
+		client.setUserId(Context.getAuthenticatedUser().getUserId());
+		
+		try {
+			// Enregistrez le client
+			clientService.saveClient(client);
+		}
+		catch (Exception e) {
+			// Gérer l'exception
+			e.printStackTrace(); // Ou loggez l'exception avec un logger approprié
+			// Vous pouvez également ajouter du code pour notifier l'utilisateur ou pour des actions de récupération
+			System.out.println("Erreur lors de l'enregistrement du client : " + e.getMessage());
+		}
+		
+		// Gérer les assurances
 		List<Assurance> existingAssurances = clientService.getAssurancesByClient(client);
 		for (Assurance assurance : existingAssurances) {
 			clientService.deleteAssuranceFromClient(assurance, client);
 		}
 		
-		// Add new assurances
 		if (assuranceList != null) {
 			for (Integer assuranceId : assuranceList) {
-				Assurance assurance = assuranceService.getAssuranceById(assuranceId);
-				if (assurance != null) {
-					clientService.addAssuranceToClient(assurance, client);
-				}
+				clientService.addAssuranceToClient(assuranceService.getAssuranceById(assuranceId), client);
 			}
 		}
 		
-		// Save client
-		clientService.saveClient(client);
-		
-		return "redirect:/module/mycashier/client/list";
+		return "redirect:/module/mycashier/venteProduit.form";
 	}
 	
 	@RequestMapping(value = "/clientList.form", method = RequestMethod.GET)
 	public String listClients(Model model) {
+		
+		System.out.println("Dans le controlleur liste client");
 		List<Client> clients = clientService.getAllClients();
 		model.addAttribute("clients", clients);
 		return "module/mycashier/clientList";
 	}
 	
-	private int calculateAge(Date birthDate) {
-		// Calculer l'âge à partir de la date de naissance
-		return new Date().getYear() - birthDate.getYear();
-	}
-	
-	private Date calculateBirthDate(int age) {
-		// Calculer la date de naissance à partir de l'âge
-		Date birthDate = new Date();
-		birthDate.setYear(new Date().getYear() - age);
-		return birthDate;
+	@RequestMapping(value = "/saveVenteDrug", method = RequestMethod.POST)
+	public String saveVenteDrug(@RequestParam("clientId") Integer clientId,
+	        @RequestParam(value = "assuranceId", required = false) Integer assuranceId,
+	        //  @RequestParam("partAssurance") Integer partAssurance,
+	        // @RequestParam("total") Integer total,
+	        @RequestParam("medicamentIds") List<Integer> medicamentIds,
+	        //	@RequestParam("quantites") List<Integer> quantites,
+	        //	@RequestParam("prix") List<Integer> prices,
+	        Model model) {
+		
+		VenteDrug venteDrug = new VenteDrug();
+		
+		List<LigneVenteDrug> ligneVenteDrugs = new ArrayList<LigneVenteDrug>();
+		
+		try {
+			// Vérifier que les listes ont la même taille
+			/**
+			 * if (medicamentIds.size() != quantites.size() || medicamentIds.size() !=
+			 * prices.size()) { model.addAttribute("error",
+			 * "Mismatch between the number of medications, quantities, and prices"); return
+			 * "module/mycashier/venteProduit"; }
+			 **/
+			
+			if (medicamentIds.isEmpty()) {
+				model.addAttribute("error", "Vous devez ajouter au moins un médicament avant d'enregistrer.");
+				//	return "redirect:/module/mycashier/venteProduit.form"; // Redirige vers la page de vente
+				System.out.println("(medicamentIds.isEmpty");
+			}
+			
+			// Ajout de clientID
+			if (clientId == null) {
+				model.addAttribute("error", "Veuillez sélectionner un client");
+				//	return "module/mycashier/venteProduit";
+			} else {
+				
+				venteDrug.setClient(clientService.getClientById(clientId));
+			}
+			
+			// Ajout de assurance
+			if (assuranceId != null) {
+				venteDrug.setAssurance(assuranceService.getAssuranceById(assuranceId).getName());
+			}
+			
+			System.out.println("avant user");
+			User user = Context.getAuthenticatedUser();
+			
+			Agent agent = agentService.getAgentByUserId(user);
+			
+			//Ajout de l'agent
+			venteDrug.setAgent(agent);
+			
+			//Ajout entrepot
+			venteDrug.setEntrepot(entrepotService.getEntrepotById(EntrepotConstants.VENTE_ID));
+			
+			//Ajouts part assurance et total
+			//venteDrug.setPartAssurance(partAssurance);
+			//venteDrug.setPrice(total);
+			
+			//Première sauvegarde
+			venteDrugService.saveVenteDrug(venteDrug);
+			
+			// Supprimer les lignes de vente existantes
+			
+			System.out.println("avant existing");
+			List<LigneVenteDrug> existingLignes = venteDrugService.getAllLignesByVenteDrug(venteDrug);
+			System.out.println("après existing");
+			
+			System.out.println("existainLines :" + existingLignes);
+			
+			if (existingLignes != null && !existingLignes.isEmpty()) {
+				for (LigneVenteDrug ligne : existingLignes) {
+					venteDrugService.deleteLigneFromVenteDrug(ligne.getMyDrug(), venteDrug);
+				}
+			}
+			
+			System.out.println("après delet  existing");
+			
+			System.out.println("existainLines :" + existingLignes);
+			
+			// Traiter les médicaments sélectionnés
+			for (int i = 0; i < medicamentIds.size(); i++) {
+				
+				LigneVenteDrug ligneVenteDrug = new LigneVenteDrug();
+				
+				Integer drugId = medicamentIds.get(i);
+				//	Integer quantite = quantites.get(i);
+				//	Integer prixUnitaire = prices.get(i);
+				
+				//Modification de ligneService
+				ligneVenteDrug.setMyDrug(myDrugService.getMyDrugById(drugId));
+				ligneVenteDrug.setVenteDrug(venteDrug);
+				//ligneVenteDrug.setQuantity(quantite);
+				//	ligneVenteDrug.setPrice(prixUnitaire);
+				
+				//Ajouter la ligne
+				venteDrugService.addLigneToVenteDrug(venteDrug, ligneVenteDrug);
+				
+			}
+			
+			model.addAttribute("success", "Vente enregistrée avec succès");
+			return "module/mycashier/venteProduit";
+			
+		}
+		catch (Exception e) {
+			model.addAttribute("error", "Problème lors de l'enregistrement: " + e.getMessage());
+			
+			System.out.println("Je suis dans le catch");
+			return "module/mycashier/venteProduit";
+			
+		}
 	}
 	
 }

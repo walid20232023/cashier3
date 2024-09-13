@@ -18,10 +18,13 @@ public class ClientAssurance {
 	@ManyToOne
 	@MapsId("clientId")
 	@JoinColumn(name = "client_id")
-	private Client client; //Constructeurs
+	private Client client;
 	
+	// Constructeurs
 	public ClientAssurance() {
-	} // Getters and Setters
+	}
+	
+	// Getters and Setters
 	
 	public ClientAssuranceId getId() {
 		return id;
@@ -59,15 +62,19 @@ public class ClientAssurance {
 		private Integer assuranceId;
 		
 		@Column(name = "client_id")
-		private Integer clientId; // Default constructor
+		private Integer clientId;
 		
+		// Default constructor
 		public ClientAssuranceId() {
-		} // Parameterized constructor
+		}
 		
+		// Parameterized constructor
 		public ClientAssuranceId(Integer assuranceId, Integer clientId) {
 			this.assuranceId = assuranceId;
 			this.clientId = clientId;
-		} // Getters and Setters
+		}
+		
+		// Getters and Setters
 		
 		public Integer getAssuranceId() {
 			return assuranceId;

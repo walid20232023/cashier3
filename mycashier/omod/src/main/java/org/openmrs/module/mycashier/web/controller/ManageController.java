@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,32 +64,27 @@ public class ManageController {
 	 *                       dans le bon dossier }
 	 **/
 	
-	@ResponseBody
-	@RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET, produces = "application/json")
-	public List<Client> assuranceListView() {
-		List<Client> clients = null;
+	@RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET)
+	public String assuranceListView(ModelMap model) {
+		
+		List<Assurance> assuranceList = null;
 		try {
 			// Optionnel: si vous avez besoin de récupérer des assurances
-			List<Assurance> assuranceList = assuranceService.getAllAssurances();
+			assuranceList = assuranceService.getAllAssurances();
 			// Vous pouvez traiter assuranceList ici si nécessaire
 		}
 		catch (Exception exception) {
 			// Gérer les exceptions ici si nécessaire
 			exception.printStackTrace(); // pour le débogage
 		}
-		// Retourne directement la liste des clients en format JSON
-		clients = clientService.searchClients("gogo");
-		return clients;
+		
+		model.addAttribute("assuranceList", assuranceList);
+		
+		return "module/mycashier/assuranceForm";
+		
 	}
 	
 	//------------------Search client Controller------------------------------------------------
-	/**
-	 * @ResponseBody
-	 * @RequestMapping(value = "/searchClient.form", method = RequestMethod.GET) public List<Client>
-	 *                       searchClient(@RequestParam("query") String query) {
-	 *                       System.out.println("Méthode client appellée dans le controleur");
-	 *                       return clientService.searchClients(query); }
-	 **/
 	
 	//______________________AJOUT ASSURANCE----------------------------------------------------------------------
 	
@@ -417,7 +413,7 @@ public class ManageController {
 		// Ajouter la liste au modèle
 		model.addAttribute("entrepotList", entrepots);
 		
-		return "module/mycashier/entrepotList"; // Assurez-vous que cette vue existe dans le bon dossier
+		return "module/mycashier/pharmaVente/entrepotList"; // Assurez-vous que cette vue existe dans le bon dossier
 	}
 	
 	//______________________AJOUT ENTREPOT----------------------------------------------------------------------

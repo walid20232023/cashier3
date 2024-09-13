@@ -16,7 +16,7 @@ public class VenteDrug implements Serializable {
 	private Integer id;
 	
 	@Column(name = "date_vente")
-	private LocalDateTime localDateTime;
+	private LocalDateTime dateVente;
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
@@ -33,6 +33,15 @@ public class VenteDrug implements Serializable {
 	@JoinColumn(name = "entrepot_id")
 	private Entrepot entrepot;
 	
+	@Column(name = "assurance")
+	private String assurance;
+	
+	@Column(name = "part_assurance")
+	private Integer partAssurance;
+	
+	@Column(name = "total")
+	private Integer total;
+	
 	@Column(name = "date_creation")
 	private LocalDateTime dateCreation = LocalDateTime.now();
 	
@@ -43,6 +52,30 @@ public class VenteDrug implements Serializable {
 	
 	// Getters and Setters
 	
+	public void setAssurance(String assurance) {
+		this.assurance = assurance;
+	}
+	
+	public void setPartAssurance(Integer partAssurance) {
+		this.partAssurance = partAssurance;
+	}
+	
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+	
+	public String getAssurance() {
+		return assurance;
+	}
+	
+	public Integer getPartAssurance() {
+		return partAssurance;
+	}
+	
+	public Integer getTotal() {
+		return total;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -51,12 +84,12 @@ public class VenteDrug implements Serializable {
 		this.id = id;
 	}
 	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+	public LocalDateTime getDateVente() {
+		return dateVente;
 	}
 	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+	public void setDateVente(LocalDateTime dateVente) {
+		this.dateVente = dateVente;
 	}
 	
 	public String getUuid() {

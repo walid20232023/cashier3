@@ -6,7 +6,13 @@
 </head>
 <body>
     <h1>Client Form</h1>
-    <form:form modelAttribute="client" method="post" action="${pageContext.request.contextPath}/module/mycashier/client.form">
+
+    <button class="redirect-button" onclick="window.location.href='${pageContext.request.contextPath}/module/mycashier/clientList.form'">
+        Aller à la liste des clients
+    </button>
+
+    <form:form method="post" modelAttribute="client" action="${pageContext.request.contextPath}/module/mycashier/client.form">
+        <form:hidden path="id" />
         <table>
             <tr>
                 <td>Name:</td>
@@ -18,14 +24,11 @@
             </tr>
             <tr>
                 <td>Birth Date:</td>
-                <td>
-                    <!-- Use HTML input with type date -->
-                    <input type="date" name="birthDate" value="${client.birthDate != null ? client.birthDate.getTime() : ''}" />
-                </td>
+                <td><input type="date" name="birthDate" value="${client.birthDate}" /></td>
             </tr>
             <tr>
                 <td>Age:</td>
-                <td><form:input path="age" /></td>
+                <td><input type="number" name="age" value="${client.age}" /></td>
             </tr>
             <tr>
                 <td>Sex:</td>

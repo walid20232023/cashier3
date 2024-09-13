@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,28 +48,18 @@ public class Client {
 	private Integer userId;
 	
 	@Column(name = "patient_id")
-	private Integer patientId; //Consructeurs public Client() { } //
+	private Integer patientId;
 	
-	@Transient
+	@ManyToMany
+	@JoinTable(name = "client_assurance", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "assurance_id"))
 	private List<Assurance> assuranceList;
 	
-	public List<Assurance> getAssuranceList() {
-		return assuranceList;
+	// Constructeurs
+	public Client() {
 	}
 	
-	public void setAssuranceList(List<Assurance> assuranceList) {
-		this.assuranceList = assuranceList;
-	}
+	// Getters and Setters
 	
-	public String getFirstnames() {
-		return firstnames;
-	}
-	
-	public void setFirstnames(String firstnames) {
-		this.firstnames = firstnames;
-	}
-	
-	//     Getters and Setters
 	public Integer getId() {
 		return id;
 	}
@@ -83,6 +74,14 @@ public class Client {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getFirstnames() {
+		return firstnames;
+	}
+	
+	public void setFirstnames(String firstnames) {
+		this.firstnames = firstnames;
 	}
 	
 	public Date getBirthDate() {
@@ -155,5 +154,13 @@ public class Client {
 	
 	public void setPatientId(Integer patientId) {
 		this.patientId = patientId;
+	}
+	
+	public List<Assurance> getAssuranceList() {
+		return assuranceList;
+	}
+	
+	public void setAssuranceList(List<Assurance> assuranceList) {
+		this.assuranceList = assuranceList;
 	}
 }

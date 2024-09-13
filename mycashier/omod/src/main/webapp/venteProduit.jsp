@@ -37,11 +37,11 @@
         .btn-custom:hover {
             background-color: #248739;
         }
-        .icon-view, .icon-delete {
+        .icon-view, .icon-delete, .icon-edit {
             cursor: pointer;
             color: #29AB87;
         }
-        .icon-view:hover, .icon-delete:hover {
+        .icon-view:hover, .icon-delete:hover, .icon-edit:hover {
             color: #248739;
         }
         .form-table th, .form-table td {
@@ -76,6 +76,85 @@
         .list-group-item:hover {
             background-color: #f0f0f0;
         }
+        /* Style spécifique pour les champs d'assurance */
+        .form-group.assurance input {
+            background-color: #e0f7fa; /* Bleu clair */
+            border: 1px solid #b2ebf2; /* Bordure légèrement plus foncée */
+            border-radius: 4px; /* Coins légèrement arrondis */
+        }
+        .form-group.assurance {
+            border: 1px solid #b2ebf2; /* Bordure autour du champ */
+            border-radius: 4px; /* Coins légèrement arrondis */
+            padding: 10px; /* Espacement intérieur */
+            margin-bottom: 10px; /* Espacement entre les champs */
+        }
+
+        #partAssurance, #partClient, #total {
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #ecf0f1;
+            text-align: right;
+        }
+
+        button.btn-success {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+     #partAssurance, #partClient, #total {
+         font-weight: bold;
+         color: #2c3e50;
+         background-color: #ecf0f1;
+         text-align: right;
+         border-radius: 6px; /* Ajout de bordures arrondies */
+         padding: 8px; /* Ajout d'un peu d'espace intérieur */
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère pour l'effet de relief */
+     }
+
+     button.btn-success {
+         background-color: #27ae60;
+         border-color: #27ae60;
+         border-radius: 8px; /* Bordures arrondies */
+         padding: 10px 20px; /* Augmentation de la taille du bouton */
+         transition: background-color 0.3s ease, transform 0.3s ease; /* Transition douce */
+     }
+
+     button.btn-success:hover {
+         background-color: #229954; /* Changement de couleur au survol */
+         transform: scale(1.05); /* Léger zoom au survol */
+     }
+
+     /* Styles pour les champs de texte */
+     .custom-input {
+         font-weight: bold;
+         color: #34495e; /* Couleur bleu-gris */
+         background-color: #eaf2f8; /* Bleu très clair */
+         border: 2px solid #5dade2; /* Bordure bleu moyen */
+         border-radius: 8px; /* Bordures arrondies */
+         text-align: right;
+         padding: 10px; /* Espace intérieur pour plus de confort */
+         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre intérieure pour un effet enfoncé */
+     }
+
+     /* Style pour le bouton */
+     .custom-button {
+         font-size: 1rem; /* Taille du texte réduite */
+         padding: 8px 16px; /* Taille ajustée pour un bouton plus petit */
+         background-color: #3498db; /* Bleu vif */
+         border-color: #2980b9; /* Bleu foncé */
+         border-radius: 8px; /* Bordures arrondies */
+         transition: background-color 0.3s ease, transform 0.3s ease; /* Transition douce */
+         align-self: center; /* Alignement centré verticalement */
+     }
+
+     .custom-button:hover {
+         background-color: #2980b9; /* Couleur de survol */
+         transform: scale(1.05); /* Léger zoom au survol */
+     }
+
+
+
+
     </style>
 </head>
 <body>
@@ -88,24 +167,31 @@
                     <h2>Formulaire de la vente</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form  id="venteDrugForm"  action="<%= request.getContextPath() %>/module/mycashier/saveVenteDrug.form" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-12">
+                             <input type="hidden" id="clientId" name="clientId" value="">
                                 <label for="searchClient">Rechercher Client</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="searchClient" placeholder="Rechercher par ID, Nom, Prénom" autocomplete="off">
-                                   <div class="input-group-append">
-                                       <a href="${pageContext.request.contextPath}/module/mycashier/client.form" class="btn btn-outline-secondary" id="addClient">
-                                           <i class="bi bi-plus-circle icon-plus"></i> Ajouter Client
-                                       </a>
-                                   </div>
-
+                                    <div class="input-group-append">
+                                        <a href="${pageContext.request.contextPath}/module/mycashier/client.form" class="btn btn-outline-secondary" id="addClient">
+                                            <i class="bi bi-plus-circle icon-plus"></i> Ajouter Client
+                                        </a>
+                                    </div>
                                 </div>
                                 <ul class="list-group" id="clientSearchResults"></ul>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="client">Code Client</label>
-                                <input type="text" class="form-control" id="client" name="client" readonly>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="client" name="client" readonly>
+                                    <div class="input-group-append">
+                                        <a href="#" class="btn btn-outline-secondary icon-edit-link" id="editClient">
+                                            <i class="bi bi-pencil icon-edit"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="nom">Nom</label>
@@ -118,6 +204,24 @@
                             <div class="form-group col-md-3">
                                 <label for="dateNaissance">Date de naissance</label>
                                 <input type="text" class="form-control" id="dateNaissance" name="dateNaissance" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="sexe">Sexe</label>
+                                <input type="text" class="form-control" id="sexe" name="sexe" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="assurance1Checkbox" name="assurances" value="assurance1">
+                                    <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
+                                </div>
+                                <input type="text" class="form-control" id="assurance1" name="assurance1" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="assurance2Checkbox" name="assurances" value="assurance2">
+                                    <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
+                                </div>
+                                <input type="text" class="form-control" id="assurance2" name="assurance2" readonly>
                             </div>
                         </div>
 
@@ -147,13 +251,34 @@
                                 <!-- Les lignes de médicament apparaîtront ici -->
                             </tbody>
                         </table>
-                        <button type="submit" class="btn btn-custom">Enregistrer la vente</button>
-                    </form>
+
+                        <div class="row align-items-end mb-3">
+                            <div class="col-md-3">
+                                <label for="partAssurance" class="form-label">Part Assurance</label>
+                                <input type="number" class="form-control custom-input" id="partAssurance" name="partAssurance" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="partClient" class="form-label">Part Client</label>
+                                <input type="number" class="form-control custom-input" id="partClient" name="partClient" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="total" class="form-label">Total</label>
+                                <input type="number" class="form-control custom-input" id="total" name="total" readonly>
+                            </div>
+                            <div class="col-md-3 d-flex justify-content-end align-items-center">
+                              
+                            </div>
+                        </div>
+                          <button type="submit" class="btn btn-primary custom-button">
+                                    Enregistrer la vente
+                                </button>
+                    </form>    
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -187,13 +312,55 @@ $(document).ready(function() {
     $('#clientSearchResults').on('click', '.client-item', function() {
         var client = $(this).data('client');
         $('#client').val(client.id.toString());
-        var birthDate = new Date(client.birthDate);
-        var formattedDate = birthDate.toISOString().split('T')[0];
         $('#nom').val(client.name);
         $('#prenom').val(client.firstnames);
-        $('#dateNaissance').val(formattedDate);
+        $('#dateNaissance').val(client.birthDate ? new Date(client.birthDate).toISOString().split('T')[0] : '');
+        $('#sexe').val(client.sex === 'M' ? 'Masculin' : client.sex === 'F' ? 'Féminin' : '');
+        $('#assurance1').val(client.assurance1 || '');
+        $('#assurance2').val(client.assurance2 || '');
+
+
+
         $('#clientSearchResults').empty();
-        $('#searchClient').val('');
+    });
+     
+     //Envoi id client
+       document.addEventListener('DOMContentLoaded', function() {
+        // Exemple de gestion des résultats de recherche des clients
+        document.getElementById('clientSearchResults').addEventListener('click', function(event) {
+            if (event.target && event.target.matches('li')) {
+                const clientId = event.target.getAttribute('data-client-id');
+                const clientNom = event.target.getAttribute('data-client-nom');
+
+                // Mettre à jour les champs du formulaire avec les informations du client sélectionné
+                document.getElementById('clientId').value = clientId;
+                document.getElementById('client').value = clientId;
+                document.getElementById('nom').value = clientNom;
+
+            }
+        });
+    });
+
+    // Gestion des cases à cocher pour qu'une seule soit cochée à la fois
+        $('#assurance1Checkbox').on('change', function() {
+            if (this.checked) {
+                $('#assurance2Checkbox').prop('checked', false);
+            }
+        });
+
+        $('#assurance2Checkbox').on('change', function() {
+            if (this.checked) {
+                $('#assurance1Checkbox').prop('checked', false);
+            }
+        });
+
+
+    // Redirection vers la page d'édition du client
+    $('#editClient').on('click', function() {
+        var clientId = $('#client').val();
+        if (clientId) {
+            window.location.href = contextPath + '/module/mycashier/client.form?id=' + clientId;
+        }
     });
 
     // Fonction de recherche de médicament
@@ -217,39 +384,133 @@ $(document).ready(function() {
         }
     });
 
-      // Sélection d'un médicament
-        $('#drugSearchResults').on('click', '.drug-item', function() {
-            var drug = $(this).data('drug');
-            var $newRow = $('<tr></tr>');
+    // Désactiver l'historique de saisie automatique pour le champ de recherche
+    $('#searchDrug').attr('autocomplete', 'off');
 
-            $newRow.append('<td><input type="text" class="form-control" name="drugName" value="' + drug.name + '" readonly></td>');
-            $newRow.append('<td><input type="number" class="form-control quantity" name="quantity" value="1"></td>');
-            $newRow.append('<td><input type="text" class="form-control" name="pu" value="' + drug.price+ '" readonly></td>');
-            $newRow.append('<td><input type="text" class="form-control" name="Inam" value="' + drug.baseInam+ '" readonly></td>');
-            $newRow.append('<td><input type="text" class="form-control total" name="total" value="' + drug.price+ '" readonly></td>');
-            $newRow.append('<td><input type="text" class="form-control" name="stockPh" value="' + drug.stockLocal + '" readonly></td>');
-            $newRow.append('<td><input type="text" class="form-control" name="stockMg" value="' + drug.stockMag + '" readonly></td>');
-            $newRow.append('<td><i class="bi bi-eye icon-view"></i> <i class="bi bi-trash icon-delete"></i></td>');
+    // Effacer le contenu du champ de recherche lors du focus
+    $('#searchDrug').on('focus', function() {
+        $(this).val('');
+    });
 
-            $('#medicamentTableBody').append($newRow);
-            $('#drugSearchResults').empty();
-            $('#searchDrug').val('');
-        });
+    // Sélection d'un médicament
+    $('#drugSearchResults').on('click', '.drug-item', function() {
+        var drug = $(this).data('drug');
+        var $newRow = $('<tr></tr>');
+
+        $newRow.append('<td><input type="text" class="form-control" name="drugName" value="' + drug.name + '" readonly></td>');
+        $newRow.append('<td><input type="number" class="form-control quantity" name="quantity" value="1"></td>');
+        $newRow.append('<td><input type="number" class="form-control" name="pu" value="' + drug.price + '" readonly></td>');
+        $newRow.append('<td><input type="number" class="form-control" name="Inam" value="' + drug.baseInam + '" readonly></td>');
+        $newRow.append('<td><input type="number" class="form-control total" name="total" value="' + drug.price + '" readonly></td>');
+        $newRow.append('<td><input type="text" class="form-control" name="stockPh" value="' + drug.stockLocal + '" readonly></td>');
+        $newRow.append('<td><input type="text" class="form-control" name="stockMg" value="' + drug.stockMag + '" readonly></td>');
+        $newRow.append('<td><i class="bi bi-eye icon-view"></i> <i class="bi bi-trash icon-delete"></i></td>');
+        $newRow.append('<td><input type="hidden" name="medicamentIds" value="' + drug.id + '"></td>');
+        
+
+        $('#medicamentTableBody').append($newRow);
+        $('#drugSearchResults').empty();
+        $('#searchDrug').val('');
+        calculateTotals(); // Recalculer les totaux après ajout d'une nouvelle ligne
+    });
 
     // Calculer le total lorsque la quantité est modifiée
     $('#medicamentTableBody').on('input', 'input[name="quantity"]', function() {
         var $row = $(this).closest('tr');
         var quantity = parseFloat($(this).val());
-        var price = parseFloat($row.find('.pu-col').eq(0).text());
+        var price = parseFloat($row.find('input[name="pu"]').val());
         var total = quantity * price;
-        $row.find('.total-col').text(total.toFixed(2));
+        $row.find('input[name="total"]').val(total.toFixed(2));
+        calculateTotals(); // Recalculer les totaux après modification de la quantité
     });
+
+      function calculateTotals() {
+          // Réinitialiser la somme à 0 avant chaque calcul
+          let sum = 0;
+          let partAssurance = 0;
+          let partClient = 0;
+
+          // Récupérer uniquement les champs 'total' visibles dans les lignes de médicaments
+          const totalFields = $('#medicamentTableBody input[name="total"]:visible');
+
+          // Calculer la somme totale des champs 'total'
+          totalFields.each(function() {
+              sum += parseFloat($(this).val()) || 0;
+          });
+
+          const inamChecked = $('#assurance1Checkbox').is(':checked');
+          const gtaChecked = $('#assurance2Checkbox').is(':checked');
+
+          if (inamChecked) {
+              // Réinitialiser la base INAM avant chaque calcul
+              let baseInamTotal = 0;
+
+              // Récupérer les champs 'Inam' visibles dans les lignes de médicaments
+              $('#medicamentTableBody input[name="Inam"]:visible').each(function() {
+                  baseInamTotal += parseFloat($(this).val()) || 0;
+              });
+
+              // Calculer Part Assurance comme 80% de la base INAM
+              partAssurance = baseInamTotal * 0.8;
+          } else if (gtaChecked) {
+              // Calculer Part Assurance comme 80% de la somme totale
+              partAssurance = sum * 0.8;
+          }
+
+          // Calculer Part Client
+          partClient = sum - partAssurance;
+
+          // Mettre à jour les champs correspondants
+          $('#partAssurance').val(partAssurance.toFixed(2));
+          $('#partClient').val(partClient.toFixed(2));
+          $('#total').val(sum.toFixed(2));
+      }
+
+      // Attacher les événements de changement pour recalculer les totaux
+      $('#assurance1Checkbox, #assurance2Checkbox').on('change', calculateTotals);
+      $('#medicamentTableBody').on('input', 'input[name="quantity"], input[name="total"], input[name="Inam"]', calculateTotals);
+
+      // Initialiser les valeurs au chargement
+      calculateTotals();
+
 
     // Supprimer une ligne de médicament
     $('#medicamentTableBody').on('click', '.icon-delete', function() {
         $(this).closest('tr').remove();
+        calculateTotals(); // Recalculer les totaux après suppression d'une ligne
     });
 });
+
+
+document.getElementById('venteDrugForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Empêche la soumission réelle pour inspecter les données
+    var formData = new FormData(this);
+
+    // Convertir les données en un objet clé-valeur pour affichage
+    var data = {};
+    formData.forEach(function(value, key) {
+        if (data[key]) {
+            // Si le champ est déjà présent, transformez-le en tableau
+            if (!Array.isArray(data[key])) {
+                data[key] = [data[key]];
+            }
+            data[key].push(value);
+        } else {
+            data[key] = value;
+        }
+    });
+
+    console.log('Données envoyées au serveur :', data);
+
+    // Vous pouvez également afficher les données dans le DOM si nécessaire
+ //   var displayDiv = document.createElement('div');
+   // displayDiv.textContent = JSON.stringify(data, null, 2);
+   // document.body.appendChild(displayDiv);
+
+    // Soumettez le formulaire après inspection
+     this.submit(); // Décommentez pour permettre la soumission réelle
+});
+
 </script>
 </body>
 </html>

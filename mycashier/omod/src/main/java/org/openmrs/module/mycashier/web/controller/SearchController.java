@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/module/mycashier")
@@ -39,13 +40,23 @@ public class SearchController {
 	 **/
 	
 	//------------------Search drug Controller------------------------------------------------
-	
 	@ResponseBody
 	@RequestMapping(value = "/searchClient.form", method = RequestMethod.GET, produces = "application/json")
-	public List<Client> searchClient(@RequestParam("query") String query) {
+	public List<ClientResponse> searchClient(@RequestParam("query") String query) {
+		
+		System.out.println("Debut méthode");
 		List<Client> clients = clientService.searchClients(query);
-		System.out.println("Clients retournés: " + clients);
-		return clients;
+		List<ClientResponse> clientResponses = new ArrayList<ClientResponse>();
+		for (Client client : clients) {
+			ClientResponse clientResponse = ClientResponse.clientToResponse(client);
+			clientResponses.add(clientResponse);
+			
+			System.out.println("client Date : " + client.getBirthDate());
+			System.out.println("clientResponse Date : " + clientResponse.getBirthDate());
+			
+		}
+		
+		return clientResponses;
 	}
 	
 	@ResponseBody

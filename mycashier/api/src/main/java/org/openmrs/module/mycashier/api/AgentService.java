@@ -1,5 +1,6 @@
 package org.openmrs.module.mycashier.api;
 
+import org.openmrs.User;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
@@ -21,6 +22,9 @@ public interface AgentService {
 	
 	@Transactional(readOnly = true)
 	Agent getAgentById(Integer agentId) throws APIException;
+	
+	@Transactional(readOnly = true)
+	Agent getAgentByUserId(User user) throws APIException;
 	
 	@Transactional(readOnly = true)
 	List<Agent> getAllAgents() throws APIException;

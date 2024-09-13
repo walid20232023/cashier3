@@ -39,12 +39,16 @@ public interface VenteDrugService {
 	VenteDrug saveVenteDrug(VenteDrug venteDrug) throws APIException;
 	
 	@Transactional
-	void addLigneToVenteDrug(MyDrug myDrug, VenteDrug venteDrug, Integer quantity) throws APIException;
-	
-	@Transactional
 	void deleteLigneFromVenteDrug(MyDrug myDrug, VenteDrug venteDrug) throws APIException;
 	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	VenteDrug deleteVenteDrug(VenteDrug venteDrug) throws APIException;
+	
+	@Transactional
+	List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException;
+	
+	@Transactional
+	void addLigneToVenteDrug(VenteDrug venteDrug, LigneVenteDrug ligneVenteDrug);
+	
 }

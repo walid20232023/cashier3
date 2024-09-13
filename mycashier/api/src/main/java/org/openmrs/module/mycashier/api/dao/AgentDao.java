@@ -4,6 +4,8 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.openmrs.User;
+import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.mycashier.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +59,19 @@ public class AgentDao {
 		sessionFactory.getCurrentSession().delete(agent);
 		return agent;
 	}
+	
+	@Transactional
+	public Agent getAgentByUserId(User user) {
+		DbSession session = sessionFactory.getCurrentSession();
+		
+		// Créer une instance de Criteria pour récupérer l'Agent par l'userId
+		Criteria criteria = session.createCriteria(Agent.class);
+		criteria.add(Restrictions.eq("userId", user.getUserId()));
+		
+		// Récupérer l'Agent correspondant
+		Agent agent = (Agent) criteria.uniqueResult();
+		
+		return agent;
+	}
+	
 }

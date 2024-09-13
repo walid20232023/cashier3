@@ -95,7 +95,7 @@ public class VenteDrugDao {
 			// For example, you can add a `quantity` field in the LigneVenteDrug class
 			// and update it accordingly.
 			// Assuming there's a `quantity` field in LigneVenteDrug:
-			ligneVenteDrug.setQuantity(ligneVenteDrug.getQuantity() + quantity);
+			ligneVenteDrug.setQuantity(quantity);
 			session.update(ligneVenteDrug);
 		} else {
 			// Create new LigneVenteDrug entry if it does not exist
@@ -134,6 +134,33 @@ public class VenteDrugDao {
 		if (ligneVenteDrug != null) {
 			session.delete(ligneVenteDrug);
 		}
+	}
+	
+	@Transactional
+	public List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) {
+		DbSession session = sessionFactory.getCurrentSession();
+		
+		// Utiliser Criteria pour récupérer toutes les lignes associées à un VenteDrug spécifique
+		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
+		
+		// Ajouter une restriction pour le venteDrug
+		criteria.add(Restrictions.eq("venteDrug", venteDrug));
+		
+		// Récupérer et retourner les résultats sous forme de liste
+		List<LigneVenteDrug> lignesVente = criteria.list();
+		
+		return lignesVente;
+	}
+	
+	@Transactional
+	public void addLigneToVenteDrug(VenteDrug venteDrug, LigneVenteDrug ligneVenteDrug) {
+		DbSession session = sessionFactory.getCurrentSession();
+		
+		// Assigner la venteDrug à la nouvelle ligne
+		ligneVenteDrug.setVenteDrug(venteDrug);
+		
+		// Enregistrer la nouvelle ligne de vente
+		session.save(ligneVenteDrug);
 	}
 	
 }

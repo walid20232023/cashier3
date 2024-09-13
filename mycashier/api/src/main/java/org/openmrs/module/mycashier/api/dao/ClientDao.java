@@ -76,8 +76,8 @@ public class ClientDao {
 	@SuppressWarnings("unchecked")
 	public List<Assurance> getAssurancesByClient(Client client) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Assurance.class, "assurance");
-		criteria.createAlias("clientAssurances", "clientAssurance");
-		criteria.add(Restrictions.eq("clientAssurance.client.id", client.getId()));
+		criteria.createAlias("assurance.clientList", "client");
+		criteria.add(Restrictions.eq("client.id", client.getId()));
 		return (List<Assurance>) criteria.list();
 	}
 	
@@ -93,7 +93,6 @@ public class ClientDao {
 	public List<Client> searchClients(String query) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Client.class);
 		
-		System.out.println("Méthode client appellée dans le DAO");
 		// Utiliser une disjonction pour combiner plusieurs conditions
 		Disjunction disjunction = Restrictions.disjunction();
 		//disjunction.add(Restrictions.ilike("id", "%" + query + "%"));

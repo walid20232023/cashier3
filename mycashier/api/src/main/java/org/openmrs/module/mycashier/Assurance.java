@@ -1,8 +1,11 @@
 package org.openmrs.module.mycashier;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,9 +16,10 @@ public class Assurance {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "address")
 	private String address;
 	
 	@Column(name = "telephon")
@@ -30,7 +34,10 @@ public class Assurance {
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
 	
-	//Constructeurs
+	@ManyToMany(mappedBy = "assuranceList")
+	private List<Client> clientList;
+	
+	// Constructeurs
 	public Assurance() {
 	}
 	
@@ -92,4 +99,11 @@ public class Assurance {
 		this.uuid = uuid;
 	}
 	
+	public List<Client> getClientList() {
+		return clientList;
+	}
+	
+	public void setClientList(List<Client> clientList) {
+		this.clientList = clientList;
+	}
 }
