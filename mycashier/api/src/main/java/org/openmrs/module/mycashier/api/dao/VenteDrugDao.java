@@ -163,4 +163,18 @@ public class VenteDrugDao {
 		session.save(ligneVenteDrug);
 	}
 	
+	@Transactional
+	public LigneVenteDrug saveLigneVenteDrug(LigneVenteDrug ligneVenteDrug) {
+		// Vérifier si l'objet est valide (ex. vérifications custom si nécessaire)
+		if (ligneVenteDrug == null) {
+			throw new IllegalArgumentException("LigneVenteDrug ne peut pas être null");
+		}
+		
+		// Sauvegarder ou mettre à jour l'entité
+		sessionFactory.getCurrentSession().saveOrUpdate(ligneVenteDrug);
+		
+		// Retourner l'objet après la persistance
+		return ligneVenteDrug;
+	}
+	
 }

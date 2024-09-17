@@ -1,0 +1,63 @@
+0 verbose cli [
+0 verbose cli   '/tmp/openmrs-sdk-node8831532788352959050/node/node',
+0 verbose cli   '/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/bin/npm-cli.js',
+0 verbose cli   '--cache=/tmp/openmrs-sdk-node8831532788352959050/npm-cache',
+0 verbose cli   'exec',
+0 verbose cli   '--',
+0 verbose cli   'openmrs@3.3.1',
+0 verbose cli   '--version'
+0 verbose cli ]
+1 info using npm@8.5.5
+2 info using node@v16.15.0
+3 timing npm:load:whichnode Completed in 0ms
+4 timing config:load:defaults Completed in 3ms
+5 timing config:load:file:/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/npmrc Completed in 11ms
+6 timing config:load:builtin Completed in 11ms
+7 timing config:load:cli Completed in 4ms
+8 timing config:load:env Completed in 10ms
+9 timing config:load:file:/home/gsteam/.projets/Java/OpenMRS/modules/mycashier/cashier.module/integration-tests/target/test-classes/integration-test/.npmrc Completed in 0ms
+10 timing config:load:project Completed in 5ms
+11 timing config:load:file:/home/gsteam/.npmrc Completed in 2ms
+12 timing config:load:user Completed in 3ms
+13 timing config:load:file:/tmp/openmrs-sdk-node8831532788352959050/etc/npmrc Completed in 0ms
+14 timing config:load:global Completed in 0ms
+15 timing config:load:validate Completed in 3ms
+16 timing config:load:credentials Completed in 1ms
+17 timing config:load:setEnvs Completed in 2ms
+18 timing config:load Completed in 45ms
+19 timing npm:load:configload Completed in 46ms
+20 timing npm:load:setTitle Completed in 1ms
+21 timing config:load:flatten Completed in 6ms
+22 timing npm:load:display Completed in 7ms
+23 verbose logfile /tmp/openmrs-sdk-node8831532788352959050/npm-cache/_logs/2024-08-02T12_48_44_727Z-debug-0.log
+24 timing npm:load:logFile Completed in 9ms
+25 timing npm:load:timers Completed in 0ms
+26 timing npm:load:configScope Completed in 0ms
+27 timing npm:load Completed in 65ms
+28 timing command:exec Completed in 250463ms
+29 verbose type system
+30 verbose stack FetchError: request to https://registry.npmjs.org/openmrs failed, reason: getaddrinfo ENOTFOUND proxy.server.com
+30 verbose stack     at ClientRequest.<anonymous> (/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+30 verbose stack     at ClientRequest.emit (node:events:527:28)
+30 verbose stack     at onerror (/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/node_modules/agent-base/dist/src/index.js:117:21)
+30 verbose stack     at callbackError (/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/node_modules/agent-base/dist/src/index.js:136:17)
+30 verbose stack     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+31 verbose cwd /home/gsteam/.projets/Java/OpenMRS/modules/mycashier/cashier.module/integration-tests/target/test-classes/integration-test
+32 verbose Linux 6.5.0-44-generic
+33 verbose argv "/tmp/openmrs-sdk-node8831532788352959050/node/node" "/tmp/openmrs-sdk-node8831532788352959050/node/node_modules/npm/bin/npm-cli.js" "--cache=/tmp/openmrs-sdk-node8831532788352959050/npm-cache" "exec" "--" "openmrs@3.3.1" "--version"
+34 verbose node v16.15.0
+35 verbose npm  v8.5.5
+36 error code ENOTFOUND
+37 error syscall getaddrinfo
+38 error errno ENOTFOUND
+39 error network request to https://registry.npmjs.org/openmrs failed, reason: getaddrinfo ENOTFOUND proxy.server.com
+40 error network This is a problem related to network connectivity.
+40 error network In most cases you are behind a proxy or have bad network settings.
+40 error network
+40 error network If you are behind a proxy, please make sure that the
+40 error network 'proxy' config is set properly.  See: 'npm help config'
+41 verbose exit 1
+42 timing npm Completed in 250931ms
+43 verbose code 1
+44 error A complete log of this run can be found in:
+44 error     /tmp/openmrs-sdk-node8831532788352959050/npm-cache/_logs/2024-08-02T12_48_44_727Z-debug-0.log

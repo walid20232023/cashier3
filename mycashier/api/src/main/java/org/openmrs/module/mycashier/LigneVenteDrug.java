@@ -12,12 +12,12 @@ public class LigneVenteDrug {
 	
 	@ManyToOne
 	@MapsId("venteDrugId")
-	@JoinColumn(name = "vente_drug_id")
+	@JoinColumn(name = "vente_drug_id", insertable = false, updatable = false)
 	private VenteDrug venteDrug;
 	
 	@ManyToOne
 	@MapsId("myDrugId")
-	@JoinColumn(name = "my_drug_id")
+	@JoinColumn(name = "my_drug_id", insertable = false, updatable = false)
 	private MyDrug myDrug;
 	
 	@Column(name = "quantity")

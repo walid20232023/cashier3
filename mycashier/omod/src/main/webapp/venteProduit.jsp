@@ -170,7 +170,6 @@
                     <form  id="venteDrugForm"  action="<%= request.getContextPath() %>/module/mycashier/saveVenteDrug.form" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                             <input type="hidden" id="clientId" name="clientId" value="">
                                 <label for="searchClient">Rechercher Client</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="searchClient" placeholder="Rechercher par ID, Nom, Prénom" autocomplete="off">
@@ -185,7 +184,8 @@
                             <div class="form-group col-md-3">
                                 <label for="client">Code Client</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="client" name="client" readonly>
+                                    <input type="hidden" id="clientId" name="clientId" readonly>
+                                    <input type="number" class="form-control" id="client" name="client" readonly >
                                     <div class="input-group-append">
                                         <a href="#" class="btn btn-outline-secondary icon-edit-link" id="editClient">
                                             <i class="bi bi-pencil icon-edit"></i>
@@ -209,20 +209,32 @@
                                 <label for="sexe">Sexe</label>
                                 <input type="text" class="form-control" id="sexe" name="sexe" readonly>
                             </div>
-                            <div class="form-group col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="assurance1Checkbox" name="assurances" value="assurance1">
-                                    <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
-                                </div>
-                                <input type="text" class="form-control" id="assurance1" name="assurance1" readonly>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="assurance2Checkbox" name="assurances" value="assurance2">
-                                    <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
-                                </div>
-                                <input type="text" class="form-control" id="assurance2" name="assurance2" readonly>
-                            </div>
+                            
+ <div class="form-group col-md-3">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="assurance1Checkbox" name="assuranceSelectionnee">
+        <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
+    </div>
+    <!-- Valeur de l'assurance choisie (peut être changée dynamiquement) -->
+    <input type="text" class="form-control" id="assurance1" name="assurance1Value" value="INAM" readonly>
+</div>
+<div class="form-group col-md-3">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="assurance2Checkbox" name="assuranceSelectionnee">
+        <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
+    </div>
+    <!-- Valeur de l'assurance choisie (peut être changée dynamiquement) -->
+    <input type="text" class="form-control" id="assurance2" name="assurance2Value" value="CNSS" readonly>
+</div>
+
+<!-- Champ caché pour envoyer la valeur sélectionnée -->
+<input type="hidden" id="assuranceSelectionneeValue" name="assuranceSelectionneeValue">
+                                              
+                            
+                            
+                            
+                            
+                            
                         </div>
 
                         <hr>
@@ -341,18 +353,35 @@ $(document).ready(function() {
         });
     });
 
-    // Gestion des cases à cocher pour qu'une seule soit cochée à la fois
-        $('#assurance1Checkbox').on('change', function() {
-            if (this.checked) {
-                $('#assurance2Checkbox').prop('checked', false);
-            }
-        });
+  // Gestion des cases à cocher pour qu'une seule soit cochée à la fois
+    $('#assurance1Checkbox').on('change', function() {
+        if (this.checked) {
+            $('#assurance2Checkbox').prop('checked', false);
+            // Récupère dynamiquement la valeur de l'assurance 1
+            var assurance1Value = $('#assurance1').val();
+            $('#assuranceSelectionneeValue').val(assurance1Value);
+        } else {
+            $('#assuranceSelectionneeValue').val(''); // Réinitialiser si la case est décochée
+        }
+    });
 
-        $('#assurance2Checkbox').on('change', function() {
-            if (this.checked) {
-                $('#assurance1Checkbox').prop('checked', false);
-            }
-        });
+    $('#assurance2Checkbox').on('change', function() {
+        if (this.checked) {
+            $('#assurance1Checkbox').prop('checked', false);
+            // Récupère dynamiquement la valeur de l'assurance 2
+            var assurance2Value = $('#assurance2').val();
+            $('#assuranceSelectionneeValue').val(assurance2Value);
+        } else {
+            $('#assuranceSelectionneeValue').val(''); // Réinitialiser si la case est décochée
+        }
+    });
+
+    // Optionnel : Réinitialiser le champ caché lors de la soumission si aucune case n'est cochée
+    $('form').on('submit', function() {
+        if (!$('#assurance1Checkbox').is(':checked') && !$('#assurance2Checkbox').is(':checked')) {
+            $('#assuranceSelectionneeValue').val('');
+        }
+    });
 
 
     // Redirection vers la page d'édition du client
@@ -395,6 +424,7 @@ $(document).ready(function() {
     // Sélection d'un médicament
     $('#drugSearchResults').on('click', '.drug-item', function() {
         var drug = $(this).data('drug');
+         console.log('Voici la Drug ID:', drug.id); // Vérifier l'ID du médicament
         var $newRow = $('<tr></tr>');
 
         $newRow.append('<td><input type="text" class="form-control" name="drugName" value="' + drug.name + '" readonly></td>');
@@ -414,7 +444,8 @@ $(document).ready(function() {
         calculateTotals(); // Recalculer les totaux après ajout d'une nouvelle ligne
     });
 
-    // Calculer le total lorsque la quantité est modifiée
+
+     // Calculer le total lorsque la quantité est modifiée
     $('#medicamentTableBody').on('input', 'input[name="quantity"]', function() {
         var $row = $(this).closest('tr');
         var quantity = parseFloat($(this).val());
@@ -481,7 +512,7 @@ $(document).ready(function() {
     });
 });
 
-
+    
 document.getElementById('venteDrugForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Empêche la soumission réelle pour inspecter les données
     var formData = new FormData(this);
@@ -503,12 +534,12 @@ document.getElementById('venteDrugForm').addEventListener('submit', function(eve
     console.log('Données envoyées au serveur :', data);
 
     // Vous pouvez également afficher les données dans le DOM si nécessaire
- //   var displayDiv = document.createElement('div');
-   // displayDiv.textContent = JSON.stringify(data, null, 2);
-   // document.body.appendChild(displayDiv);
+    var displayDiv = document.createElement('div');
+    displayDiv.textContent = JSON.stringify(data, null, 2);
+    document.body.appendChild(displayDiv);
 
     // Soumettez le formulaire après inspection
-     this.submit(); // Décommentez pour permettre la soumission réelle
+      this.submit(); // Décommentez pour permettre la soumission réelle
 });
 
 </script>

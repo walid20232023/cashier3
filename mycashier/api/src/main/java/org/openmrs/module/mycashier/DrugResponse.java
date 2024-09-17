@@ -138,7 +138,7 @@ public class DrugResponse {
 	public DrugResponse drugToResponse(MyDrug myDrug) {
 		
 		DrugResponse drugResponse = new DrugResponse();
-		drugResponse.setId(myDrug.getDrugId());
+		drugResponse.setId(myDrug.getId());
 		drugResponse.setName(myDrug.getName());
 		drugResponse.setDci(myDrug.getDci());
 		drugResponse.setCip(myDrug.getCip());

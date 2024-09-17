@@ -51,4 +51,6 @@ public interface VenteDrugService {
 	@Transactional
 	void addLigneToVenteDrug(VenteDrug venteDrug, LigneVenteDrug ligneVenteDrug);
 	
+	LigneVenteDrug saveLigneVenteDrug(LigneVenteDrug ligneVenteDrug);
+	
 }

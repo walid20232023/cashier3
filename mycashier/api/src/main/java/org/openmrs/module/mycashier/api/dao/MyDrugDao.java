@@ -44,7 +44,7 @@ public class MyDrugDao {
 	public MyDrug getMyDrugById(Integer myDrugId) {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MyDrug.class);
-		criteria.add(Restrictions.eq("id", myDrugId));
+		criteria.add(Restrictions.eq("id", myDrugId)); // Correction ici
 		return (MyDrug) criteria.uniqueResult();
 	}
 	

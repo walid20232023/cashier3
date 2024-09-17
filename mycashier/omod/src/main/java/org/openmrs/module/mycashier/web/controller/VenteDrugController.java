@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,15 +127,14 @@ public class VenteDrugController {
 		return "module/mycashier/clientList";
 	}
 	
+	//-----------------------SAVE DRUG--------------------------------------------------------------
+	
 	@RequestMapping(value = "/saveVenteDrug", method = RequestMethod.POST)
-	public String saveVenteDrug(@RequestParam("clientId") Integer clientId,
-	        @RequestParam(value = "assuranceId", required = false) Integer assuranceId,
-	        //  @RequestParam("partAssurance") Integer partAssurance,
-	        // @RequestParam("total") Integer total,
-	        @RequestParam("medicamentIds") List<Integer> medicamentIds,
-	        //	@RequestParam("quantites") List<Integer> quantites,
-	        //	@RequestParam("prix") List<Integer> prices,
-	        Model model) {
+	public String saveVenteDrug(@RequestParam("client") Integer clientId,
+	        @RequestParam(value = "assuranceSelectionneeValue", required = false) String assurance,
+	        @RequestParam("partAssurance") Float partAssurance, @RequestParam("total") String[] totalArray,
+	        @RequestParam("medicamentIds") String[] medicamentIdsArray, // Change here to String[]
+	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices, Model model) {
 		
 		VenteDrug venteDrug = new VenteDrug();
 		
@@ -147,25 +148,19 @@ public class VenteDrugController {
 			 * "Mismatch between the number of medications, quantities, and prices"); return
 			 * "module/mycashier/venteProduit"; }
 			 **/
-			
-			if (medicamentIds.isEmpty()) {
+			if (medicamentIdsArray == null || medicamentIdsArray.length == 0) {
 				model.addAttribute("error", "Vous devez ajouter au moins un médicament avant d'enregistrer.");
-				//	return "redirect:/module/mycashier/venteProduit.form"; // Redirige vers la page de vente
-				System.out.println("(medicamentIds.isEmpty");
+				return "module/mycashier/venteProduit"; // Redirects to the sales page
 			}
 			
 			// Ajout de clientID
 			if (clientId == null) {
 				model.addAttribute("error", "Veuillez sélectionner un client");
 				//	return "module/mycashier/venteProduit";
+				System.out.println("(Client Id :" + clientId);
 			} else {
-				
+				System.out.println("(Client Id :" + clientId);
 				venteDrug.setClient(clientService.getClientById(clientId));
-			}
-			
-			// Ajout de assurance
-			if (assuranceId != null) {
-				venteDrug.setAssurance(assuranceService.getAssuranceById(assuranceId).getName());
 			}
 			
 			System.out.println("avant user");
@@ -179,13 +174,36 @@ public class VenteDrugController {
 			//Ajout entrepot
 			venteDrug.setEntrepot(entrepotService.getEntrepotById(EntrepotConstants.VENTE_ID));
 			
+			venteDrug.setDateVente(LocalDateTime.now());
+			
+			// Ajout de assurance
+			
+			venteDrug.setAssurance(assurance);
+			
 			//Ajouts part assurance et total
-			//venteDrug.setPartAssurance(partAssurance);
-			//venteDrug.setPrice(total);
+			venteDrug.setPartAssurance(partAssurance);
 			
 			//Première sauvegarde
 			venteDrugService.saveVenteDrug(venteDrug);
 			
+			// Vérifier si le tableau n'est pas vide et extraire le dernier élément
+			float total = 0.0f;
+			if (totalArray != null && totalArray.length > 0) {
+				// Obtenir le dernier élément du tableau
+				String lastTotalStr = totalArray[totalArray.length - 1];
+				
+				// Remplacer les virgules par des points pour les nombres à virgule flottante
+				try {
+					total = Float.parseFloat(lastTotalStr.replace(',', '.'));
+				}
+				catch (NumberFormatException e) {
+					// Gérer l'erreur ici
+					System.out.println("Erreur de conversion de la valeur total en float: " + e.getMessage());
+				}
+				
+			}
+			
+			venteDrug.setTotal(total);
 			// Supprimer les lignes de vente existantes
 			
 			System.out.println("avant existing");
@@ -205,19 +223,55 @@ public class VenteDrugController {
 			System.out.println("existainLines :" + existingLignes);
 			
 			// Traiter les médicaments sélectionnés
-			for (int i = 0; i < medicamentIds.size(); i++) {
+			for (int i = 0; i < medicamentIdsArray.length; i++) {
+				// Récupérer l'ID du médicament en utilisant l'index i
+				String medicamentIdStr = medicamentIdsArray[i];
+				
+				// Convertir l'ID en entier
+				Integer drugId = Integer.parseInt(medicamentIdStr.trim());
+				
+				// Recupérer quantité
+				String quantityStr = quantites[i];
+				Integer quantity = Integer.parseInt(quantityStr.trim());
+				
+				// Recupérer prix
+				String priceStr = prices[i];
+				Integer price = Integer.parseInt(priceStr.trim());
+				
+				MyDrug myDrug = myDrugService.getMyDrugById(drugId);
 				
 				LigneVenteDrug ligneVenteDrug = new LigneVenteDrug();
 				
-				Integer drugId = medicamentIds.get(i);
-				//	Integer quantite = quantites.get(i);
-				//	Integer prixUnitaire = prices.get(i);
+				LigneVenteDrug.LigneVenteDrugId ligneVenteDrugId = new LigneVenteDrug.LigneVenteDrugId(venteDrug.getId(),
+				        myDrug.getId());
+				ligneVenteDrug.setId(ligneVenteDrugId);
+				
+				System.out.println("Contenu ligneVENTE :" + ligneVenteDrug);
+				
+				System.out.println("DRug ID :" + drugId);
 				
 				//Modification de ligneService
-				ligneVenteDrug.setMyDrug(myDrugService.getMyDrugById(drugId));
+				
+				System.out.println("MyDRug :" + myDrug);
+				ligneVenteDrug.setMyDrug(myDrug);
 				ligneVenteDrug.setVenteDrug(venteDrug);
-				//ligneVenteDrug.setQuantity(quantite);
-				//	ligneVenteDrug.setPrice(prixUnitaire);
+				
+				System.out.println(" Après modif Contenu ligneVENTE :" + ligneVenteDrug);
+				ligneVenteDrug.setQuantity(quantity);
+				ligneVenteDrug.setPrice(price);
+				
+				try {
+					// Appel à la méthode pour sauvegarder l'objet LigneVenteDrug
+					venteDrugService.saveLigneVenteDrug(ligneVenteDrug);
+					System.out.println("LigneVenteDrug sauvegardée avec succès.");
+				}
+				catch (Exception e) {
+					// Capture et affichage de l'erreur
+					System.err.println("Erreur lors de la sauvegarde de LigneVenteDrug : " + e.getMessage());
+					e.printStackTrace(); // Affiche le détail complet de l'exception
+				}
+				
+				System.out.println(" Après enregistrement :" + ligneVenteDrug);
 				
 				//Ajouter la ligne
 				venteDrugService.addLigneToVenteDrug(venteDrug, ligneVenteDrug);

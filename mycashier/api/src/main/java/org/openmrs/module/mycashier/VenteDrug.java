@@ -37,10 +37,10 @@ public class VenteDrug implements Serializable {
 	private String assurance;
 	
 	@Column(name = "part_assurance")
-	private Integer partAssurance;
+	private Float partAssurance;
 	
 	@Column(name = "total")
-	private Integer total;
+	private Float total;
 	
 	@Column(name = "date_creation")
 	private LocalDateTime dateCreation = LocalDateTime.now();
@@ -56,11 +56,11 @@ public class VenteDrug implements Serializable {
 		this.assurance = assurance;
 	}
 	
-	public void setPartAssurance(Integer partAssurance) {
+	public void setPartAssurance(Float partAssurance) {
 		this.partAssurance = partAssurance;
 	}
 	
-	public void setTotal(Integer total) {
+	public void setTotal(Float total) {
 		this.total = total;
 	}
 	
@@ -68,11 +68,11 @@ public class VenteDrug implements Serializable {
 		return assurance;
 	}
 	
-	public Integer getPartAssurance() {
+	public Float getPartAssurance() {
 		return partAssurance;
 	}
 	
-	public Integer getTotal() {
+	public Float getTotal() {
 		return total;
 	}
 	

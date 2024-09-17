@@ -74,4 +74,10 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 		dao.addLigneToVenteDrug(venteDrug, ligneVenteDrug);
 		
 	}
+	
+	@Override
+	public LigneVenteDrug saveLigneVenteDrug(LigneVenteDrug ligneVenteDrug) {
+		
+		return dao.saveLigneVenteDrug(ligneVenteDrug);
+	}
 }

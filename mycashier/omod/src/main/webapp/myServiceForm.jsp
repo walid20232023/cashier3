@@ -47,6 +47,7 @@
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>
     </c:if>
+<<<<<<< HEAD:mycashier/omod/src/main/webapp/serviceForm.jsp
     <form action="<%= request.getContextPath() %>/module/mycashier/serviceForm.form" method="post">
         <input type="hidden" id="id" name="id" value="${service.id}">
         <div class="form-group">
@@ -64,6 +65,21 @@
         <div class="form-group">
             <label for="price">Prix</label>
             <input type="number" id="price" name="price" value="${service.price}" required>
+=======
+    <form action="<%= request.getContextPath() %>/module/mycashier/assuranceForm.form" method="post">
+        <input type="hidden" id="id" name="id" value="${myService.id}">
+        <div class="form-group">
+            <label for="name">Nom de l'Assurance</label>
+            <input type="text" id="name" name="name" value="${myService.name}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Adresse</label>
+            <input type="text" id="address" name="address" value="${myService.address}">
+        </div>
+        <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="text" id="telephone" name="telephone" value="${myService.telephone}">
+>>>>>>> b66d7c2418668d80ee363f9d9ce4b9656fc2ba10:mycashier/omod/src/main/webapp/myServiceForm.jsp
         </div>
         <button type="submit" class="submit-button">Enregistrer Service</button>
     </form>
