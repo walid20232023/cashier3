@@ -46,11 +46,18 @@ public interface VenteDrugService {
 	VenteDrug deleteVenteDrug(VenteDrug venteDrug) throws APIException;
 	
 	@Transactional
-	List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException;
+	List<Integer> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException;
 	
 	@Transactional
 	void addLigneToVenteDrug(VenteDrug venteDrug, LigneVenteDrug ligneVenteDrug);
 	
+	@Transactional
 	LigneVenteDrug saveLigneVenteDrug(LigneVenteDrug ligneVenteDrug);
 	
+	@Transactional
+	List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom,
+	        String query);
+	
+	@Transactional
+	List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer id);
 }

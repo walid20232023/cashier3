@@ -142,12 +142,7 @@ public class VenteDrugController {
 		
 		try {
 			// Vérifier que les listes ont la même taille
-			/**
-			 * if (medicamentIds.size() != quantites.size() || medicamentIds.size() !=
-			 * prices.size()) { model.addAttribute("error",
-			 * "Mismatch between the number of medications, quantities, and prices"); return
-			 * "module/mycashier/venteProduit"; }
-			 **/
+			
 			if (medicamentIdsArray == null || medicamentIdsArray.length == 0) {
 				model.addAttribute("error", "Vous devez ajouter au moins un médicament avant d'enregistrer.");
 				return "module/mycashier/venteProduit"; // Redirects to the sales page
@@ -197,7 +192,8 @@ public class VenteDrugController {
 					total = Float.parseFloat(lastTotalStr.replace(',', '.'));
 				}
 				catch (NumberFormatException e) {
-					// Gérer l'erreur ici
+					// Gérer l'erreur iciwaliy2023
+					
 					System.out.println("Erreur de conversion de la valeur total en float: " + e.getMessage());
 				}
 				
@@ -207,20 +203,18 @@ public class VenteDrugController {
 			// Supprimer les lignes de vente existantes
 			
 			System.out.println("avant existing");
-			List<LigneVenteDrug> existingLignes = venteDrugService.getAllLignesByVenteDrug(venteDrug);
-			System.out.println("après existing");
-			
-			System.out.println("existainLines :" + existingLignes);
-			
-			if (existingLignes != null && !existingLignes.isEmpty()) {
-				for (LigneVenteDrug ligne : existingLignes) {
-					venteDrugService.deleteLigneFromVenteDrug(ligne.getMyDrug(), venteDrug);
-				}
-			}
+			/**
+			 * List<LigneVenteDrug> existingLignes =
+			 * venteDrugService.getAllLignesByVenteDrug(venteDrug);
+			 * System.out.println("après existing"); System.out.println("existainLines :" +
+			 * existingLignes); if (existingLignes != null && !existingLignes.isEmpty()) { for
+			 * (LigneVenteDrug ligne : existingLignes) {
+			 * venteDrugService.deleteLigneFromVenteDrug(ligne.getMyDrug(), venteDrug); } }
+			 **/
 			
 			System.out.println("après delet  existing");
 			
-			System.out.println("existainLines :" + existingLignes);
+			//	System.out.println("existainLines :" + existingLignes);
 			
 			// Traiter les médicaments sélectionnés
 			for (int i = 0; i < medicamentIdsArray.length; i++) {
@@ -289,6 +283,15 @@ public class VenteDrugController {
 			return "module/mycashier/venteProduit";
 			
 		}
+	}
+	
+	// Méthode pour afficher la vue de la liste des ventes de médicaments
+	@RequestMapping(value = "/venteProduitList.form", method = RequestMethod.GET)
+	public String venteDrugListForm(ModelMap model) {
+		// Vous pouvez ajouter des attributs au modèle ici si nécessaire
+		// Par exemple, model.addAttribute("someAttribute", someValue);
+		
+		return "module/mycashier/venteProduitList"; // Assurez-vous que cette vue existe dans le bon dossier
 	}
 	
 }

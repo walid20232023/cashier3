@@ -93,7 +93,7 @@
               Créer une vente
           </a>
 
-            <a href="/editSale" class="button">
+            <a href="${pageContext.request.contextPath}/module/mycashier/venteProduitList.form"  class="button">
                 <i class="bi bi-pencil-square"></i> <!-- Icône pour éditer une vente -->
                 Éditer une vente
             </a>

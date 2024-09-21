@@ -332,7 +332,6 @@ $(document).ready(function() {
         $('#assurance2').val(client.assurance2 || '');
 
 
-
         $('#clientSearchResults').empty();
     });
      

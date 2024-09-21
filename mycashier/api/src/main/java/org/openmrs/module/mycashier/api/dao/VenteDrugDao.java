@@ -15,7 +15,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository("mycashier.VenteDrugDao")
@@ -31,6 +37,9 @@ public class VenteDrugDao {
 	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	@Transactional
 	public VenteDrug getVenteDrugByUuid(String uuid) {
@@ -137,19 +146,22 @@ public class VenteDrugDao {
 	}
 	
 	@Transactional
-	public List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) {
+	public List<Integer> getAllLignesByVenteDrug(VenteDrug venteDrug) {
+		// Vérification que venteDrug n'est pas null et qu'il a un ID valide
+		if (venteDrug == null || venteDrug.getId() == null) {
+			System.out.println("Empty list");
+			return Collections.emptyList();
+		}
+		
 		DbSession session = sessionFactory.getCurrentSession();
 		
-		// Utiliser Criteria pour récupérer toutes les lignes associées à un VenteDrug spécifique
-		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
+		// Utilisation de la requête SQL native pour récupérer les my_drug_id
+		String sql = "SELECT my_drug_id FROM ligne_vente_drug WHERE vente_drug_id = :venteDrugId";
 		
-		// Ajouter une restriction pour le venteDrug
-		criteria.add(Restrictions.eq("venteDrug", venteDrug));
+		// Exécution de la requête et récupération des résultats
+		List<Integer> drugIds = session.createSQLQuery(sql).setParameter("venteDrugId", venteDrug.getId()).list();
 		
-		// Récupérer et retourner les résultats sous forme de liste
-		List<LigneVenteDrug> lignesVente = criteria.list();
-		
-		return lignesVente;
+		return drugIds;
 	}
 	
 	@Transactional
@@ -177,4 +189,50 @@ public class VenteDrugDao {
 		return ligneVenteDrug;
 	}
 	
+	@Transactional
+	public List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom, String query) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<VenteDrug> cq = cb.createQuery(VenteDrug.class);
+		Root<VenteDrug> vente = cq.from(VenteDrug.class);
+		List<Predicate> predicates = new ArrayList<>();
+
+		// Filtre par date
+		if (startDate != null && endDate != null) {
+			predicates.add(cb.between(vente.get("dateVente"), startDate, endDate));
+		}
+
+		// Filtre par nom du client (start with)
+		if (clientNom != null) {
+			predicates.add(cb.like(vente.get("client").get("name"), clientNom + "%"));
+		}
+
+		// Filtre par prénom du client (start with)
+		if (clientPrenom != null) {
+			predicates.add(cb.like(vente.get("client").get("firstnames"), clientPrenom + "%"));
+		}
+
+		// Filtre par médicament (nom, DCI, groupe thérapeutique) avec "start with"
+		if (query != null) {
+			// Créer la sous-requête pour obtenir les IDs des ventes correspondantes
+			Subquery<Integer> subquery = cq.subquery(Integer.class);
+			Root<LigneVenteDrug> ligne = subquery.from(LigneVenteDrug.class);
+			subquery.select(ligne.get("venteDrug").get("id")).distinct(true);
+			subquery.where(
+					cb.or(
+							cb.like(ligne.get("myDrug").get("name"), query + "%"),
+							cb.like(ligne.get("myDrug").get("dci"), query + "%"),
+							cb.like(ligne.get("myDrug").get("groupeTherap"), query + "%")
+					)
+			);
+			predicates.add(vente.get("id").in(subquery));
+		}
+
+		cq.where(predicates.toArray(new Predicate[0]));
+
+		// Trier par dateVente du plus récent au plus ancien
+		cq.orderBy(cb.desc(vente.get("dateVente")));
+		
+		TypedQuery<VenteDrug> queryResult = entityManager.createQuery(cq);
+		return queryResult.getResultList();
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service("venteDrugService")
@@ -64,9 +65,8 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	}
 	
 	@Override
-	public List<LigneVenteDrug> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException {
-		dao.getAllLignesByVenteDrug(venteDrug);
-		return null;
+	public List<Integer> getAllLignesByVenteDrug(VenteDrug venteDrug) throws APIException {
+		return dao.getAllLignesByVenteDrug(venteDrug);
 	}
 	
 	@Override
@@ -79,5 +79,16 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	public LigneVenteDrug saveLigneVenteDrug(LigneVenteDrug ligneVenteDrug) {
 		
 		return dao.saveLigneVenteDrug(ligneVenteDrug);
+	}
+	
+	@Override
+	public List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom,
+	        String clientPrenom, String query) {
+		return dao.searchVentes(startDate, endDate, clientNom, clientPrenom, query);
+	}
+	
+	@Override
+	public List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer id) {
+		return dao.getAllLigneVenteDrugsByDrug(id);
 	}
 }
