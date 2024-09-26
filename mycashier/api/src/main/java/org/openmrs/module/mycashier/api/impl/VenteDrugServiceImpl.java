@@ -91,4 +91,14 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	public List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer id) {
 		return dao.getAllLigneVenteDrugsByDrug(id);
 	}
+	
+	@Override
+	public Integer getDrugQuantFromDrugId(Integer venteDrugId, Integer drugId) {
+		return dao.getDrugQuantFromDrugId(venteDrugId, drugId);
+	}
+	
+	@Override
+	public void deleteAllLigneVente(Integer venteDrugId) {
+		dao.deleteAllLigneVente(venteDrugId);
+	}
 }

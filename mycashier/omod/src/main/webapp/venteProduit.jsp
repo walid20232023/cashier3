@@ -168,6 +168,9 @@
                 </div>
                 <div class="card-body">
                     <form  id="venteDrugForm"  action="<%= request.getContextPath() %>/module/mycashier/saveVenteDrug.form" method="post">
+
+                    <!-- Champ caché pour venteDrugId -->
+                                            <input type="hidden" id="venteDrugId" name="venteDrugId" value="${venteDrugId != null ? venteDrugId : ''}">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="searchClient">Rechercher Client</label>
@@ -181,62 +184,60 @@
                                 </div>
                                 <ul class="list-group" id="clientSearchResults"></ul>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="client">Code Client</label>
-                                <div class="input-group">
-                                    <input type="hidden" id="clientId" name="clientId" readonly>
-                                    <input type="number" class="form-control" id="client" name="client" readonly >
-                                    <div class="input-group-append">
-                                        <a href="#" class="btn btn-outline-secondary icon-edit-link" id="editClient">
-                                            <i class="bi bi-pencil icon-edit"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="nom">Nom</label>
-                                <input type="text" class="form-control" id="nom" name="nom" readonly>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="prenom">Prénom</label>
-                                <input type="text" class="form-control" id="prenom" name="prenom" readonly>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="dateNaissance">Date de naissance</label>
-                                <input type="text" class="form-control" id="dateNaissance" name="dateNaissance" readonly>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="sexe">Sexe</label>
-                                <input type="text" class="form-control" id="sexe" name="sexe" readonly>
-                            </div>
-                            
+
+                 <div class="form-group col-md-3">
+                                             <label for="client">Code Client</label>
+                                             <div class="input-group">
+                                                 <input type="hidden" id="clientId" name="clientId" readonly value="${client != null ? client.id : ''}">
+                                                 <input type="number" class="form-control" id="client" name="client" readonly value="${client != null ? client.id : ''}">
+                                                 <div class="input-group-append">
+                                                     <a href="#" class="btn btn-outline-secondary icon-edit-link" id="editClient">
+                                                         <i class="bi bi-pencil icon-edit"></i>
+                                                     </a>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="form-group col-md-3">
+                                             <label for="nom">Nom</label>
+                                             <input type="text" class="form-control" id="nom" name="nom" readonly value="${client != null ? client.name : ''}">
+                                         </div>
+
+                                         <div class="form-group col-md-3">
+                                             <label for="prenom">Prénom</label>
+                                             <input type="text" class="form-control" id="prenom" name="prenom" readonly value="${client != null ? client.firstnames : ''}">
+                                         </div>
+
+                                         <div class="form-group col-md-3">
+                                             <label for="dateNaissance">Date de naissance</label>
+                                             <input type="text" class="form-control" id="dateNaissance" name="dateNaissance" readonly value="${client != null ? client.birthDate : ''}">
+                                         </div>
+
+                                         <div class="form-group col-md-3">
+                                             <label for="sexe">Sexe</label>
+                                             <input type="text" class="form-control" id="sexe" name="sexe" readonly value="${client != null ? (client.sex == 'M' ? 'Masculin' : 'Féminin') : ''}">
+                                         </div>
  <div class="form-group col-md-3">
     <div class="form-check">
         <input class="form-check-input" type="checkbox" id="assurance1Checkbox" name="assuranceSelectionnee">
         <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
     </div>
-    <!-- Valeur de l'assurance choisie (peut être changée dynamiquement) -->
-    <input type="text" class="form-control" id="assurance1" name="assurance1Value" value="INAM" readonly>
+    <!-- Valeur assurance choisie (peut être changée dynamiquement) -->
+    <input type="text" class="form-control" id="assurance1" name="assurance1Value" value="${client != null ? client.assurance1 : ''}" readonly>
 </div>
 <div class="form-group col-md-3">
     <div class="form-check">
         <input class="form-check-input" type="checkbox" id="assurance2Checkbox" name="assuranceSelectionnee">
         <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
     </div>
-    <!-- Valeur de l'assurance choisie (peut être changée dynamiquement) -->
-    <input type="text" class="form-control" id="assurance2" name="assurance2Value" value="CNSS" readonly>
+    <!-- Valeur assurance choisie (peut être changée dynamiquement) -->
+    <input type="text" class="form-control" id="assurance2" name="assurance2Value" value="${client != null ? client.assurance2 : ''}"  readonly>
 </div>
 
-<!-- Champ caché pour envoyer la valeur sélectionnée -->
+ <!-- Champ caché pour envoyer la valeur sélectionnée -->
 <input type="hidden" id="assuranceSelectionneeValue" name="assuranceSelectionneeValue">
-                                              
-                            
-                            
-                            
-                            
-                            
-                        </div>
 
+ </div>
                         <hr>
                         <h3>Médicaments</h3>
                         <div class="form-row">
@@ -260,7 +261,22 @@
                                 </tr>
                             </thead>
                             <tbody id="medicamentTableBody">
-                                <!-- Les lignes de médicament apparaîtront ici -->
+                                <c:forEach var="mydrug" items="${drugs}">
+                                           <tr>
+                                               <td><input type="text" class="form-control" name="drugName" value="${mydrug.name}" readonly></td>
+                                               <td><input type="number" class="form-control quantity" name="quantity" value="${mydrug.quantity}"></td>
+                                               <td><input type="number" class="form-control" name="pu" value="${mydrug.price}" readonly></td>
+                                               <td><input type="number" class="form-control" name="Inam" value="${mydrug.baseInam}" readonly></td>
+                                               <td><input type="number" class="form-control total" name="total" value="${mydrug.price}" readonly></td>
+                                               <td><input type="text" class="form-control" name="stockPh" value="${mydrug.stockLocal}" readonly></td>
+                                               <td><input type="text" class="form-control" name="stockMg" value="${mydrug.stockMag}" readonly></td>
+                                               <td>
+                                                   <i class="bi bi-eye icon-view"></i>
+                                                   <i class="bi bi-trash icon-delete"></i>
+                                               </td>
+                                               <td><input type="hidden" name="medicamentIds" value="${mydrug.id}"></td>
+                                           </tr>
+                                       </c:forEach>
                             </tbody>
                         </table>
 
@@ -278,13 +294,13 @@
                                 <input type="number" class="form-control custom-input" id="total" name="total" readonly>
                             </div>
                             <div class="col-md-3 d-flex justify-content-end align-items-center">
-                              
+
                             </div>
                         </div>
                           <button type="submit" class="btn btn-primary custom-button">
                                     Enregistrer la vente
                                 </button>
-                    </form>    
+                    </form>
                 </div>
             </div>
         </div>
@@ -298,6 +314,35 @@
 <script>
 $(document).ready(function() {
     const contextPath = '${pageContext.request.contextPath}';
+
+ // Appeler calculateTotals une fois que la page est chargée
+    $('#medicamentTableBody tr').each(function() {
+        var $row = $(this);
+
+        // Log pour la ligne actuelle
+        console.log("Processing row:", $row);
+
+        // Récupérer la quantité
+        var quantity = parseFloat($row.find('input[name="quantity"]').val());
+        console.log("Quantity:", quantity);
+
+        // Récupérer le prix
+        var price = parseFloat($row.find('input[name="pu"]').val());
+        console.log("Price:", price);
+
+        // Calculer le total
+        var total = quantity * price;
+        console.log("Total:", total);
+
+        // Mettre à jour le champ total de la ligne
+        $row.find('input[name="total"]').val(total.toFixed(2));
+        console.log("Updated total field:", $row.find('input[name="total"]').val());
+    });
+
+    // Calculer les totaux globaux
+    console.log("Calling calculateTotals...");
+    calculateTotals();
+
 
     // Fonction de recherche de client
     $('#searchClient').on('input', function() {
@@ -334,7 +379,7 @@ $(document).ready(function() {
 
         $('#clientSearchResults').empty();
     });
-     
+
      //Envoi id client
        document.addEventListener('DOMContentLoaded', function() {
         // Exemple de gestion des résultats de recherche des clients
@@ -420,10 +465,13 @@ $(document).ready(function() {
         $(this).val('');
     });
 
+
+
+
     // Sélection d'un médicament
     $('#drugSearchResults').on('click', '.drug-item', function() {
         var drug = $(this).data('drug');
-         console.log('Voici la Drug ID:', drug.id); // Vérifier l'ID du médicament
+         console.log('Voici la Drug ID:', drug.id); // Vérifier l id du medicament
         var $newRow = $('<tr></tr>');
 
         $newRow.append('<td><input type="text" class="form-control" name="drugName" value="' + drug.name + '" readonly></td>');
@@ -435,7 +483,6 @@ $(document).ready(function() {
         $newRow.append('<td><input type="text" class="form-control" name="stockMg" value="' + drug.stockMag + '" readonly></td>');
         $newRow.append('<td><i class="bi bi-eye icon-view"></i> <i class="bi bi-trash icon-delete"></i></td>');
         $newRow.append('<td><input type="hidden" name="medicamentIds" value="' + drug.id + '"></td>');
-        
 
         $('#medicamentTableBody').append($newRow);
         $('#drugSearchResults').empty();
@@ -511,7 +558,7 @@ $(document).ready(function() {
     });
 });
 
-    
+
 document.getElementById('venteDrugForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Empêche la soumission réelle pour inspecter les données
     var formData = new FormData(this);

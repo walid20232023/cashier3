@@ -60,4 +60,10 @@ public interface VenteDrugService {
 	
 	@Transactional
 	List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer id);
+	
+	@Transactional
+	Integer getDrugQuantFromDrugId(Integer venteDrugId, Integer drugId);
+	
+	@Transactional
+	void deleteAllLigneVente(Integer venteDrugId);
 }

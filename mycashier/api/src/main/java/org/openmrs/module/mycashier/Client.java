@@ -1,8 +1,5 @@
 package org.openmrs.module.mycashier;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;

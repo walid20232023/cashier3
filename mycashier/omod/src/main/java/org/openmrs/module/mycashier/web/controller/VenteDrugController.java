@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +50,52 @@ public class VenteDrugController {
 	//______________________________VENTE PHARMACIE____________________________________________________________________
 	
 	@RequestMapping(value = "/venteProduit.form", method = RequestMethod.GET)
-	public String venteProduitForm(ModelMap model) {
-		
+	public String venteProduitForm(@RequestParam(value = "venteDrugId", required = false) Integer venteDrugId, ModelMap model) {
+
+		// Si venteDrugId est présent, l'ajouter au modèle
+		if (venteDrugId != null) {
+			System.out.println("L'id de la vente cliquée : " + venteDrugId);
+
+			// Récupérer l'objet VenteDrug via l'id
+			VenteDrug venteDrug = venteDrugService.getVenteDrugById(venteDrugId);
+
+			// Récupérer le client associé à la vente
+			Client client= venteDrug.getClient();
+			System.out.println("Client : " + client);
+
+			// Récupérer les IDs des médicaments associés à la vente
+			List<Integer> drugIds = venteDrugService.getAllLignesByVenteDrug(venteDrug);
+			System.out.println("Les drugIds : " + drugIds);
+			List<DrugResponse> drugResponses = new ArrayList<>();
+			for (Integer drugId  : drugIds)  {
+				MyDrug myDrug = myDrugService.getMyDrugById(drugId)   ;
+				DrugResponse drugResponse = DrugResponse.drugToResponse(myDrug);
+				Integer stockVente = entrepotService.getStockByEntrepotAndDrug(EntrepotConstants.VENTE_ID, myDrug.getId())
+						.getQuantiteStock();
+				Integer stockMagasin = entrepotService.getStockByEntrepotAndDrug(EntrepotConstants.MAGASIN_ID, myDrug.getId())
+						.getQuantiteStock();
+
+				drugResponse.setStockLocal(stockVente);
+				drugResponse.setStockMag(stockMagasin);
+				drugResponse.setQuantity( venteDrugService.getDrugQuantFromDrugId(venteDrugId, drugId));
+				drugResponses.add( drugResponse) ;
+			}
+			model.addAttribute("drugs", drugResponses)  ;
+
+
+			// Récupérer l'assurance utilisée (si applicable)
+			String assurance = venteDrug.getAssurance();
+			System.out.println("Assurance : " + assurance);
+
+			// Ajouter toutes les informations au modèle pour la vue
+			model.addAttribute("venteDrugId", venteDrugId);
+			model.addAttribute("client", ClientResponse.clientToResponse(client));
+			model.addAttribute("assurance", assurance);
+		} else {
+			// Si venteDrugId est null, ne rien initialiser ou ajouter d'autres valeurs par défaut si nécessaire
+			System.out.println("Pas de venteDrugId fourni.");
+		}
+
 		return "module/mycashier/venteProduit"; // Assurez-vous que cette vue existe dans le bon dossier
 	}
 	
@@ -61,11 +104,13 @@ public class VenteDrugController {
 	@RequestMapping(value = "/client.form", method = RequestMethod.GET)
 	public String showCientForm(@RequestParam(value = "id", required = false) Integer clientId, Model model) {
 		Client client = clientId != null ? clientService.getClientById(clientId) : new Client();
-		model.addAttribute("client", client);
-		model.addAttribute("assurances", assuranceService.getAllAssurances());
+		ClientResponse clientResponse = ClientResponse.clientToResponse(client);
+		model.addAttribute("client", clientResponse);
+		
 		return "module/mycashier/clientForm";
 	}
 	
+	//--------------------SAUVEGARDE CLIENT-----------------------------------------
 	@RequestMapping(value = "/client.form", method = RequestMethod.POST)
 	public String saveClient(@RequestParam(value = "id", required = false) Integer clientId,
 	        @RequestParam("name") String name, @RequestParam("firstnames") String firstnames,
@@ -118,6 +163,7 @@ public class VenteDrugController {
 		return "redirect:/module/mycashier/venteProduit.form";
 	}
 	
+	//-------------------------LISTE CLIENTS--------------------------------------------------
 	@RequestMapping(value = "/clientList.form", method = RequestMethod.GET)
 	public String listClients(Model model) {
 		
@@ -131,14 +177,27 @@ public class VenteDrugController {
 	
 	@RequestMapping(value = "/saveVenteDrug", method = RequestMethod.POST)
 	public String saveVenteDrug(@RequestParam("client") Integer clientId,
+	        @RequestParam(value = "venteDrugId", required = false) Integer venteDrugId,
 	        @RequestParam(value = "assuranceSelectionneeValue", required = false) String assurance,
 	        @RequestParam("partAssurance") Float partAssurance, @RequestParam("total") String[] totalArray,
 	        @RequestParam("medicamentIds") String[] medicamentIdsArray, // Change here to String[]
 	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices, Model model) {
 		
-		VenteDrug venteDrug = new VenteDrug();
+		VenteDrug venteDrug;
 		
-		List<LigneVenteDrug> ligneVenteDrugs = new ArrayList<LigneVenteDrug>();
+		// Si venteDrugId est présent, récupérer la vente existante
+		if (venteDrugId != null) {
+			System.out.println("L'id de la vente cliquée : " + venteDrugId);
+			venteDrug = venteDrugService.getVenteDrugById(venteDrugId);
+			System.out.println("Vente récupérée : " + venteDrug);
+		} else {
+			// Sinon, créer une nouvelle instance de VenteDrug
+			venteDrug = new VenteDrug();
+			
+			System.out.println("Nouvelle instance de vente créée.");
+		}
+		
+		//List<LigneVenteDrug> ligneVenteDrugs = new ArrayList<LigneVenteDrug>();
 		
 		try {
 			// Vérifier que les listes ont la même taille
@@ -203,18 +262,10 @@ public class VenteDrugController {
 			// Supprimer les lignes de vente existantes
 			
 			System.out.println("avant existing");
-			/**
-			 * List<LigneVenteDrug> existingLignes =
-			 * venteDrugService.getAllLignesByVenteDrug(venteDrug);
-			 * System.out.println("après existing"); System.out.println("existainLines :" +
-			 * existingLignes); if (existingLignes != null && !existingLignes.isEmpty()) { for
-			 * (LigneVenteDrug ligne : existingLignes) {
-			 * venteDrugService.deleteLigneFromVenteDrug(ligne.getMyDrug(), venteDrug); } }
-			 **/
+			
+			venteDrugService.deleteAllLigneVente(venteDrugId);
 			
 			System.out.println("après delet  existing");
-			
-			//	System.out.println("existainLines :" + existingLignes);
 			
 			// Traiter les médicaments sélectionnés
 			for (int i = 0; i < medicamentIdsArray.length; i++) {
@@ -273,19 +324,19 @@ public class VenteDrugController {
 			}
 			
 			model.addAttribute("success", "Vente enregistrée avec succès");
-			return "module/mycashier/venteProduit";
+			return "module/mycashier/venteProduitList";
 			
 		}
 		catch (Exception e) {
 			model.addAttribute("error", "Problème lors de l'enregistrement: " + e.getMessage());
 			
 			System.out.println("Je suis dans le catch");
-			return "module/mycashier/venteProduit";
+			return "module/mycashier/venteProduitList";
 			
 		}
 	}
 	
-	// Méthode pour afficher la vue de la liste des ventes de médicaments
+	// --------------------Méthode pour afficher la vue de la liste des ventes de médicaments-----------------------
 	@RequestMapping(value = "/venteProduitList.form", method = RequestMethod.GET)
 	public String venteDrugListForm(ModelMap model) {
 		// Vous pouvez ajouter des attributs au modèle ici si nécessaire

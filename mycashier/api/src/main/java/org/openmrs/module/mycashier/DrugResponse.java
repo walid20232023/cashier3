@@ -34,6 +34,8 @@ public class DrugResponse {
 	
 	private Integer stockMag;
 	
+	private Integer quantity;
+	
 	public DrugResponse() {
 	}
 	
@@ -135,7 +137,15 @@ public class DrugResponse {
 		this.stockMag = stockMag;
 	}
 	
-	public DrugResponse drugToResponse(MyDrug myDrug) {
+	public Integer getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
+	public static DrugResponse drugToResponse(MyDrug myDrug) {
 		
 		DrugResponse drugResponse = new DrugResponse();
 		drugResponse.setId(myDrug.getId());
@@ -148,9 +158,6 @@ public class DrugResponse {
 		drugResponse.setPrice(myDrug.getPrice());
 		drugResponse.setUuid(myDrug.getUuid());
 		drugResponse.setDrugId(myDrug.getDrugId());
-		
-		System.out.println("drugToResponse appelée");
-		System.out.println("drugResponse :" + drugResponse.toString());
 		
 		return drugResponse;
 		

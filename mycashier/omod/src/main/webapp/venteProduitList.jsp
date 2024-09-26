@@ -113,9 +113,17 @@
                                        '<td>' + item.clientNom + '</td>' +
                                        '<td>' + item.clientPrenom + '</td>' +
                                        '<td>' + medicaments + '</td>' +
+                                        '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
                                        '</tr>';
                                    $('#resultsTable tbody').append(row);
                                });
+
+
+                // Ajout d'un événement de clic pour chaque ligne du tableau
+                $('#resultsTable tbody tr').click(function () {
+                    var venteDrugId = $(this).find('.venteDrugId').val();
+                    window.location.href = contextPath + '/module/mycashier/venteProduit.form?venteDrugId=' + venteDrugId;
+                });
                            },
             error: function (xhr, status, error) {
                 console.error("Erreur lors de la requête : ", error);

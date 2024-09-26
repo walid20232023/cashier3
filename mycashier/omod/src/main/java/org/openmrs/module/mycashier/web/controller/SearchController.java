@@ -75,7 +75,7 @@ public class SearchController {
 		List<MyDrug> drugs = myDrugService.searchDrugs(query);
 		
 		for (MyDrug drug : drugs) {
-			DrugResponse drugResponse = new DrugResponse().drugToResponse(drug);
+			DrugResponse drugResponse = DrugResponse.drugToResponse(drug);
 			System.out.println("Nom drugResponse :" + drugResponse.getName());
 			
 			System.out.println("Avant appel stockVente");
@@ -128,20 +128,20 @@ public class SearchController {
 		System.out.println("clientPrenom :" + clientPrenom);
 		System.out.println("query :" + query);
 
-		LocalDateTime startDate = LocalDateTime.now();
+		LocalDateTime startDate = LocalDateTime.now().plusMinutes(24);
 		LocalDateTime endDate  = LocalDateTime.now().minusHours(72);
 
 
 
 		// Vérifier et convertir la date de début
 		if (startDateStr != null && !startDateStr.isEmpty()) {
-			LocalDate date = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDate date = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1);
 			startDate = date.atStartOfDay();
 		}
 
 		// Vérifier et convertir la date de fin
 		if (endDateStr != null && !endDateStr.isEmpty()) {
-			LocalDate date = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDate date = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
 			endDate = date.atStartOfDay();
 		}
 
@@ -151,7 +151,7 @@ public class SearchController {
 		List<VenteDrug> ventes = venteDrugService.searchVentes( endDate,
 				startDate, clientNom, clientPrenom, query);
 		System.out.println( " Les ventes :" + ventes);
-
+		System.out.println( " Le nombre d'éléments de ventes :" + ventes.size());
 		for (VenteDrug vente : ventes) {
 			try {
 				Integer venteId = vente.getId();
@@ -175,6 +175,7 @@ public class SearchController {
 
 		}
 		System.out.println( " Les reponseList :" + responseList);
+		System.out.println( " La longueur de  reponseList :" + responseList.size());
 
 		return responseList;
 	}

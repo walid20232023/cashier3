@@ -1,8 +1,10 @@
 package org.openmrs.module.mycashier.api.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import org.openmrs.api.db.hibernate.DbSession;
@@ -235,4 +237,47 @@ public class VenteDrugDao {
 		TypedQuery<VenteDrug> queryResult = entityManager.createQuery(cq);
 		return queryResult.getResultList();
 	}
+	
+	@Transactional
+	public Integer getDrugQuantFromDrugId(Integer venteDrugId, Integer drugId) {
+		// Création de la session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+		
+		try {
+			// Utilisation de Criteria pour créer la requête
+			Criteria criteria = session.createCriteria(LigneVenteDrug.class, "lv");
+			
+			// Ajout des restrictions (filtres) sur venteDrugId et myDrugId
+			criteria.add(Restrictions.eq("id.venteDrugId", venteDrugId));
+			criteria.add(Restrictions.eq("id.myDrugId", drugId));
+			
+			// Sélection de la propriété 'quantity'
+			criteria.setProjection(Projections.property("quantity"));
+			
+			// Exécution de la requête et récupération du résultat
+			Integer quantity = (Integer) criteria.uniqueResult();
+			
+			return quantity; // Retourne la quantité trouvée
+		}
+		catch (Exception e) {
+			// Gérer l'exception si nécessaire
+			e.printStackTrace();
+			return null; // Retourne null en cas d'erreur
+		}
+	}
+	
+	public void deleteAllLigneVente(Integer venteDrugId) {
+		// Créer une session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+		
+		// Exécuter une requête native pour supprimer toutes les lignes associées à venteDrugId
+		String sql = "DELETE FROM ligne_vente_drug WHERE vente_drug_id = :venteDrugId";
+		
+		Query query = session.createSQLQuery(sql);
+		query.setParameter("venteDrugId", venteDrugId);
+		
+		// Exécuter la suppression
+		query.executeUpdate();
+	}
+	
 }
