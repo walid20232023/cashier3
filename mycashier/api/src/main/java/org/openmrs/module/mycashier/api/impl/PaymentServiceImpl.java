@@ -9,6 +9,8 @@ import org.openmrs.module.mycashier.api.dao.PaymentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service("paymentService ")
@@ -59,5 +61,11 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public Payment deletePayment(Payment payment) throws APIException {
 		return dao.deletePayment(payment);
+	}
+	
+	@Override
+	public List<Payment> searchPayments(LocalDateTime startDate, LocalDateTime endDate, String clientNom,
+	        String clientPrenom, String operationType, String agentName, String assurance) {
+		return dao.searchPayments(startDate, endDate, clientNom, clientPrenom, operationType, agentName, assurance);
 	}
 }

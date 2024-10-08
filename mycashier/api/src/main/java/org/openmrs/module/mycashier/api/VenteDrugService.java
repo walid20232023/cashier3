@@ -2,7 +2,6 @@ package org.openmrs.module.mycashier.api;
 
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
-import org.openmrs.api.OpenmrsService;
 
 import org.openmrs.module.mycashier.LigneVenteDrug;
 import org.openmrs.module.mycashier.MyDrug;
@@ -56,7 +55,7 @@ public interface VenteDrugService {
 	
 	@Transactional
 	List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom,
-	        String query);
+	        String query, Integer validate);
 	
 	@Transactional
 	List<LigneVenteDrug> getAllLigneVenteDrugsByDrug(Integer id);

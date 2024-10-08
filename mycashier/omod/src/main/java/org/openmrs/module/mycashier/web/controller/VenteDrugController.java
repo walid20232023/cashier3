@@ -6,6 +6,7 @@ import org.openmrs.module.mycashier.*;
 import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/module/mycashier")
@@ -39,6 +42,9 @@ public class VenteDrugController {
 	
 	@Autowired
 	private MyDrugService myDrugService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	//______________________________AFFICHAGE ACCUEIL PHARMACIE____________________________________________________________________
 	@RequestMapping(value = "/accueilPharmacie.form", method = RequestMethod.GET)
@@ -179,9 +185,11 @@ public class VenteDrugController {
 	public String saveVenteDrug(@RequestParam("client") Integer clientId,
 	        @RequestParam(value = "venteDrugId", required = false) Integer venteDrugId,
 	        @RequestParam(value = "assuranceSelectionneeValue", required = false) String assurance,
-	        @RequestParam("partAssurance") Float partAssurance, @RequestParam("total") String[] totalArray,
+	        @RequestParam("partAssurance") Float partAssurance,
+	        @RequestParam("total") String[] totalArray,
 	        @RequestParam("medicamentIds") String[] medicamentIdsArray, // Change here to String[]
-	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices, Model model) {
+	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices,
+	        @RequestParam("validate") Integer validate, Model model) {
 		
 		VenteDrug venteDrug;
 		
@@ -196,8 +204,6 @@ public class VenteDrugController {
 			
 			System.out.println("Nouvelle instance de vente créée.");
 		}
-		
-		//List<LigneVenteDrug> ligneVenteDrugs = new ArrayList<LigneVenteDrug>();
 		
 		try {
 			// Vérifier que les listes ont la même taille
@@ -257,8 +263,12 @@ public class VenteDrugController {
 				}
 				
 			}
-			
+			//  Attribution du total
 			venteDrug.setTotal(total);
+			
+			//Initialisation du reste
+			venteDrug.setReste(total - partAssurance);
+			
 			// Supprimer les lignes de vente existantes
 			
 			System.out.println("avant existing");
@@ -324,25 +334,134 @@ public class VenteDrugController {
 			}
 			
 			model.addAttribute("success", "Vente enregistrée avec succès");
-			return "module/mycashier/venteProduitList";
+			
+			if (Objects.equals(validate, Integer.valueOf(1))) {
+				venteDrug.setValidate(DateFormater.VALIDATE_TRUE);
+				venteDrugService.saveVenteDrug(venteDrug);
+				return "module/mycashier/validatedDrugsList";
+			} else {
+				// Rediriger vers le formulaire avec l'ID de la vente ajoutée dans l'URL
+				venteDrug.setValidate(DateFormater.VALIDATE_FALSE);
+				venteDrugService.saveVenteDrug(venteDrug);
+				return "redirect:/module/mycashier/venteProduit.form?venteDrugId=" + venteDrug.getId();
+				
+			}
 			
 		}
 		catch (Exception e) {
 			model.addAttribute("error", "Problème lors de l'enregistrement: " + e.getMessage());
 			
 			System.out.println("Je suis dans le catch");
-			return "module/mycashier/venteProduitList";
+			return "module/mycashier/venteProduit";
 			
 		}
+		
 	}
 	
-	// --------------------Méthode pour afficher la vue de la liste des ventes de médicaments-----------------------
+	//----------------------------VALIDATE VENTE ------------------------------------------------------------------------------
+	
+	// --------------------Méthode pour afficher la vue de la liste des ventes de médicaments----------------------------------
 	@RequestMapping(value = "/venteProduitList.form", method = RequestMethod.GET)
 	public String venteDrugListForm(ModelMap model) {
 		// Vous pouvez ajouter des attributs au modèle ici si nécessaire
 		// Par exemple, model.addAttribute("someAttribute", someValue);
 		
 		return "module/mycashier/venteProduitList"; // Assurez-vous que cette vue existe dans le bon dossier
+	}
+	
+	// --------------------Méthode pour afficher la liste des médicaments validés----------------------------------
+	@RequestMapping(value = "/validatedDrugsList.form", method = RequestMethod.GET)
+	public String validatedDrugsListForm(ModelMap model) {
+		// Vous pouvez ajouter des attributs au modèle ici si nécessaire
+		// Par exemple, model.addAttribute("someAttribute", someValue);
+		
+		return "module/mycashier/validatedDrugsList"; // Assurez-vous que cette vue existe dans le bon dossier
+	}
+	
+	//----------------------------DRUG PAYMENT AFFICHAGE---------------------------------------------
+	
+	@RequestMapping(value = "/paymentDrug.form", method = RequestMethod.GET)
+	public String showPaymentForm(@RequestParam("venteDrugId") Integer venteDrugId, Model model) {
+		// Récupérer l'objet Vente via l'ID
+		VenteDrug venteDrug = venteDrugService.getVenteDrugById(venteDrugId);
+		
+		// Ajouter l'objet Vente au modèle pour être utilisé dans la vue
+		model.addAttribute("vente", venteDrug);
+		
+		//Les autres parmètres , pêle mêle
+		Client client = venteDrug.getClient();
+		String nomClient = client.getName();
+		String prenomClient = client.getFirstnames();
+		String sexeClient = client.getSex();
+		Date birthDate = client.getBirthDate();
+		
+		//Ajouts des attributes
+		model.addAttribute("clientNom", nomClient);
+		model.addAttribute("clientPrenom", prenomClient);
+		model.addAttribute("clientSexe", sexeClient);
+		model.addAttribute("clientDob", birthDate);
+		
+		// Renvoyer la vue correspondant au formulaire de paiement
+		return "module/mycashier/paymentDrug";
+	}
+	
+	//----------------SAUVEGARDE PAIEMENT----------------------------------------------------------------------------------
+	
+	@RequestMapping(value = "/processPayment", method = RequestMethod.POST)
+	@Transactional(rollbackFor = Exception.class)
+	public String processPayment(@RequestParam("venteDrugId") Integer venteDrugId,
+	        @RequestParam("modePaiement") String modePaiement, @RequestParam("sommePayee") Float sommePayee,
+	        @RequestParam("resteAPayer") Float resteAPayer, Model model) {
+		
+		try {
+			Payment payment = new Payment();
+			
+			// Récupération de l'utilisateur authentifié
+			User user = Context.getAuthenticatedUser();
+			Agent agent = agentService.getAgentByUserId(user);
+			VenteDrug venteDrug = venteDrugService.getVenteDrugById(venteDrugId);
+			
+			// Affectation des attributs du paiement
+			payment.setAgent(agent);
+			payment.setVenteDrug(venteDrug);
+			payment.setDatePayment(LocalDateTime.now());
+			payment.setMontant(sommePayee);
+			payment.setModePayment(modePaiement);
+			
+			// Affectation du reste à payer
+			venteDrug.setReste(resteAPayer);
+			
+			//Reaffectation de la date de vente
+			venteDrug.setDateVente(LocalDateTime.now());
+			
+			// Mise à jour de la caisse de l'agent
+			//Float caisse = agent.getCaisse();
+			Float caisse = Float.valueOf(0);
+			agent.setCaisse(caisse + sommePayee);
+			
+			// Sauvegarde du paiement
+			paymentService.savePayment(payment);
+			
+			// Si le reste à payer est inférieur ou égal à 0, retour à la liste des ventes
+			if (resteAPayer <= 0) {
+				return "module/mycashier/searchPayments";
+			} else {
+				return "redirect:/module/mycashier/validatedDrugsList.form";
+			}
+		}
+		catch (Exception e) {
+			// En cas d'erreur, une exception sera levée et la transaction sera annulée
+			throw new RuntimeException("Erreur lors du traitement du paiement : " + e.getMessage(), e);
+		}
+	}
+	
+	//-------------------AFFICHAGE RECHERCHE PAIEMENTS-------------------------------------------------------------
+	
+	@RequestMapping(value = "/searchPaymentDrugForm.form", method = RequestMethod.GET)
+	public String searchPaymentDrugForm(ModelMap model) {
+		// Vous pouvez ajouter des attributs au modèle ici si nécessaire pour la vue
+		
+		return "module/mycashier/searchPayments"; // Assurez-vous que ce fichier JSP existe à cet emplacement
 	}
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -41,4 +42,10 @@ public interface PaymentService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Payment deletePayment(Payment payment) throws APIException;
+	
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Payment> searchPayments(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom,
+	        String operationType, String agentName, String assurance);
+	
 }

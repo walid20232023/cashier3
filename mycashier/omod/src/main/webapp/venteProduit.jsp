@@ -152,6 +152,22 @@
          transform: scale(1.05); /* Léger zoom au survol */
      }
 
+     /* Bouton Valider désactivé (gris clair) */
+     .btn-disabled {
+         background-color: lightgray;
+         color: #fff;
+         cursor: not-allowed;
+         border-color: lightgray;
+     }
+
+     /* Bouton Valider activé (rouge vif) */
+     .btn-enabled {
+         background-color: red;
+         color: #fff;
+         border-color: red;
+     }
+
+
 
 
 
@@ -171,6 +187,9 @@
 
                     <!-- Champ caché pour venteDrugId -->
                                             <input type="hidden" id="venteDrugId" name="venteDrugId" value="${venteDrugId != null ? venteDrugId : ''}">
+
+                                            <!-- Nouveau champ caché pour validate (de type nombre) -->
+                                                <input type="hidden" id="validate" name="validate" value="0">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="searchClient">Rechercher Client</label>
@@ -217,27 +236,45 @@
                                              <label for="sexe">Sexe</label>
                                              <input type="text" class="form-control" id="sexe" name="sexe" readonly value="${client != null ? (client.sex == 'M' ? 'Masculin' : 'Féminin') : ''}">
                                          </div>
- <div class="form-group col-md-3">
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="assurance1Checkbox" name="assuranceSelectionnee">
-        <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
-    </div>
-    <!-- Valeur assurance choisie (peut être changée dynamiquement) -->
-    <input type="text" class="form-control" id="assurance1" name="assurance1Value" value="${client != null ? client.assurance1 : ''}" readonly>
-</div>
 <div class="form-group col-md-3">
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="assurance2Checkbox" name="assuranceSelectionnee">
-        <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
+        <input
+            class="form-check-input"
+            type="checkbox"
+            id="assurance1Checkbox"
+            name="assuranceSelectionnee"
+            <%-- Si l'assurance sélectionnée correspond à assurance1, cocher la case --%>
+            <c:if test="${assurance != null && assurance == client.assurance1}">
+                checked
+            </c:if>
+        >
+        <label class="form-check-label" for="assurance1Checkbox">Assurance 1</label>
     </div>
-    <!-- Valeur assurance choisie (peut être changée dynamiquement) -->
-    <input type="text" class="form-control" id="assurance2" name="assurance2Value" value="${client != null ? client.assurance2 : ''}"  readonly>
+    <input type="text" class="form-control" id="assurance1" name="assurance1Value" value="${client != null ? client.assurance1 : ''}" readonly>
 </div>
 
- <!-- Champ caché pour envoyer la valeur sélectionnée -->
-<input type="hidden" id="assuranceSelectionneeValue" name="assuranceSelectionneeValue">
+<div class="form-group col-md-3">
+    <div class="form-check">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            id="assurance2Checkbox"
+            name="assuranceSelectionnee"
+            <%-- Si l'assurance sélectionnée correspond à assurance2, cocher la case --%>
+            <c:if test="${assurance != null && assurance == client.assurance2}">
+                checked
+            </c:if>
+        >
+        <label class="form-check-label" for="assurance2Checkbox">Assurance 2</label>
+    </div>
+    <input type="text" class="form-control" id="assurance2" name="assurance2Value" value="${client != null ? client.assurance2 : ''}" readonly>
+</div>
 
- </div>
+<!-- Champ caché pour envoyer la valeur sélectionnée -->
+<input type="hidden" id="assuranceSelectionneeValue" name="assuranceSelectionneeValue" value="${assurance}">
+
+</div>
+
                         <hr>
                         <h3>Médicaments</h3>
                         <div class="form-row">
@@ -299,7 +336,12 @@
                         </div>
                           <button type="submit" class="btn btn-primary custom-button">
                                     Enregistrer la vente
-                                </button>
+                         </button>
+
+                          <!-- Bouton Valider en rouge désactivé par défaut -->
+                         <button type="submit" class="btn btn-danger custom-button" id="btnValider" disabled>
+                                 Valider
+                         </button>
                     </form>
                 </div>
             </div>
@@ -587,6 +629,50 @@ document.getElementById('venteDrugForm').addEventListener('submit', function(eve
     // Soumettez le formulaire après inspection
       this.submit(); // Décommentez pour permettre la soumission réelle
 });
+
+//  Au chargement de la table
+document.addEventListener('DOMContentLoaded', function() {
+    const btnValider = document.getElementById('btnValider');
+    const validateField = document.getElementById('validate');
+    const venteDrugId = document.getElementById('venteDrugId').value;
+    const formElements = document.querySelectorAll('#venteDrugForm input, #venteDrugForm select');
+
+    // Fonction pour gérer le style du bouton en fonction de l'état activé/désactivé
+    function toggleButtonState(isEnabled) {
+        if (isEnabled) {
+            btnValider.disabled = false;
+            btnValider.classList.remove('btn-disabled');
+            btnValider.classList.add('btn-enabled');
+        } else {
+            btnValider.disabled = true;
+            btnValider.classList.remove('btn-enabled');
+            btnValider.classList.add('btn-disabled');
+        }
+    }
+
+    // Si la page est rechargée (ou actualisée)
+    if (performance.navigation.type === 1) {
+        toggleButtonState(false);  // Désactiver le bouton "Valider" et appliquer le style désactivé lors de l'actualisation
+    } else {
+        // Si venteDrugId est présent, activer le bouton Valider
+        if (venteDrugId) {
+            toggleButtonState(true);
+        }
+    }
+
+    // Désactiver le bouton "Valider" dès qu'il y a une modification dans le formulaire
+    formElements.forEach(function(element) {
+        element.addEventListener('change', function() {
+            toggleButtonState(false); // Désactiver Valider si une modification est détectée
+        });
+    });
+
+    // Modifier la valeur du champ caché 'validate' à 1 lorsque le bouton Valider est cliqué
+    btnValider.addEventListener('click', function(event) {
+        validateField.value = 1;
+    });
+});
+
 
 </script>
 </body>

@@ -1,5 +1,6 @@
 package org.openmrs.module.mycashier;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class VenteDrugResponse {
 	private String clientNom;
 	
 	private String clientPrenom;
+	
+	private String preparateur;
 	
 	private String drug1;
 	
@@ -30,6 +33,12 @@ public class VenteDrugResponse {
 	private String group2;
 	
 	private String group3;
+	
+	private String assurance;
+	
+	private Float total;
+	
+	private Float reste;
 	
 	// Constructeur
 	
@@ -142,6 +151,38 @@ public class VenteDrugResponse {
 		this.group3 = group3;
 	}
 	
+	public String getAssurance() {
+		return assurance;
+	}
+	
+	public void setAssurance(String assurance) {
+		this.assurance = assurance;
+	}
+	
+	public String getPreparateur() {
+		return preparateur;
+	}
+	
+	public void setPreparateur(String preparateur) {
+		this.preparateur = preparateur;
+	}
+	
+	public Float getTotal() {
+		return total;
+	}
+	
+	public void setTotal(Float total) {
+		this.total = total;
+	}
+	
+	public Float getReste() {
+		return reste;
+	}
+	
+	public void setReste(Float reste) {
+		this.reste = reste;
+	}
+	
 	// Convertisseur
 	
 	public VenteDrugResponse venteToResponse(VenteDrug venteDrug, List<MyDrug> drugs) {
@@ -151,6 +192,9 @@ public class VenteDrugResponse {
 		venteDrugResponse.setDateVente(venteDrug.getDateVente());
 		venteDrugResponse.setClientNom(venteDrug.getClient().getName());
 		venteDrugResponse.setClientPrenom(venteDrug.getClient().getFirstnames());
+		venteDrugResponse.setPreparateur(venteDrug.getAgent().getUsername());
+		venteDrugResponse.setTotal(venteDrug.getTotal());
+		venteDrugResponse.setReste(venteDrug.getReste());
 		
 		// Vérifier combien de lignes de vente existent et les assigner
 		if (!drugs.isEmpty()) {

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Service("venteDrugService")
@@ -83,8 +82,8 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	
 	@Override
 	public List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom,
-	        String clientPrenom, String query) {
-		return dao.searchVentes(startDate, endDate, clientNom, clientPrenom, query);
+	        String clientPrenom, String query, Integer validate) {
+		return dao.searchVentes(startDate, endDate, clientNom, clientPrenom, query, validate);
 	}
 	
 	@Override

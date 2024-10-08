@@ -97,7 +97,7 @@
                 <i class="bi bi-pencil-square"></i> <!-- Icône pour éditer une vente -->
                 Éditer une vente
             </a>
-            <a href="/cashSale" class="button">
+            <a href="${pageContext.request.contextPath}/module/mycashier/validatedDrugsList.form"  class="button">
                 <i class="bi bi-cash"></i> <!-- Icône pour encaisser une vente -->
                 Encaisser une vente
             </a>

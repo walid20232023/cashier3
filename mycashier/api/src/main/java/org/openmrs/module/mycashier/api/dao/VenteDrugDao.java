@@ -2,8 +2,6 @@ package org.openmrs.module.mycashier.api.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -13,7 +11,6 @@ import org.openmrs.module.mycashier.LigneVenteDrug;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.VenteDrug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -192,7 +189,7 @@ public class VenteDrugDao {
 	}
 	
 	@Transactional
-	public List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom, String query) {
+	public List<VenteDrug> searchVentes(LocalDateTime startDate, LocalDateTime endDate, String clientNom, String clientPrenom, String query, Integer validate) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<VenteDrug> cq = cb.createQuery(VenteDrug.class);
 		Root<VenteDrug> vente = cq.from(VenteDrug.class);
@@ -229,6 +226,18 @@ public class VenteDrugDao {
 			predicates.add(vente.get("id").in(subquery));
 		}
 
+
+		// Ajout du filtre pour validate
+		if (validate != null) {
+			if (validate == 1) {
+				// Filtre les résultats où le champ "validate" est égal à 1
+				predicates.add(cb.equal(vente.get("validate"), 1));
+			}  else {
+
+				predicates.add(cb.equal(vente.get("validate"), 0));
+
+			}
+		}
 		cq.where(predicates.toArray(new Predicate[0]));
 
 		// Trier par dateVente du plus récent au plus ancien

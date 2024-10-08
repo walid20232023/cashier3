@@ -17,7 +17,7 @@ public class Agent {
 	private Integer id;
 	
 	@Column(name = "caisse")
-	private Long caisse;
+	private Float caisse;
 	
 	@Column(name = "user_id")
 	private Integer userId;
@@ -85,11 +85,11 @@ public class Agent {
 		this.id = id;
 	}
 	
-	public Long getCaisse() {
+	public Float getCaisse() {
 		return caisse;
 	}
 	
-	public void setCaisse(Long caisse) {
+	public void setCaisse(Float caisse) {
 		this.caisse = caisse;
 	}
 	

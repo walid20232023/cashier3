@@ -3,9 +3,7 @@ package org.openmrs.module.mycashier;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
-import org.openmrs.User;
 
 @Entity
 @Table(name = "vente_drug")
@@ -42,8 +40,17 @@ public class VenteDrug implements Serializable {
 	@Column(name = "total")
 	private Float total;
 	
+	@Column(name = "reste")
+	private Float reste;
+	
 	@Column(name = "date_creation")
 	private LocalDateTime dateCreation = LocalDateTime.now();
+	
+	@Column(name = "validate")
+	private Integer validate;
+	
+	@Column(name = "validator_id")
+	private Integer validatorId;
 	
 	//Constructeurs
 	
@@ -131,4 +138,29 @@ public class VenteDrug implements Serializable {
 	public LocalDateTime getDateCreation() {
 		return dateCreation;
 	}
+	
+	public Integer getValidate() {
+		return validate;
+	}
+	
+	public void setValidate(Integer validate) {
+		this.validate = validate;
+	}
+	
+	public Integer getValidatorId() {
+		return validatorId;
+	}
+	
+	public void setValidatorId(Integer validatorId) {
+		this.validatorId = validatorId;
+	}
+	
+	public Float getReste() {
+		return reste;
+	}
+	
+	public void setReste(Float reste) {
+		this.reste = reste;
+	}
+	
 }

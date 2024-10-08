@@ -2,10 +2,7 @@ package org.openmrs.module.mycashier.web.controller;
 
 import org.openmrs.module.mycashier.*;
 
-import org.openmrs.module.mycashier.api.ClientService;
-import org.openmrs.module.mycashier.api.EntrepotService;
-import org.openmrs.module.mycashier.api.MyDrugService;
-import org.openmrs.module.mycashier.api.VenteDrugService;
+import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,9 @@ public class SearchController {
 	@Autowired
 	private VenteDrugService venteDrugService;
 	
+	@Autowired
+	private PaymentService paymentService;
+	
 	/**
 	 * //------------------Search client Controller------------------------------------------------
 	 * 
@@ -68,6 +68,7 @@ public class SearchController {
 		return clientResponses;
 	}
 	
+	//--------------------RECHERCHE DE DRUGS-------------------------------------------------------------------
 	@ResponseBody
 	@RequestMapping(value = "/searchDrug.form", method = RequestMethod.GET, produces = "application/json")
 	public List<DrugResponse> searchDrug(@RequestParam("query") String query) {
@@ -120,6 +121,7 @@ public class SearchController {
 			@RequestParam(value = "endDate", required = false) String endDateStr,
 			@RequestParam(value = "clientNom", required = false) String clientNom,
 			@RequestParam(value = "clientPrenom", required = false) String clientPrenom,
+			@RequestParam(value = "validate", required = false) Integer validate,
 			@RequestParam(value = "query", required = false) String query) throws ParseException {
 		System.out.println("Entrée dans le controleur de recherche vente");
 		System.out.println("Stratdate :" + startDateStr);
@@ -127,11 +129,14 @@ public class SearchController {
 		System.out.println("clientNom :" + clientNom);
 		System.out.println("clientPrenom :" + clientPrenom);
 		System.out.println("query :" + query);
+		System.out.println("validate :" + validate);
 
 		LocalDateTime startDate = LocalDateTime.now().plusMinutes(24);
 		LocalDateTime endDate  = LocalDateTime.now().minusHours(72);
 
-
+       if (validate == null) {
+            validate = 0;
+       }
 
 		// Vérifier et convertir la date de début
 		if (startDateStr != null && !startDateStr.isEmpty()) {
@@ -149,7 +154,9 @@ public class SearchController {
 
 		// Rechercher les ventes en fonction des critères donnés
 		List<VenteDrug> ventes = venteDrugService.searchVentes( endDate,
-				startDate, clientNom, clientPrenom, query);
+				startDate, clientNom, clientPrenom, query, validate);
+
+
 		System.out.println( " Les ventes :" + ventes);
 		System.out.println( " Le nombre d'éléments de ventes :" + ventes.size());
 		for (VenteDrug vente : ventes) {
@@ -177,6 +184,66 @@ public class SearchController {
 		System.out.println( " Les reponseList :" + responseList);
 		System.out.println( " La longueur de  reponseList :" + responseList.size());
 
+		return responseList;
+	}
+	
+	//---------------------------RECHERCHE PAYMENTS --------------------------------------------------------------------
+	
+	@ResponseBody
+	@RequestMapping(value = "/searchPaymentDrug.form", method = RequestMethod.GET, produces = "application/json")
+	public List<PaymentDrugResponse> searchPaymentDrug(
+			@RequestParam(value = "startDate", required = false) String startDateStr,
+			@RequestParam(value = "endDate", required = false) String endDateStr,
+			@RequestParam(value = "clientNom", required = false) String clientNom,
+			@RequestParam(value = "clientPrenom", required = false) String clientPrenom,
+			@RequestParam(value = "operationType", required = false) String operationType,
+			@RequestParam(value = "agentName", required = false) String agentName,
+			@RequestParam(value = "assurance", required = false) String assurance) throws ParseException {
+
+		System.out.println("Entrée dans le controleur de recherche des paiements");
+		System.out.println("StartDate :" + startDateStr);
+		System.out.println("EndDate :" + endDateStr);
+		System.out.println("clientNom :" + clientNom);
+		System.out.println("clientPrenom :" + clientPrenom);
+		System.out.println("operationType :" + operationType);
+		System.out.println("agentName :" + agentName);
+		System.out.println("assurance :" + assurance);
+
+		LocalDateTime startDate = LocalDateTime.now().minusDays(7); // Période par défaut (dernière semaine)
+		LocalDateTime endDate = LocalDateTime.now();
+
+		// Vérifier et convertir la date de début
+		if (startDateStr != null && !startDateStr.isEmpty()) {
+			LocalDate date = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			startDate = date.atStartOfDay();
+		}
+
+		// Vérifier et convertir la date de fin
+		if (endDateStr != null && !endDateStr.isEmpty()) {
+			LocalDate date = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			endDate = date.atTime(23, 59, 59);
+		}
+
+		List<PaymentDrugResponse> responseList = new ArrayList<>();
+
+		// Rechercher les paiements en fonction des critères donnés
+		List<Payment> payments = paymentService.searchPayments(
+				startDate, endDate, clientNom, clientPrenom, operationType, agentName, assurance);
+
+		System.out.println("Les paiements récupérés : " + payments.size());
+
+		for (Payment payment : payments) {
+			try {
+				// Convertir Payment en PaymentDrugResponse
+				PaymentDrugResponse paymentResponse = PaymentDrugResponse.paymentToPaymentResponse(payment);
+				responseList.add(paymentResponse);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Erreur lors du traitement du paiement : " + payment.getId());
+			}
+		}
+
+		System.out.println("Liste de réponses des paiements : " + responseList.size());
 		return responseList;
 	}
 }

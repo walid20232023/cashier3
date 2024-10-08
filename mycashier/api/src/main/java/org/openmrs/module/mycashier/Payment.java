@@ -33,7 +33,7 @@ public class Payment implements Serializable {
 	private VenteDrug venteDrug;
 	
 	@Column(name = "montant")
-	private Integer montant;
+	private Float montant;
 	
 	@Column(name = "mode_payment")
 	private String modePayment;
@@ -93,11 +93,11 @@ public class Payment implements Serializable {
 		this.venteDrug = venteDrug;
 	}
 	
-	public Integer getMontant() {
+	public Float getMontant() {
 		return montant;
 	}
 	
-	public void setMontant(Integer montant) {
+	public void setMontant(Float montant) {
 		this.montant = montant;
 	}
 	
