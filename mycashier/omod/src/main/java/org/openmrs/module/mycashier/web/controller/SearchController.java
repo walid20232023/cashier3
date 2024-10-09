@@ -244,6 +244,7 @@ public class SearchController {
 		}
 
 		System.out.println("Liste de réponses des paiements : " + responseList.size());
+		System.out.println("Les reponses list  : " + responseList);
 		return responseList;
 	}
 }

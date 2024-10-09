@@ -116,6 +116,7 @@ public class PaymentDrugResponse {
 		paymentDrugResponse.setDatePayment(payment.getDatePayment());
 		paymentDrugResponse.setClientNom(payment.getVenteDrug().getClient().getName());
 		paymentDrugResponse.setClientPrenom(payment.getVenteDrug().getClient().getFirstnames());
+		paymentDrugResponse.setAgentName(payment.getAgent().getUsername());
 		paymentDrugResponse.setModePayment(payment.getModePayment());
 		paymentDrugResponse.setMontant(payment.getMontant());
 		paymentDrugResponse.setReste(payment.getVenteDrug().getReste());

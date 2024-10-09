@@ -6,6 +6,8 @@
 <head>
     <title>Recherche de Paiements</title>
     <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css'/>">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         .search-container {
             margin: 20px auto;
@@ -39,7 +41,6 @@
         .table-container {
             margin-top: 30px;
         }
-        /* Zone des logs */
         #logOutput {
             margin-top: 20px;
             background-color: #e9ecef;
@@ -53,46 +54,39 @@
 <body>
 <div class="container search-container">
     <div class="search-title">Recherche de Paiements</div>
-    <form id="searchForm" action="<c:url value='/searchPaymentDrug.form'/>" method="GET">
+    <form id="searchForm" class="form-inline">
         <div class="row">
             <div class="col-md-3">
-                <label for="startDate">Date de début:</label>
-                <input type="date" class="form-control" id="startDate" name="startDate">
+                <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Date de début">
             </div>
             <div class="col-md-3">
-                <label for="endDate">Date de fin:</label>
-                <input type="date" class="form-control" id="endDate" name="endDate">
+                <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Date de fin">
             </div>
             <div class="col-md-3">
-                <label for="clientNom">Nom du client:</label>
                 <input type="text" class="form-control" id="clientNom" name="clientNom" placeholder="Nom du client">
             </div>
             <div class="col-md-3">
-                <label for="clientPrenom">Prénom du client:</label>
                 <input type="text" class="form-control" id="clientPrenom" name="clientPrenom" placeholder="Prénom du client">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-3">
-                <label for="operationType">Type d'opération:</label>
                 <input type="text" class="form-control" id="operationType" name="operationType" placeholder="Type d'opération">
             </div>
             <div class="col-md-3">
-                <label for="agentName">Nom de l'agent:</label>
                 <input type="text" class="form-control" id="agentName" name="agentName" placeholder="Nom de l'agent">
             </div>
             <div class="col-md-3">
-                <label for="assurance">Assurance:</label>
                 <input type="text" class="form-control" id="assurance" name="assurance" placeholder="Assurance">
             </div>
             <div class="col-md-3">
-                <button type="submit" class="btn btn-search mt-4">Rechercher</button>
+                <button type="button" class="btn btn-search" onclick="searchPayments()">Rechercher</button>
             </div>
         </div>
     </form>
 
     <div class="table-container">
-        <table class="table table-striped">
+        <table class="table table-striped" id="resultsTable">
             <thead>
                 <tr>
                     <th>Date de Paiement</th>
@@ -102,81 +96,89 @@
                     <th>Montant</th>
                 </tr>
             </thead>
-            <tbody id="paymentResults">
-                <!-- Les résultats de recherche seront injectés ici via JavaScript -->
+            <tbody>
+                <!-- Résultats injectés via JavaScript -->
             </tbody>
         </table>
     </div>
 
-    <!-- Zone où afficher les logs -->
     <div id="logOutput">
         <p><strong>Logs :</strong> Aucune action n'a encore été effectuée.</p>
     </div>
 </div>
 
 <script>
-    document.getElementById("searchForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+    function formatDate(dateString) {
+        return new Date(dateString).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    }
 
-        // Récupération des valeurs des champs du formulaire
-        const startDate = document.getElementById("startDate").value;
-        const endDate = document.getElementById("endDate").value;
-        const clientNom = document.getElementById("clientNom").value;
-        const clientPrenom = document.getElementById("clientPrenom").value;
-        const operationType = document.getElementById("operationType").value;
-        const agentName = document.getElementById("agentName").value;
-        const assurance = document.getElementById("assurance").value;
+    function searchPayments() {
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        const clientNom = $('#clientNom').val();
+        const clientPrenom = $('#clientPrenom').val();
+        const operationType = $('#operationType').val();
+        const agentName = $('#agentName').val();
+        const assurance = $('#assurance').val();
+        const contextPath = '${pageContext.request.contextPath}';
 
-        // Logs dans la console
-        console.log("Recherche de paiements avec les paramètres suivants:");
-        console.log("Date de début: " + startDate);
-        console.log("Date de fin: " + endDate);
-        console.log("Nom du client: " + clientNom);
-        console.log("Prénom du client: " + clientPrenom);
-        console.log("Type d'opération: " + operationType);
-        console.log("Nom de l'agent: " + agentName);
-        console.log("Assurance: " + assurance);
-
-        // Affichage des logs dans la zone dédiée sur la page
-        document.getElementById("logOutput").innerHTML = `
+        $('#logOutput').html(`
             <p><strong>Logs :</strong></p>
-            <p>Date de début: ${startDate}</p>
-            <p>Date de fin: ${endDate}</p>
+            <p>Date de début: ${startDate || 'non précisé'}</p>
+            <p>Date de fin: ${endDate || 'non précisé'}</p>
             <p>Nom du client: ${clientNom}</p>
             <p>Prénom du client: ${clientPrenom}</p>
             <p>Type d'opération: ${operationType}</p>
             <p>Nom de l'agent: ${agentName}</p>
             <p>Assurance: ${assurance}</p>
-        `;
+        `);
 
-        // Requête pour chercher les paiements
-        const contextPath = '${pageContext.request.contextPath}';
-     fetch(`${contextPath}/searchPaymentDrug.form?startDate=${startDate}&endDate=${endDate}&clientNom=${clientNom}&clientPrenom=${clientPrenom}&operationType=${operationType}&agentName=${agentName}&assurance=${assurance}`)
-    .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById("paymentResults");
-                tbody.innerHTML = "";
+        $.ajax({
+            url: contextPath + '/module/mycashier/searchPaymentDrug.form',
+            type: 'GET',
+            data: {
+                startDate: startDate,
+                endDate: endDate,
+                clientNom: clientNom,
+                clientPrenom: clientPrenom,
+                operationType: operationType,
+                agentName: agentName,
+                assurance: assurance
+            },
+       success: function (data) {
+           console.log(data); // Débogage pour voir le format des données
 
-                data.forEach(payment => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${payment.datePaiement}</td>
-                        <td>${payment.clientNom} ${payment.clientPrenom}</td>
-                        <td>${payment.assurance}</td>
-                        <td>${payment.agentName}</td>
-                        <td>${payment.montant}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            })
-            .catch(error => {
-                console.error("Erreur lors de la recherche des paiements:", error);
-                document.getElementById("logOutput").innerHTML += `<p style="color:red;">Erreur : ${error}</p>`;
-            });
+           const tbody = $('#resultsTable tbody');
+           tbody.empty();
+
+         data.forEach(function (payment) {
+             // Formater chaque ligne de résultat en fonction du modèle fourni
+             var row = '<tr data-id="' + payment.paymentDrugId + '">' +
+                 '<td>' + payment.datePayment + '</td>' +
+                 '<td>' + payment.clientNom + '</td>' +
+                  '<td>' + payment.modePayment + '</td>' +
+                 '<td>' + payment.agentName + '</td>' +
+
+                 '<td>' + payment.montant + '</td>' +
+
+             '</tr>';
+
+             // Ajouter la ligne au tableau
+             tbody.append(row);
+         });
+
+       }
+,
+            error: function (xhr, status, error) {
+                console.error("Erreur lors de la requête : ", error);
+                $('#logOutput').append(`<p style="color:red;">Erreur : ${error}</p>`);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        searchPayments(); // Rechercher par défaut lors du chargement
     });
-
-    // Exemple de log au chargement de la page
-    console.log("Page de recherche des paiements chargée.");
 </script>
 
 </body>

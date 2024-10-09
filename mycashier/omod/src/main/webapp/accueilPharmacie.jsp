@@ -105,7 +105,7 @@
                 <i class="bi bi-box"></i> <!-- Icône pour liste des stocks -->
                 Liste des stocks
             </a>
-            <a href="/salesHistory" class="button">
+            <a  href="${pageContext.request.contextPath}/module/mycashier/searchPaymentDrugForm.form" class="button">
                 <i class="bi bi-clock-history"></i> <!-- Icône pour historique des ventes -->
                 Historique des ventes
             </a>
