@@ -74,10 +74,13 @@
                 <input type="text" class="form-control" id="operationType" name="operationType" placeholder="Type d'opération">
             </div>
             <div class="col-md-3">
+              <input type="text" class="form-control" id="assurance" name="assurance" placeholder="Assurance">
+            </div>
+            <div class="col-md-3">
                 <input type="text" class="form-control" id="agentName" name="agentName" placeholder="Nom de l'agent">
             </div>
             <div class="col-md-3">
-                <input type="text" class="form-control" id="assurance" name="assurance" placeholder="Assurance">
+                <input type="text" class="form-control" id="reste" name="reste" placeholder="Reste du payement">
             </div>
             <div class="col-md-3">
                 <button type="button" class="btn btn-search" onclick="searchPayments()">Rechercher</button>
@@ -90,9 +93,12 @@
             <thead>
                 <tr>
                     <th>Date de Paiement</th>
-                    <th>Client</th>
-                    <th>Type d'Opération</th>
+                    <th>Nom Client</th>
+                    <th>Prénom Client</th>
+                    <th>Type d''Opération</th>
+                    <th>Assurance</th>
                     <th>Agent</th>
+                    <th>Reste</th>
                     <th>Montant</th>
                 </tr>
             </thead>
@@ -118,8 +124,9 @@
         const clientNom = $('#clientNom').val();
         const clientPrenom = $('#clientPrenom').val();
         const operationType = $('#operationType').val();
-        const agentName = $('#agentName').val();
         const assurance = $('#assurance').val();
+        const agentName = $('#agentName').val();
+        const reste = $('#reste').val();
         const contextPath = '${pageContext.request.contextPath}';
 
         $('#logOutput').html(`
@@ -129,7 +136,9 @@
             <p>Nom du client: ${clientNom}</p>
             <p>Prénom du client: ${clientPrenom}</p>
             <p>Type d'opération: ${operationType}</p>
+            <p>Assurance: ${assurance}</p>
             <p>Nom de l'agent: ${agentName}</p>
+            <p>Reste à Payer: ${reste}</p>
             <p>Assurance: ${assurance}</p>
         `);
 
@@ -142,8 +151,9 @@
                 clientNom: clientNom,
                 clientPrenom: clientPrenom,
                 operationType: operationType,
+                assurance: assurance,
                 agentName: agentName,
-                assurance: assurance
+                reste: reste
             },
        success: function (data) {
            console.log(data); // Débogage pour voir le format des données
@@ -156,9 +166,11 @@
              var row = '<tr data-id="' + payment.paymentDrugId + '">' +
                  '<td>' + payment.datePayment + '</td>' +
                  '<td>' + payment.clientNom + '</td>' +
+                 '<td>' + payment.clientPrenom + '</td>' +
                   '<td>' + payment.modePayment + '</td>' +
+                 '<td>' + payment.assurance + '</td>' +
                  '<td>' + payment.agentName + '</td>' +
-
+                 '<td>' + payment.reste + '</td>' +
                  '<td>' + payment.montant + '</td>' +
 
              '</tr>';
