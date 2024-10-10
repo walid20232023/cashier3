@@ -9,8 +9,8 @@
         <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'/>">
 
         <!-- Lien vers le fichier JS local -->
-        <script src="<c:url value='/resources/js/jquery-3.5.1.min.js'/>"></script>
-        <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+        <script src="<c:url value='/scripts/jquery-3.5.1.min.js'/>"></script>
+        <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
     <style>
         .search-container {
             margin: 20px auto;
