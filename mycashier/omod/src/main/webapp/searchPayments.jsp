@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="http://localhost:8080/openmrs/module/mycashier/resources/css/bootstrap.min.css">
 
         <!-- Lien vers le fichier JS local -->
-        <script src="<c:url value='/module/mycashier/resources/js/jquery-3.5.1.min.js'/>"></script>
+        <script src="<c:url value='/resources/js/jquery-3.5.1.min.js'/>"></script>
         <script src="<c:url value='/module/mycashier/resources/js/bootstrap.min.js'/>"></script>
 
     <style>
