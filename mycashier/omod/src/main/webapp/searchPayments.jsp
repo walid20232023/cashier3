@@ -6,11 +6,11 @@
 <head>
     <title>Recherche de Paiements</title>
     <!-- Lien vers le fichier CSS local -->
-        <link rel="stylesheet" href="<c:url value='/module/mycashier/resources/css/bootstrap.min.css'/>">
+        <link rel="stylesheet" href="http://localhost:8080/openmrs/module/mycashier/resources/css/bootstrap.min.css">
 
         <!-- Lien vers le fichier JS local -->
-        <script src="<c:url value='/module/mycashier/resources/js/jquery-3.5.1.min.js'/>"></script>
-        <script src="<c:url value='/module/mycashier/resources/js/bootstrap.min.js'/>"></script>
+        <script src="<c:url value='/module/mycashier/resources/js/jquery-3.5.1.min.js"></script>
+        <script src="<c:url value='/module/mycashier/resources/js/bootstrap.min.js"></script>
     <style>
         .search-container {
             margin: 20px auto;
