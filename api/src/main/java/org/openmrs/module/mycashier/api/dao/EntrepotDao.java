@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier.api.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -166,6 +167,20 @@ public class EntrepotDao {
 				.setProjection(Projections.property("quantiteStock"));
 
 		return (Integer) criteria.uniqueResult();
+	}
+
+	@Transactional
+	public StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer myDrugEmballageId, Integer entrepotId, String numeroLot) {
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Création de la requête Criteria avec les restrictions spécifiées
+		Criteria criteria = session.createCriteria(StockEntrepot.class)
+				.add(Restrictions.eq("myDrugEmballage.id", myDrugEmballageId))
+				.add(Restrictions.eq("entrepot.id", entrepotId))
+				.add(Restrictions.eq("numeroLot", numeroLot));
+
+		// Retourner le premier résultat trouvé
+		return (StockEntrepot) criteria.uniqueResult();
 	}
 
 }

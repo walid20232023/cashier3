@@ -64,4 +64,9 @@ public interface ApprovisionnementService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId);
+
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+    void deleteAllLignesApprovis(Integer approvisionnementId);
 }

@@ -44,7 +44,7 @@ public class Approvisionnement {
 	private Integer receveurHasValidated;
 	
 	@Column(name = "date_creation")
-	private LocalDateTime localDateTime = LocalDateTime.now();
+	private LocalDateTime dateCreation = LocalDateTime.now();
 
 
 	
@@ -110,12 +110,28 @@ public class Approvisionnement {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
-	public LocalDateTime getLocalDateTime() {
-		return localDateTime;
+
+	public Integer getEmetteurHasValidated() {
+		return emetteurHasValidated;
 	}
-	
-	public void setLocalDateTime(LocalDateTime localDateTime) {
-		this.localDateTime = localDateTime;
+
+	public void setEmetteurHasValidated(Integer emetteurHasValidated) {
+		this.emetteurHasValidated = emetteurHasValidated;
+	}
+
+	public Integer getReceveurHasValidated() {
+		return receveurHasValidated;
+	}
+
+	public void setReceveurHasValidated(Integer receveurHasValidated) {
+		this.receveurHasValidated = receveurHasValidated;
+	}
+
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 }

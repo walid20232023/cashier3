@@ -12,6 +12,7 @@ import org.openmrs.module.mycashier.Approvisionnement;
 
 import org.openmrs.module.mycashier.LigneApprovis;
 import org.openmrs.module.mycashier.MyDrug;
+import org.openmrs.module.mycashier.StockEntrepot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -162,5 +163,20 @@ public class ApprovisionnementDao {
 		return criteria.list();
 	}
 
+	@Transactional
+	public void deleteAllLignesApprovis(Integer approvisionnementId) {
+		// Créer une session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Définir la requête SQL pour supprimer les lignes associées à approvisionnementId
+		String sql = "DELETE FROM ligne_approvis WHERE approvisionnement_id = :approvisionnementId";
+
+		// Créer et paramétrer la requête
+		Query query = session.createSQLQuery(sql);
+		query.setParameter("approvisionnementId", approvisionnementId);
+
+		// Exécuter la suppression
+		query.executeUpdate();
+	}
 
 }
