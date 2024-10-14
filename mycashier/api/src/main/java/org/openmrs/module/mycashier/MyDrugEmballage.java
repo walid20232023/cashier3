@@ -7,103 +7,89 @@ import java.util.Objects;
 @Entity
 @Table(name = "my_drug_emballage")
 public class MyDrugEmballage implements Serializable {
-	
-	@EmbeddedId
-	private MyDrugEmballageId id;
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
+
 	@ManyToOne
-	@MapsId("myDrugId")
-	@JoinColumn(name = "my_drug_id")
+	@JoinColumn(name = "my_drug_id", nullable = false)
 	private MyDrug myDrug;
-	
+
 	@ManyToOne
-	@MapsId("emballageId")
-	@JoinColumn(name = "emballage_id")
+	@JoinColumn(name = "emballage_id", nullable = false)
 	private Emballage emballage;
-	
-	@Column(name = "unit_number")
-	private Integer unitNumber;
-	
-	//Constructeurs
-	
-	public MyDrugEmballage() {
-	}
-	
+
+	@Column(name = "price", nullable = false)
+	private Float price;
+
+	@Column(name = "quantity", nullable = false)
+	private Integer quantity;
+
+	// Constructeurs
+
+	public MyDrugEmballage() {}
+
+
+
 	// Getters and Setters
-	
-	public MyDrugEmballageId getId() {
+
+	public Integer getId() {
 		return id;
 	}
-	
-	public void setId(MyDrugEmballageId id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public MyDrug getMyDrug() {
 		return myDrug;
 	}
-	
+
 	public void setMyDrug(MyDrug myDrug) {
 		this.myDrug = myDrug;
 	}
-	
+
 	public Emballage getEmballage() {
 		return emballage;
 	}
-	
+
 	public void setEmballage(Emballage emballage) {
 		this.emballage = emballage;
 	}
-	
-	public Integer getUnitNumber() {
-		return unitNumber;
+
+	public Float getPrice() {
+		return price;
 	}
-	
-	public void setUnitNumber(Integer unitNumber) {
-		this.unitNumber = unitNumber;
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
-	
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	// Méthode equals et hashCode pour comparaison d'objets
+
 	@Override
-	public String toString() {
-		return "MyDrugEmballage{" + "id=" + id + ", myDrug=" + myDrug + ", emballage=" + emballage + ", unitNumber="
-		        + unitNumber + '}';
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		MyDrugEmballage that = (MyDrugEmballage) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(myDrug, that.myDrug) &&
+				Objects.equals(emballage, that.emballage) &&
+				Objects.equals(price, that.price);
 	}
-	
-	@Embeddable
-	public static class MyDrugEmballageId implements Serializable {
-		
-		@Column(name = "my_drug_id")
-		private Integer myDrugId;
-		
-		@Column(name = "emballage_id")
-		private Integer emballageId;
-		
-		// Default constructor
-		public MyDrugEmballageId() {
-		}
-		
-		// Parameterized constructor
-		public MyDrugEmballageId(Integer myDrugId, Integer emballageId) {
-			this.myDrugId = myDrugId;
-			this.emballageId = emballageId;
-		}
-		
-		// Getters and Setters
-		public Integer getMyDrugId() {
-			return myDrugId;
-		}
-		
-		public void setMyDrugId(Integer myDrugId) {
-			this.myDrugId = myDrugId;
-		}
-		
-		public Integer getEmballageId() {
-			return emballageId;
-		}
-		
-		public void setEmballageId(Integer emballageId) {
-			this.emballageId = emballageId;
-		}
-		
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, myDrug, emballage, price);
 	}
 }

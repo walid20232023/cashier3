@@ -80,4 +80,9 @@ public class EntrepotServiceImpl implements EntrepotService {
 	public Entrepot deleteEntrepot(Entrepot entrepot) throws APIException {
 		return dao.deleteEntrepot(entrepot);
 	}
+
+	@Override
+	public Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId) {
+		return dao.getStockByMyDrugEmballage(myDrugEmballageId, entrepotId);
+	}
 }

@@ -519,8 +519,8 @@ public class ManageController {
 				myDrug.setDrugId(drugId);
 			}
 			
-			myDrug.setPrice(price);
-			myDrug.setBaseInam(baseInam);
+			//myDrug.setPrice(price);
+			//myDrug.setBaseInam(baseInam);
 			
 			myDrugService.saveMyDrug(myDrug);
 			return "redirect:/module/mycashier/drugList.form";

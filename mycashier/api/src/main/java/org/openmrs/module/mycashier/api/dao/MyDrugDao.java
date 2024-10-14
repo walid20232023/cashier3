@@ -85,7 +85,7 @@ public class MyDrugDao {
 		
 		if (myDrugEmballage != null) {
 			// Update unit number
-			myDrugEmballage.setUnitNumber(units);
+			//myDrugEmballage.setUnitNumber(units);
 			session.update(myDrugEmballage);
 		} else {
 			// Create new MyDrugEmballage entry
@@ -97,29 +97,16 @@ public class MyDrugDao {
 			}
 			
 			MyDrugEmballage newMyDrugEmballage = new MyDrugEmballage();
-			newMyDrugEmballage.setId(new MyDrugEmballage.MyDrugEmballageId(drugId, emballageId));
+			//newMyDrugEmballage.setId(new MyDrugEmballage.MyDrugEmballageId(drugId, emballageId));
 			newMyDrugEmballage.setMyDrug(myDrug);
 			newMyDrugEmballage.setEmballage(emballage);
-			newMyDrugEmballage.setUnitNumber(units);
+			//newMyDrugEmballage.setUnitNumber(units);
 			
 			session.save(newMyDrugEmballage);
 		}
 	}
 	
-	@Transactional
-	public Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) {
-		DbSession session = sessionFactory.getCurrentSession();
-		
-		// Create Criteria to find MyDrugEmballage entry for the given Emballage and MyDrug
-		Criteria criteria = session.createCriteria(MyDrugEmballage.class);
-		criteria.add(Restrictions.eq("emballage", emballage));
-		criteria.add(Restrictions.eq("myDrug", myDrug));
-		
-		MyDrugEmballage myDrugEmballage = (MyDrugEmballage) criteria.uniqueResult();
-		
-		// Return the unit number or null if not found
-		return (myDrugEmballage != null) ? myDrugEmballage.getUnitNumber() : null;
-	}
+
 	
 	public MyDrug deleteMyDrug(MyDrug myDrug) {
 		DbSession session = sessionFactory.getCurrentSession();
@@ -148,5 +135,12 @@ public class MyDrugDao {
 		// Exécuter la requête et retourner les résultats
 		return criteria.list();
 	}
-	
+
+
+	@Transactional
+	public MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId) {
+		DbSession session = sessionFactory.getCurrentSession();
+		return (MyDrugEmballage) session.get(MyDrugEmballage.class, myDrugEmballageId);
+	}
+
 }

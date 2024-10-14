@@ -3,6 +3,7 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.mycashier.MyDrugEmballage;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.Emballage;
@@ -44,4 +45,7 @@ public interface MyDrugService {
 	
 	@Transactional
 	List<MyDrug> searchDrugs(String query);
+
+	@Transactional
+    MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId);
 }

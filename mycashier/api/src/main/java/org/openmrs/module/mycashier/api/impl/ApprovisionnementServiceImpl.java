@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service("approvisionnementService")
@@ -75,5 +76,15 @@ public class ApprovisionnementServiceImpl implements ApprovisionnementService {
 	public Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException {
 		return dao.deleteApprovisionnement(approvisionnement);
 	}
-	
+
+	@Override
+	public List<Integer> getMyDrugEmballageIdsByApprovisionnementId(Integer approvisionnementId) {
+		return dao.getMyDrugEmballageIdsByApprovisionnementId(approvisionnementId);
+	}
+
+	@Override
+	public List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId) {
+		return dao.getQuantitesByApprovisionnementId(approvisionnementId) ;
+	}
+
 }

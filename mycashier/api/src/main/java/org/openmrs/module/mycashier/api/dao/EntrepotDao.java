@@ -3,6 +3,7 @@ package org.openmrs.module.mycashier.api.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
@@ -147,14 +148,24 @@ public class EntrepotDao {
 		} else {
 			// Create new StockEntrepot entry
 			StockEntrepot newStockEntrepot = new StockEntrepot();
-			StockEntrepot.StockEntrepotId stockEntrepotId = new StockEntrepot.StockEntrepotId(entrepot.getId(),
-			        myDrug.getId());
-			newStockEntrepot.setId(stockEntrepotId);
 			newStockEntrepot.setQuantiteStock(quantity);
 			newStockEntrepot.setLocalDateTime(LocalDateTime.now());
 			
 			session.save(newStockEntrepot);
 		}
 	}
-	
+
+
+	@Transactional
+	public Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId) {
+		DbSession session = sessionFactory.getCurrentSession();
+
+		Criteria criteria = session.createCriteria(StockEntrepot.class)
+				.add(Restrictions.eq("myDrugEmballage.id", myDrugEmballageId))
+				.add(Restrictions.eq("entrepot.id", entrepotId))
+				.setProjection(Projections.property("quantiteStock"));
+
+		return (Integer) criteria.uniqueResult();
+	}
+
 }

@@ -12,11 +12,7 @@ public class MyDrug {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "base_inam")
-	private Integer baseInam;
-	
-	@Column(name = "price")
-	private Integer price;
+
 	
 	@Column(name = "name")
 	private String name;
@@ -75,23 +71,7 @@ public class MyDrug {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Integer getBaseInam() {
-		return baseInam;
-	}
-	
-	public void setBaseInam(Integer baseInam) {
-		this.baseInam = baseInam;
-	}
-	
-	public Integer getPrice() {
-		return price;
-	}
-	
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-	
+
 	public String getName() {
 		return name;
 	}

@@ -31,6 +31,9 @@ public class Inventaire {
 	
 	@Column(name = "uuid", unique = true, nullable = false, length = 38, updatable = false)
 	private String uuid = UUID.randomUUID().toString();
+
+	@Column(name = "motif")
+	private Integer motif;
 	
 	// Default constructor
 	public Inventaire() {
@@ -85,5 +88,12 @@ public class Inventaire {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	
+
+	public Integer getMotif() {
+		return motif;
+	}
+
+	public void setMotif(Integer motif) {
+		this.motif = motif;
+	}
 }

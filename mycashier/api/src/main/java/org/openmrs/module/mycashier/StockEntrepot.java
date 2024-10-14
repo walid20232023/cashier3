@@ -2,119 +2,133 @@ package org.openmrs.module.mycashier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "stock_entrepot")
 public class StockEntrepot implements Serializable {
-	
-	@EmbeddedId
-	private StockEntrepotId id;
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
+
 	@ManyToOne
-	@MapsId("myDrugId")
-	@JoinColumn(name = "my_drug_id")
-	private MyDrug myDrug;
-	
+	@JoinColumn(name = "my_drug_emballage_id", nullable = false)
+	private MyDrugEmballage myDrugEmballage;
+
 	@ManyToOne
-	@MapsId("entrepotId")
-	@JoinColumn(name = "entrepot_id")
+	@JoinColumn(name = "entrepot_id", nullable = false)
 	private Entrepot entrepot;
-	
+
 	@Column(name = "date_modification")
 	private LocalDateTime localDateTime = LocalDateTime.now();
-	
+
 	@Column(name = "quantite_stock")
 	private Integer quantiteStock;
-	
-	public void setMyDrug(MyDrug myDrug) {
-		this.myDrug = myDrug;
+
+	@Column(name = "quantite_boite")
+	private Integer quantiteBoite;
+
+	@Column(name = "quantite_plaquette")
+	private Integer quantitePlaquette;
+
+	@Column(name = "quantite_unitaire")
+	private Integer quantiteUnitaire;
+
+	@Column(name = "date_peremption")
+	private LocalDate datePeremption ;
+
+	@Column(name = "numero_lot")
+	private String numeroLot;
+
+
+
+	// Constructeurs
+
+	public StockEntrepot() {}
+
+	// Getters and Setters
+
+	public Integer getId() {
+		return id;
 	}
-	
-	public void setEntrepot(Entrepot entrepot) {
-		this.entrepot = entrepot;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	
-	public MyDrug getMyDrug() {
-		return myDrug;
+
+	public MyDrugEmballage getMyDrugEmballage() {
+		return myDrugEmballage;
 	}
-	
+
+	public void setMyDrugEmballage(MyDrugEmballage myDrugEmballage) {
+		this.myDrugEmballage = myDrugEmballage;
+	}
+
 	public Entrepot getEntrepot() {
 		return entrepot;
 	}
-	
-	//Constructeurs
-	
-	public StockEntrepot() {
+
+	public void setEntrepot(Entrepot entrepot) {
+		this.entrepot = entrepot;
 	}
-	
-	// Getters and Setters
-	
-	public StockEntrepotId getId() {
-		return id;
-	}
-	
-	public void setId(StockEntrepotId id) {
-		this.id = id;
-	}
-	
+
 	public LocalDateTime getLocalDateTime() {
 		return localDateTime;
 	}
-	
+
 	public void setLocalDateTime(LocalDateTime localDateTime) {
 		this.localDateTime = localDateTime;
 	}
-	
+
 	public Integer getQuantiteStock() {
 		return quantiteStock;
 	}
-	
+
 	public void setQuantiteStock(Integer quantiteStock) {
 		this.quantiteStock = quantiteStock;
 	}
-	
-	@Embeddable
-	public static class StockEntrepotId implements Serializable {
-		
-		@Column(name = "entrepot_id")
-		private Integer entrepotId;
-		
-		@Column(name = "my_drug_id")
-		private Integer myDrugId;
-		
-		// Default constructor
-		
-		public StockEntrepotId() {
-		}
-		
-		// Parameterized constructor
-		
-		public StockEntrepotId(Integer entrepotId, Integer myDrugId) {
-			this.entrepotId = entrepotId;
-			this.myDrugId = myDrugId;
-		}
-		
-		// Getters and Setters
-		
-		public Integer getEntrepotId() {
-			return entrepotId;
-		}
-		
-		public void setEntrepotId(Integer entrepotId) {
-			this.entrepotId = entrepotId;
-		}
-		
-		public Integer getMyDrugId() {
-			return myDrugId;
-		}
-		
-		public void setMyDrugId(Integer myDrugId) {
-			this.myDrugId = myDrugId;
-		}
-		
+
+	public Integer getQuantiteBoite() {
+		return quantiteBoite;
+	}
+
+	public void setQuantiteBoite(Integer quantiteBoite) {
+		this.quantiteBoite = quantiteBoite;
+	}
+
+	public Integer getQuantitePlaquette() {
+		return quantitePlaquette;
+	}
+
+	public void setQuantitePlaquette(Integer quantitePlaquette) {
+		this.quantitePlaquette = quantitePlaquette;
+	}
+
+	public Integer getQuantiteUnitaire() {
+		return quantiteUnitaire;
+	}
+
+	public void setQuantiteUnitaire(Integer quantiteUnitaire) {
+		this.quantiteUnitaire = quantiteUnitaire;
+	}
+
+	public LocalDate getDatePeremption() {
+		return datePeremption;
+	}
+
+	public void setDatePeremption(LocalDate datePeremption) {
+		this.datePeremption = datePeremption;
+	}
+
+	public String getNumeroLot() {
+		return numeroLot;
+	}
+
+	public void setNumeroLot(String numeroLot) {
+		this.numeroLot = numeroLot;
 	}
 }

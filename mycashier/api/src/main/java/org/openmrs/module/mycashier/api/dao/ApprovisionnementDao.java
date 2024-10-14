@@ -2,6 +2,8 @@ package org.openmrs.module.mycashier.api.dao;
 
 import org.hibernate.Criteria;
 
+import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.APIException;
 import org.openmrs.api.db.hibernate.DbSession;
@@ -98,7 +100,7 @@ public class ApprovisionnementDao {
 		
 		// Définir les autres propriétés de l'entité
 		ligneApprovis.setApprovisionnement(approvisionnement);
-		ligneApprovis.setMyDrug(myDrug);
+		//ligneApprovis.setMyDrug(myDrug);
 		ligneApprovis.setQuantite(quantite);
 		
 		sessionFactory.getCurrentSession().saveOrUpdate(ligneApprovis);
@@ -133,5 +135,32 @@ public class ApprovisionnementDao {
 			throw new APIException("LigneApprovis avec l'ID " + ligneApprovisId + " n'existe pas.");
 		}
 	}
-	
+
+	@Transactional
+	public List<Integer> getMyDrugEmballageIdsByApprovisionnementId(Integer approvisionnementId) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(LigneApprovis.class);
+		criteria.add(Restrictions.eq("approvisionnement_id", approvisionnementId));
+		criteria.setProjection(Projections.property("my_drug_emballage_id"));
+		return criteria.list();
+	}
+
+	public List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId) {
+		// Ouvre une session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Crée un critère de recherche sur l'entité LigneApprovis
+		Criteria criteria = session.createCriteria(LigneApprovis.class);
+
+		// Ajoute la restriction pour filtrer par l'approvisionnement_id donné
+		criteria.add(Restrictions.eq("approvisionnement_id", approvisionnementId));
+
+		// Définit la projection pour ne récupérer que la colonne 'quantite'
+		criteria.setProjection(Projections.property("quantite"));
+
+		// Exécute la requête et retourne la liste des quantités
+		return criteria.list();
+	}
+
+
 }

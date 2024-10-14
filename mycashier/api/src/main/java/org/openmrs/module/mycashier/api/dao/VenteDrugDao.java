@@ -112,7 +112,7 @@ public class VenteDrugDao {
 			        myDrug.getId());
 			newLigneVenteDrug.setId(ligneVenteDrugId);
 			newLigneVenteDrug.setVenteDrug(venteDrug);
-			newLigneVenteDrug.setMyDrug(myDrug);
+		//	newLigneVenteDrug.setMyDrug(myDrug);
 			// Assuming there's a `quantity` field in LigneVenteDrug:
 			newLigneVenteDrug.setQuantity(quantity);
 			

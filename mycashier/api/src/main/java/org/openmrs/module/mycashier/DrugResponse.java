@@ -152,10 +152,10 @@ public class DrugResponse {
 		drugResponse.setName(myDrug.getName());
 		drugResponse.setDci(myDrug.getDci());
 		drugResponse.setCip(myDrug.getCip());
-		drugResponse.setBaseInam(myDrug.getBaseInam());
+		//drugResponse.setBaseInam(myDrug.getBaseInam());
 		drugResponse.setDateCreated(myDrug.getDateCreated());
 		drugResponse.setGroupeTherap(myDrug.getGroupeTherap());
-		drugResponse.setPrice(myDrug.getPrice());
+		//drugResponse.setPrice(myDrug.getPrice());
 		drugResponse.setUuid(myDrug.getUuid());
 		drugResponse.setDrugId(myDrug.getDrugId());
 		

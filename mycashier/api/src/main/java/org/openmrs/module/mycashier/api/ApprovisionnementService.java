@@ -55,5 +55,13 @@ public interface ApprovisionnementService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException;
-	
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Integer> getMyDrugEmballageIdsByApprovisionnementId(Integer approvisionnementId);
+
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId);
 }

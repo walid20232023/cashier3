@@ -86,9 +86,9 @@ public class InventaireDao {
 		
 		drugInventaire.setId(id);
 		drugInventaire.setInventaire(inventaire);
-		drugInventaire.setMyDrug(myDrug);
+		//drugInventaire.setMyDrug(myDrug);
 		drugInventaire.setRealQuantity(realQuantity);
-		drugInventaire.setMotif(motif);
+		//drugInventaire.setMotif(motif);
 		drugInventaire.setEcart(ecart);
 		
 		session.saveOrUpdate(drugInventaire);

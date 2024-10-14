@@ -68,7 +68,7 @@ public class TestController {
 		
 		MyDrugAvarie myDrugAvarie = new MyDrugAvarie();
 		myDrugAvarie.setAgent(agent);
-		myDrugAvarie.setMyDrug(myDrug);
+		//myDrugAvarie.setMyDrug(myDrug);
 		myDrugAvarie.setEntrepot(entrepot);
 		myDrugAvarie.setQuantite(2);
 		

@@ -308,7 +308,7 @@ public class VenteDrugController {
 				//Modification de ligneService
 				
 				System.out.println("MyDRug :" + myDrug);
-				ligneVenteDrug.setMyDrug(myDrug);
+				//ligneVenteDrug.setMyDrug(myDrug);
 				ligneVenteDrug.setVenteDrug(venteDrug);
 				
 				System.out.println(" Après modif Contenu ligneVENTE :" + ligneVenteDrug);

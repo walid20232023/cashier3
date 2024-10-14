@@ -27,14 +27,26 @@ public class Approvisionnement {
 	private Entrepot entrepotCible;
 	
 	@ManyToOne
-	@JoinColumn(name = "agent_id")
-	private Agent agent;
-	
+	@JoinColumn(name = "agent_emetteur_id")
+	private Agent agentEmetteur;
+
+	@ManyToOne
+	@JoinColumn(name = "agent_receveur_id")
+	private Agent agentReceveur;
+
 	@Column(name = "uuid")
 	private String uuid;
 	
+	@Column(name = "emetteur_has_validated")
+	private Integer emetteurHasValidated;
+
+	@Column(name = "receveur_has_validated")
+	private Integer receveurHasValidated;
+	
 	@Column(name = "date_creation")
 	private LocalDateTime localDateTime = LocalDateTime.now();
+
+
 	
 	//Constructeurs
 	
@@ -74,15 +86,23 @@ public class Approvisionnement {
 	public void setEntrepotCible(Entrepot entrepotCible) {
 		this.entrepotCible = entrepotCible;
 	}
-	
-	public Agent getAgent() {
-		return agent;
+
+	public Agent getAgentEmetteur() {
+		return agentEmetteur;
 	}
-	
-	public void setAgent(Agent agent) {
-		this.agent = agent;
+
+	public void setAgentEmetteur(Agent agentEmetteur) {
+		this.agentEmetteur = agentEmetteur;
 	}
-	
+
+	public Agent getAgentReceveur() {
+		return agentReceveur;
+	}
+
+	public void setAgentReceveur(Agent agentReceveur) {
+		this.agentReceveur = agentReceveur;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}

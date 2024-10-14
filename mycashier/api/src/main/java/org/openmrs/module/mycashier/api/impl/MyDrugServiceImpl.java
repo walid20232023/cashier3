@@ -4,6 +4,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.MyDrug;
+import org.openmrs.module.mycashier.MyDrugEmballage;
 import org.openmrs.module.mycashier.api.MyDrugService;
 import org.openmrs.module.mycashier.api.dao.MyDrugDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,13 @@ public class MyDrugServiceImpl implements MyDrugService {
 	public void saveMyDrugEmballageUnits(Integer emballageId, Integer drugId, Integer units) throws APIException {
 		dao.saveMyDrugEmballageUnits(emballageId, drugId, units);
 	}
-	
+
 	@Override
 	public Integer getMyDrugEmballageUnits(Emballage emballage, MyDrug myDrug) throws APIException {
-		return dao.getMyDrugEmballageUnits(emballage, myDrug);
+		return 0;
 	}
-	
+
+
 	@Override
 	public MyDrug deleteMyDrug(MyDrug myDrug) throws APIException {
 		return dao.deleteMyDrug(myDrug);
@@ -64,5 +66,10 @@ public class MyDrugServiceImpl implements MyDrugService {
 	@Override
 	public List<MyDrug> searchDrugs(String query) {
 		return dao.searchDrugs(query);
+	}
+
+	@Override
+	public MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId) {
+		return dao.getMyDrugEmballageById (myDrugEmballageId) ;
 	}
 }

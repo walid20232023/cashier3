@@ -54,4 +54,7 @@ public interface EntrepotService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Entrepot deleteEntrepot(Entrepot entrepot) throws APIException;
+
+	@Transactional
+    Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId);
 }
