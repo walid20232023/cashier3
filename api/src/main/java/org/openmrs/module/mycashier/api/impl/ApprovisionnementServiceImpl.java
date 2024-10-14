@@ -5,6 +5,7 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.mycashier.Approvisionnement;
 
 import org.openmrs.module.mycashier.MyDrug;
+import org.openmrs.module.mycashier.StockEntrepot;
 import org.openmrs.module.mycashier.api.ApprovisionnementService;
 import org.openmrs.module.mycashier.api.dao.ApprovisionnementDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,11 @@ public class ApprovisionnementServiceImpl implements ApprovisionnementService {
 	public List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId) {
 		return dao.getQuantitesByApprovisionnementId(approvisionnementId) ;
 	}
+
+	@Override
+	public void deleteAllLignesApprovis(Integer approvisionnementId) {
+      dao.deleteAllLignesApprovis(approvisionnementId)   ;
+	}
+
 
 }

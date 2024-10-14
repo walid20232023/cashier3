@@ -12,7 +12,6 @@ import org.openmrs.module.mycashier.api.dao.EntrepotDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service("entrepotService")
@@ -85,4 +84,11 @@ public class EntrepotServiceImpl implements EntrepotService {
 	public Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId) {
 		return dao.getStockByMyDrugEmballage(myDrugEmballageId, entrepotId);
 	}
+
+	@Override
+	public StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer myDrugEmballageId, Integer entrepotSourceId, String numeroLot) {
+		return dao.getStockEntrepotByDrugEmballageAndEntrepot(myDrugEmballageId, entrepotSourceId, numeroLot);
+	}
+
+
 }

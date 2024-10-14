@@ -2,10 +2,7 @@ package org.openmrs.module.mycashier.web.controller;
 
 
 import org.openmrs.module.mycashier.*;
-import org.openmrs.module.mycashier.api.ApprovisionnementService;
-import org.openmrs.module.mycashier.api.EntrepotService;
-import org.openmrs.module.mycashier.api.MyDrugService;
-import org.openmrs.module.mycashier.api.VenteDrugService;
+import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,9 @@ public class ApprovisController {
 
     @Autowired
     private MyDrugService myDrugService;
+
+    @Autowired
+    private AgentService agentService;
 
     @Autowired
     private EntrepotService entrepotService;
@@ -99,15 +101,16 @@ public class ApprovisController {
 @RequestMapping(value = "/saveApprovis.form", method = RequestMethod.POST)
 public String saveApprovisionnement(
     @RequestParam(value = "id", required = false) Integer approvisionnementId,
-    @RequestParam("dateApprovisionnement") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime dateApprovisionnement,
     @RequestParam("entrepotSourceId") Integer entrepotSourceId,
     @RequestParam("entrepotCibleId") Integer entrepotCibleId,
     @RequestParam("agentEmetteurId") Integer agentEmetteurId,
     @RequestParam(value ="agentReceveurId" , required = false) Integer agentReceveurId,
     @RequestParam("myDrugEmballageIds") List<Integer> myDrugEmballageIds,
     @RequestParam("quantites") List<Integer> quantites,
+    @RequestParam("numero_lot") List<String> numerosLots,
+    @RequestParam("numero_lot") List<String> datesPeremption,
     @RequestParam("emetteur_has_validated") Integer emetteurHasValidated,
-    @RequestParam("receveur_has_validated") Integer receveurHasValidated,
+    @RequestParam(value ="receveur_has_validated" , required = false) Integer receveurHasValidated,
 
     Model model) {
         // Récupérer ou créer un objet Approvisionnement
@@ -121,34 +124,59 @@ public String saveApprovisionnement(
             }
         } else {
             approvisionnement = new Approvisionnement();
-            approvisionnement.setUuid(UUID.randomUUID().toString());
-            approvisionnement.setDateCreation(LocalDateTime.now());
+
         }
 
         // Mise à jour des informations de base de l'approvisionnement
-        approvisionnement.setDateTimeApprovisionnement(dateApprovisionnement);
+
         approvisionnement.setEntrepotSource(entrepotService.getEntrepotById(entrepotSourceId));
         approvisionnement.setEntrepotCible(entrepotService.getEntrepotById(entrepotCibleId));
         approvisionnement.setAgentEmetteur(agentService.getAgentById(agentEmetteurId));
         approvisionnement.setAgentReceveur(agentService.getAgentById(agentReceveurId));
+        approvisionnement.setDateTimeApprovisionnement(LocalDateTime.now());
+        approvisionnement.setEmetteurHasValidated(emetteurHasValidated);
+       if (receveurHasValidated.equals(1)) {
+        approvisionnement.setReceveurHasValidated(receveurHasValidated);
+       }
 
-        // Enregistrer l'approvisionnement pour obtenir l'ID si c'est un nouvel enregistrement
-        approvisionnementService.saveOrUpdate(approvisionnement);
+      // Enregistrer l'approvisionnement pour obtenir l'ID si c'est un nouvel enregistrement
+        approvisionnementService.saveApprovisionnement(approvisionnement);
+
+       //Supprimer les lignes d'approvisionnment existantes
+       approvisionnementService.deleteAllLignesApprovis (approvisionnementId);
+
 
         // Traitement des MyDrugEmballage et quantités
         List<MyDrugEmballageDTO> myDrugEmballageDTOs = new ArrayList<>();
         for (int i = 0; i < myDrugEmballageIds.size(); i++) {
             MyDrugEmballage myDrugEmballage = myDrugService.getMyDrugEmballageById(myDrugEmballageIds.get(i));
+
             MyDrugEmballageDTO dto = MyDrugEmballageDTO.convertToDTO(myDrugEmballage);
 
+            Integer quantiteSaisie = quantites.get(i) ;
+            System.out.println("Quantité saisie :" + quantiteSaisie);
+
             // Définir le stock et la quantité pour approvisionnement
-            Integer stockEntrepot = entrepotService.getStockByMyDrugEmballage(myDrugEmballage.getId(), entrepotSourceId);
-            dto.setQuantityStock(stockEntrepot);
+
+           Integer stockEntrepot = entrepotService.getStockByMyDrugEmballage(myDrugEmballage.getId(), entrepotSourceId);
+           // dto.setQuantityStock(stockEntrepot);
             dto.setQuantityApprovis(quantites.get(i));
 
-            // Mise à jour du stock de l'entrepôt source
-            entrepotService.updateStock(myDrugEmballage.getId(), entrepotSourceId, stockEntrepot - quantites.get(i));
+            // Récuperer les StockEntrepots
+          StockEntrepot stockEntrepotSource =   entrepotService.getStockEntrepotByDrugEmballageAndEntrepot(
+                  myDrugEmballage.getId() , entrepotSourceId , numerosLots.get(i))  ;
+          StockEntrepot stockEntrepotCible =   entrepotService.getStockEntrepotByDrugEmballageAndEntrepot(
+                    myDrugEmballage.getId() , entrepotCibleId , numerosLots.get(i))  ;
 
+          //Actualiser les quantités
+         stockEntrepotSource.setQuantiteStock(stockEntrepot - quantiteSaisie);
+         stockEntrepotCible.setQuantiteStock(stockEntrepot + quantiteSaisie);
+
+         //Affectation date de permemption et numero de lot
+            dto.setDatePeremption(LocalDate.parse(datesPeremption.get(i),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd") )) ;
+            dto.setNumeroLot(numerosLots.get(i));
+         //
             // Ajout du DTO pour suivi
             myDrugEmballageDTOs.add(dto);
         }
