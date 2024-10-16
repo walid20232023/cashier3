@@ -8,6 +8,7 @@
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/VenteServService.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/LigneApprovis.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/Entrepot.java
+/home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/AssuranceMyDrugPrice.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/impl/MycashierServiceImpl.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/Payment.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/ClientService.java
@@ -24,6 +25,7 @@
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/Versement.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/dao/InventaireDao.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/PaymentService.java
+/home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/LigneApprovisDTO.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/LigneVenteDrug.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/MyDrugAvarieService.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/EmballageService.java
@@ -76,5 +78,6 @@
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/dao/VenteDrugDao.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/MycashierService.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/DrugInventaire.java
+/home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/MyDrugEmballageDTO.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/VenteService.java
 /home/waliy/DisqueUbuntu/MyOpenMrs/MyModule/openmrs-sdk/mycashier/api/src/main/java/org/openmrs/module/mycashier/api/VenteDrugService.java

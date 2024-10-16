@@ -78,36 +78,37 @@ public class ApprovisionnementServiceImpl implements ApprovisionnementService {
 	public Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException {
 		return dao.deleteApprovisionnement(approvisionnement);
 	}
-
+	
 	@Override
 	public List<Integer> getMyDrugEmballageIdsByApprovisionnementId(Integer approvisionnementId) {
 		return dao.getMyDrugEmballageIdsByApprovisionnementId(approvisionnementId);
 	}
-
+	
 	@Override
 	public List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId) {
-		return dao.getQuantitesByApprovisionnementId(approvisionnementId) ;
+		return dao.getQuantitesByApprovisionnementId(approvisionnementId);
 	}
-
+	
 	@Override
 	public void deleteAllLignesApprovis(Integer approvisionnementId) {
-      dao.deleteAllLignesApprovis(approvisionnementId)   ;
+		dao.deleteAllLignesApprovis(approvisionnementId);
 	}
-
+	
 	@Override
 	public LigneApprovis saveLigneApprovisionnment(LigneApprovis ligneApprovis) {
 		return dao.saveLigneApprovisionnment(ligneApprovis);
 	}
-
+	
 	@Override
 	public List<LigneApprovis> getAllLignesByApprovisionnementId(Integer approvisionnementId) {
 		return dao.getAllLignesByApprovisionnementId(approvisionnementId);
 	}
-
+	
 	@Override
-	public List<LigneApprovis> searchLigneApprovis(String medicament, String dateDebut, String dateFin, String numeroLot, Integer entrepotSourceId, Integer entrepotCibleId, String perimeAvant) {
-		return dao.searchLigneApprovis( medicament, dateDebut,  dateFin,  numeroLot, entrepotSourceId, entrepotCibleId,  perimeAvant);
+	public List<LigneApprovis> searchLigneApprovis(String medicament, String dateDebut, String dateFin, String numeroLot,
+	        Integer entrepotSourceId, Integer entrepotCibleId, String perimeAvant) {
+		return dao.searchLigneApprovis(medicament, dateDebut, dateFin, numeroLot, entrepotSourceId, entrepotCibleId,
+		    perimeAvant);
 	}
-
-
+	
 }

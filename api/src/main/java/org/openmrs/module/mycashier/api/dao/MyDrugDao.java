@@ -108,8 +108,6 @@ public class MyDrugDao {
 		}
 	}
 	
-
-	
 	public MyDrug deleteMyDrug(MyDrug myDrug) {
 		DbSession session = sessionFactory.getCurrentSession();
 		
@@ -137,107 +135,105 @@ public class MyDrugDao {
 		// Exécuter la requête et retourner les résultats
 		return criteria.list();
 	}
-
-
+	
 	@Transactional
 	public MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId) {
 		DbSession session = sessionFactory.getCurrentSession();
 		return (MyDrugEmballage) session.get(MyDrugEmballage.class, myDrugEmballageId);
 	}
-
+	
 	@Transactional
-	public List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance) {
+	public List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme,
+	        String assurance) {
 		DbSession session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(AssuranceMyDrugPrice.class, "assuranceMyDrugPrice");
-
+		
 		// Jointure sur MyDrugEmballage pour accéder aux propriétés de MyDrug et d'Emballage
 		criteria.createAlias("assuranceMyDrugPrice.myDrugEmballage", "myDrugEmballage");
 		criteria.createAlias("myDrugEmballage.myDrug", "myDrug");
 		criteria.createAlias("myDrugEmballage.emballage", "emballage");
 		criteria.createAlias("assuranceMyDrugPrice.assurance", "assurance");
-
+		
 		// Filtrer par nom de médicament, DCI ou groupe thérapeutique
 		if (medicament != null && !medicament.isEmpty()) {
 			criteria.add(Restrictions.or(
-					Restrictions.ilike("myDrug.name", "%" + medicament + "%"),
-					Restrictions.or(
-							Restrictions.ilike("myDrug.dci", "%" + medicament + "%"),
-							Restrictions.ilike("myDrug.groupeTherap", "%" + medicament + "%")
-					)
-			));
+			    Restrictions.ilike("myDrug.name", "%" + medicament + "%"),
+			    Restrictions.or(Restrictions.ilike("myDrug.dci", "%" + medicament + "%"),
+			        Restrictions.ilike("myDrug.groupeTherap", "%" + medicament + "%"))));
 		}
-
+		
 		if (emballage != null && !emballage.isEmpty()) {
 			criteria.add(Restrictions.like("emballage.name", "%" + emballage + "%"));
 		}
-
+		
 		if (forme != null && !forme.isEmpty()) {
 			criteria.add(Restrictions.like("myDrug.forme", "%" + forme + "%"));
 		}
-
+		
 		if (assurance != null && !assurance.isEmpty()) {
 			criteria.add(Restrictions.like("assurance.name", "%" + assurance + "%"));
 		}
-
+		
 		return criteria.list();
 	}
-
+	
 	@Transactional
-	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId) {
+	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage,
+	        Integer assuranceId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AssuranceMyDrugPrice.class);
-
+		
 		// Ajouter les restrictions pour filtrer par myDrugEmballage et assuranceId
 		criteria.add(Restrictions.eq("myDrugEmballage", myDrugEmballage));
 		criteria.add(Restrictions.eq("assurance.id", assuranceId));
-
+		
 		// Retourner le premier résultat trouvé ou null s'il n'existe pas
 		return (AssuranceMyDrugPrice) criteria.uniqueResult();
 	}
-
+	
 	@Transactional
 	public void saveMyDrugEmballage(MyDrugEmballage myDrugEmballage) {
 		// Obtenir la session courante
 		DbSession session = sessionFactory.getCurrentSession();
-
+		
 		// Sauvegarder ou mettre à jour l'objet myDrugEmballage
 		session.saveOrUpdate(myDrugEmballage);
 	}
-
+	
 	@Transactional
 	public void saveAssuranceMyDrugPrice(AssuranceMyDrugPrice assuranceMyDrugPrice) {
 		// Obtenir la session courante
 		DbSession session = sessionFactory.getCurrentSession();
-
+		
 		// Sauvegarder ou mettre à jour l'objet myDrugEmballage
 		session.saveOrUpdate(assuranceMyDrugPrice);
 	}
-
+	
 	@Transactional
 	public void deleteAllAssuranceMyDrigPrice(Integer myDrugEmballageId) {
 		// Créer une session Hibernate
 		DbSession session = sessionFactory.getCurrentSession();
-
+		
 		// Exécuter une requête native pour supprimer toutes les assurances de prix de médicaments associées à myDrugEmballageId
 		String sql = "DELETE FROM assurance_my_drug_price WHERE my_drug_emballage_id = :myDrugEmballageId";
-
+		
 		Query query = session.createSQLQuery(sql);
 		query.setParameter("myDrugEmballageId", myDrugEmballageId);
-
+		
 		// Exécuter la suppression
 		query.executeUpdate();
 	}
-
+	
 	@Transactional
 	public List<AssuranceMyDrugPrice> getAllAssuranceMyDrugPrices(Integer myDrugEmballageId) {
 		// Créer une session Hibernate
 		DbSession session = sessionFactory.getCurrentSession();
-
+		
 		// Créer un critère pour la recherche
 		Criteria criteria = session.createCriteria(AssuranceMyDrugPrice.class);
-
+		
 		// Ajouter une restriction sur myDrugEmballageId
 		criteria.add(Restrictions.eq("myDrugEmballage.id", myDrugEmballageId));
-
+		
 		// Exécuter la recherche et retourner la liste des résultats
 		return criteria.list();
 	}

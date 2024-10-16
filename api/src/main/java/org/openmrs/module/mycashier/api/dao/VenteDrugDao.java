@@ -85,7 +85,7 @@ public class VenteDrugDao {
 		session.saveOrUpdate(venteDrug);
 		return venteDrug;
 	}
-
+	
 	@Transactional
 	public VenteDrug deleteVenteDrug(VenteDrug venteDrug) {
 		DbSession session = sessionFactory.getCurrentSession();
@@ -254,13 +254,13 @@ public class VenteDrugDao {
 		// Exécuter la suppression
 		query.executeUpdate();
 	}
-
+	
 	public List<LigneVenteDrug> getAllLigneVenteDrug(VenteDrug venteDrug) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LigneVenteDrug.class);
-
+		
 		// Ajouter la restriction pour filtrer les lignes de vente par venteDrug
 		criteria.add(Restrictions.eq("venteDrug", venteDrug));
-
+		
 		// Exécuter la requête et retourner les résultats sous forme de liste
 		return criteria.list();
 	}

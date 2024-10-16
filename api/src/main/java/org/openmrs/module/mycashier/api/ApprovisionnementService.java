@@ -56,32 +56,29 @@ public interface ApprovisionnementService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Approvisionnement deleteApprovisionnement(Approvisionnement approvisionnement) throws APIException;
-
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<Integer> getMyDrugEmballageIdsByApprovisionnementId(Integer approvisionnementId);
-
-
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<Integer> getQuantitesByApprovisionnementId(Integer approvisionnementId);
-
-
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-    void deleteAllLignesApprovis(Integer approvisionnementId);
-
+	void deleteAllLignesApprovis(Integer approvisionnementId);
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	LigneApprovis saveLigneApprovisionnment(LigneApprovis ligneApprovis);
-
-
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<LigneApprovis> getAllLignesByApprovisionnementId(Integer approvisionnementId);
-
-
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-    List<LigneApprovis> searchLigneApprovis(String medicament, String dateDebut, String dateFin, String numeroLot, Integer entrepotSourceId, Integer entrepotCibleId, String perimeAvant);
+	List<LigneApprovis> searchLigneApprovis(String medicament, String dateDebut, String dateFin, String numeroLot,
+	        Integer entrepotSourceId, Integer entrepotCibleId, String perimeAvant);
 }

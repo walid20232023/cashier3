@@ -32,7 +32,7 @@ public class Entrepot {
 	@ManyToOne
 	@JoinColumn(name = "agent_id")
 	private Agent agent;
-
+	
 	@Column(name = "is_external")
 	private Integer isExternal;
 	
@@ -90,11 +90,11 @@ public class Entrepot {
 	public void setAgent(Agent agent) {
 		this.agent = agent;
 	}
-
+	
 	public Integer getIsExternal() {
 		return isExternal;
 	}
-
+	
 	public void setIsExternal(Integer isExternal) {
 		this.isExternal = isExternal;
 	}

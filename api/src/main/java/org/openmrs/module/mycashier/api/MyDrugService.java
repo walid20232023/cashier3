@@ -42,26 +42,26 @@ public interface MyDrugService {
 	
 	@Transactional
 	List<MyDrug> searchDrugs(String query);
-
+	
 	@Transactional
-    MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId);
-
+	MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId);
+	
 	@Transactional
-    List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance);
-
-
+	List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance);
+	
 	@Transactional
-	AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId);
-
+	AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage,
+	        Integer assuranceId);
+	
 	@Transactional
 	void saveMyDrugEmballage(MyDrugEmballage myDrugEmballage);
-
+	
 	@Transactional
 	void saveAssuranceMyDrugPrice(AssuranceMyDrugPrice assuranceMyDrugPrice);
-
+	
 	@Transactional
 	void deleteAllAssuranceMyDrigPrice(MyDrugEmballage myDrugEmballage);
-
+	
 	@Transactional
 	List<AssuranceMyDrugPrice> getAllAssuranceMyDrugPrices(Integer myDrugEmballageId);
 }

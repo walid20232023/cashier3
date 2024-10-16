@@ -186,13 +186,12 @@ public class VenteDrugController {
 	public String saveVenteDrug(@RequestParam("client") Integer clientId,
 	        @RequestParam(value = "venteDrugId", required = false) Integer venteDrugId,
 	        @RequestParam(value = "assuranceSelectionneeValue", required = false) String assurance,
-	        @RequestParam("partAssurance") Float partAssurance,
-	        @RequestParam("total") String[] totalArray,
+	        @RequestParam("partAssurance") Float partAssurance, @RequestParam("total") String[] totalArray,
 	        @RequestParam("numeroLots") String[] numeroLots,
 	        @RequestParam("medicamentIds") String[] medicamentIdsArray, // Change here to String[]
 	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices,
 	        @RequestParam("validate") Integer validate, Model model) {
-
+		
 		VenteDrug venteDrug;
 		
 		// Si venteDrugId est présent, récupérer la vente existante
@@ -278,7 +277,7 @@ public class VenteDrugController {
 			venteDrugService.deleteAllLigneVente(venteDrugId);
 			
 			System.out.println("après delet  existing");
-
+			
 			// Traiter les médicaments sélectionnés
 			for (int i = 0; i < medicamentIdsArray.length; i++) {
 				// Récupérer l'ID du médicament en utilisant l'index i
@@ -300,7 +299,7 @@ public class VenteDrugController {
 				LigneVenteDrug ligneVenteDrug = new LigneVenteDrug();
 				
 				LigneVenteDrug.LigneVenteDrugId ligneVenteDrugId = new LigneVenteDrug.LigneVenteDrugId(venteDrug.getId(),
-						myDrugEmballage.getId(), numeroLots[i]);
+				        myDrugEmballage.getId(), numeroLots[i]);
 				ligneVenteDrug.setId(ligneVenteDrugId);
 				
 				System.out.println("Contenu ligneVENTE :" + ligneVenteDrug);

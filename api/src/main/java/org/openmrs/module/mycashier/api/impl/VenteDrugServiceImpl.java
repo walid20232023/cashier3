@@ -101,7 +101,7 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	public void deleteAllLigneVente(Integer venteDrugId) {
 		dao.deleteAllLigneVente(venteDrugId);
 	}
-
+	
 	@Override
 	public List<LigneVenteDrug> getAllLigneVenteDrug(VenteDrug venteDrug) {
 		return dao.getAllLigneVenteDrug(venteDrug);

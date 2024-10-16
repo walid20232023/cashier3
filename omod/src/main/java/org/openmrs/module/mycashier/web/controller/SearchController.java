@@ -37,10 +37,10 @@ public class SearchController {
 	
 	@Autowired
 	private PaymentService paymentService;
-
+	
 	@Autowired
 	private ApprovisionnementService approvisionnementService;
-
+	
 	/**
 	 * //------------------Search client Controller------------------------------------------------
 	 * 
@@ -250,11 +250,9 @@ public class SearchController {
 		System.out.println("Les reponses list  : " + responseList);
 		return responseList;
 	}
-
-
-
+	
 	//----------------------RECHERCHE DE MY DRUG EMBALLAGE----------------------------------------------------------------
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/searchPaymentDrug.form", method = RequestMethod.GET, produces = "application/json")
 	public List<MyDrugEmballageDTO> searchMyDrugEmballages(
@@ -296,10 +294,9 @@ public class SearchController {
 		System.out.println("Les reponses list  : " + responseList);
 		return responseList;
 	}
-
-
+	
 	//----------------------RECHERCHE D'APPROVISIONNEMENT----------------------------------------------------------------
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/searchApprovisionnement.form", method = RequestMethod.GET, produces = "application/json")
 	public List<LigneApprovisDTO> searchApprovisionnement(
@@ -348,9 +345,9 @@ public class SearchController {
 		System.out.println("Les reponses list  : " + responseList);
 		return responseList;
 	}
-
-
+	
 	public class StockController {
+		
 		//----------------------RECHERCHE DE STOCK ENTREPOT ----------------------------------------------------------------
 		@ResponseBody
 		@RequestMapping(value = "/searchStockEntrepot.form", method = RequestMethod.GET, produces = "application/json")

@@ -52,16 +52,16 @@ public interface EntrepotService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
 	Entrepot deleteEntrepot(Entrepot entrepot) throws APIException;
-
+	
 	@Transactional
-    Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId);
-
+	Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId);
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-    StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer id, Integer entrepotSourceId, String numeroLot);
-
-
+	StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer id, Integer entrepotSourceId, String numeroLot);
+	
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
-    List<StockEntrepot> searchStockEntrepot(String medicament, Integer entrepotId, Integer assuranceId, String numeroLot, Integer emballageId, String forme, String perimeAvant);
+	List<StockEntrepot> searchStockEntrepot(String medicament, Integer entrepotId, Integer assuranceId, String numeroLot,
+	        Integer emballageId, String forme, String perimeAvant);
 }

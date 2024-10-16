@@ -29,24 +29,22 @@ public class Approvisionnement {
 	@ManyToOne
 	@JoinColumn(name = "agent_emetteur_id")
 	private Agent agentEmetteur;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "agent_receveur_id")
 	private Agent agentReceveur;
-
+	
 	@Column(name = "uuid")
 	private String uuid;
 	
 	@Column(name = "emetteur_has_validated")
 	private Integer emetteurHasValidated;
-
+	
 	@Column(name = "receveur_has_validated")
 	private Integer receveurHasValidated;
 	
 	@Column(name = "date_creation")
 	private LocalDateTime dateCreation = LocalDateTime.now();
-
-
 	
 	//Constructeurs
 	
@@ -86,23 +84,23 @@ public class Approvisionnement {
 	public void setEntrepotCible(Entrepot entrepotCible) {
 		this.entrepotCible = entrepotCible;
 	}
-
+	
 	public Agent getAgentEmetteur() {
 		return agentEmetteur;
 	}
-
+	
 	public void setAgentEmetteur(Agent agentEmetteur) {
 		this.agentEmetteur = agentEmetteur;
 	}
-
+	
 	public Agent getAgentReceveur() {
 		return agentReceveur;
 	}
-
+	
 	public void setAgentReceveur(Agent agentReceveur) {
 		this.agentReceveur = agentReceveur;
 	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -110,27 +108,27 @@ public class Approvisionnement {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	
 	public Integer getEmetteurHasValidated() {
 		return emetteurHasValidated;
 	}
-
+	
 	public void setEmetteurHasValidated(Integer emetteurHasValidated) {
 		this.emetteurHasValidated = emetteurHasValidated;
 	}
-
+	
 	public Integer getReceveurHasValidated() {
 		return receveurHasValidated;
 	}
-
+	
 	public void setReceveurHasValidated(Integer receveurHasValidated) {
 		this.receveurHasValidated = receveurHasValidated;
 	}
-
+	
 	public LocalDateTime getDateCreation() {
 		return dateCreation;
 	}
-
+	
 	public void setDateCreation(LocalDateTime dateCreation) {
 		this.dateCreation = dateCreation;
 	}
