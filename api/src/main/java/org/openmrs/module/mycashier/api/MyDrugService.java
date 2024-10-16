@@ -52,4 +52,16 @@ public interface MyDrugService {
 
 	@Transactional
 	AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId);
+
+	@Transactional
+	void saveMyDrugEmballage(MyDrugEmballage myDrugEmballage);
+
+	@Transactional
+	void saveAssuranceMyDrugPrice(AssuranceMyDrugPrice assuranceMyDrugPrice);
+
+	@Transactional
+	void deleteAllAssuranceMyDrigPrice(MyDrugEmballage myDrugEmballage);
+
+	@Transactional
+	List<AssuranceMyDrugPrice> getAllAssuranceMyDrugPrices(Integer myDrugEmballageId);
 }

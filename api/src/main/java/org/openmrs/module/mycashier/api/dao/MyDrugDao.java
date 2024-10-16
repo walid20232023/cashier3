@@ -1,6 +1,7 @@
 package org.openmrs.module.mycashier.api.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -181,6 +182,7 @@ public class MyDrugDao {
 		return criteria.list();
 	}
 
+	@Transactional
 	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AssuranceMyDrugPrice.class);
 
@@ -192,4 +194,51 @@ public class MyDrugDao {
 		return (AssuranceMyDrugPrice) criteria.uniqueResult();
 	}
 
+	@Transactional
+	public void saveMyDrugEmballage(MyDrugEmballage myDrugEmballage) {
+		// Obtenir la session courante
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Sauvegarder ou mettre à jour l'objet myDrugEmballage
+		session.saveOrUpdate(myDrugEmballage);
+	}
+
+	@Transactional
+	public void saveAssuranceMyDrugPrice(AssuranceMyDrugPrice assuranceMyDrugPrice) {
+		// Obtenir la session courante
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Sauvegarder ou mettre à jour l'objet myDrugEmballage
+		session.saveOrUpdate(assuranceMyDrugPrice);
+	}
+
+	@Transactional
+	public void deleteAllAssuranceMyDrigPrice(Integer myDrugEmballageId) {
+		// Créer une session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Exécuter une requête native pour supprimer toutes les assurances de prix de médicaments associées à myDrugEmballageId
+		String sql = "DELETE FROM assurance_my_drug_price WHERE my_drug_emballage_id = :myDrugEmballageId";
+
+		Query query = session.createSQLQuery(sql);
+		query.setParameter("myDrugEmballageId", myDrugEmballageId);
+
+		// Exécuter la suppression
+		query.executeUpdate();
+	}
+
+	@Transactional
+	public List<AssuranceMyDrugPrice> getAllAssuranceMyDrugPrices(Integer myDrugEmballageId) {
+		// Créer une session Hibernate
+		DbSession session = sessionFactory.getCurrentSession();
+
+		// Créer un critère pour la recherche
+		Criteria criteria = session.createCriteria(AssuranceMyDrugPrice.class);
+
+		// Ajouter une restriction sur myDrugEmballageId
+		criteria.add(Restrictions.eq("myDrugEmballage.id", myDrugEmballageId));
+
+		// Exécuter la recherche et retourner la liste des résultats
+		return criteria.list();
+	}
 }

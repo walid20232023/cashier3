@@ -84,4 +84,24 @@ public class MyDrugServiceImpl implements MyDrugService {
 	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId) {
 		return dao.getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(myDrugEmballage, assuranceId) ;
 	}
+
+	@Override
+	public void saveMyDrugEmballage(MyDrugEmballage myDrugEmballage) {
+		dao.saveMyDrugEmballage(myDrugEmballage);
+	}
+
+	@Override
+	public void saveAssuranceMyDrugPrice(AssuranceMyDrugPrice assuranceMyDrugPrice) {
+		dao.saveAssuranceMyDrugPrice(assuranceMyDrugPrice);
+	}
+
+	@Override
+	public void deleteAllAssuranceMyDrigPrice(MyDrugEmballage myDrugEmballage) {
+		dao.deleteAllAssuranceMyDrigPrice(myDrugEmballage.getId());
+	}
+
+	@Override
+	public List<AssuranceMyDrugPrice> getAllAssuranceMyDrugPrices(Integer myDrugEmballageId) {
+		return dao.getAllAssuranceMyDrugPrices(myDrugEmballageId);
+	}
 }
