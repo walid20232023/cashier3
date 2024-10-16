@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service("venteDrugService")
@@ -99,5 +100,10 @@ public class VenteDrugServiceImpl implements VenteDrugService {
 	@Override
 	public void deleteAllLigneVente(Integer venteDrugId) {
 		dao.deleteAllLigneVente(venteDrugId);
+	}
+
+	@Override
+	public List<LigneVenteDrug> getAllLigneVenteDrug(VenteDrug venteDrug) {
+		return dao.getAllLigneVenteDrug(venteDrug);
 	}
 }

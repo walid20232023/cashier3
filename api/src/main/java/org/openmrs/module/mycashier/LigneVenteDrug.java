@@ -26,6 +26,9 @@ public class LigneVenteDrug {
 	@Column(name = "price")
 	private Integer price;
 
+	@Column(name = "numero_lot")
+	private String numeroLot;
+
 	// Constructeurs
 
 	public LigneVenteDrug() {}
@@ -92,13 +95,17 @@ public class LigneVenteDrug {
 		@Column(name = "my_drug_emballage_id")
 		private Integer myDrugEmballageId;
 
+		@Column(name = "numero_lot")
+		private String numeroLot;
+
 		// Default constructor
 		public LigneVenteDrugId() {}
 
 		// Parameterized constructor
-		public LigneVenteDrugId(Integer venteDrugId, Integer myDrugEmballageId) {
+		public LigneVenteDrugId(Integer venteDrugId, Integer myDrugEmballageId, String numeroLot) {
 			this.venteDrugId = venteDrugId;
 			this.myDrugEmballageId = myDrugEmballageId;
+			this.numeroLot = numeroLot;
 		}
 
 		// Getters and Setters
@@ -119,7 +126,12 @@ public class LigneVenteDrug {
 		}
 
 
+		public String getNumeroLot() {
+			return numeroLot;
+		}
 
-
+		public void setNumeroLot(String numeroLot) {
+			this.numeroLot = numeroLot;
+		}
 	}
 }

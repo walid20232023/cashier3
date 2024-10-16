@@ -26,6 +26,12 @@ public class MyDrugEmballageDTO {
 
     private Integer myDrugEmballageId;
 
+    private Integer stockVente;
+
+    private Integer stockMagasin;
+
+    private Integer quantiteVendue;
+
 
     public MyDrugEmballageDTO() {
     }
@@ -116,6 +122,30 @@ public class MyDrugEmballageDTO {
 
     public void setForme(String forme) {
         this.forme = forme;
+    }
+
+    public Integer getStockVente() {
+        return stockVente;
+    }
+
+    public void setStockVente(Integer stockVente) {
+        this.stockVente = stockVente;
+    }
+
+    public Integer getStockMagasin() {
+        return stockMagasin;
+    }
+
+    public void setStockMagasin(Integer stockMagasin) {
+        this.stockMagasin = stockMagasin;
+    }
+
+    public Integer getQuantiteVendue() {
+        return quantiteVendue;
+    }
+
+    public void setQuantiteVendue(Integer quantiteVendue) {
+        this.quantiteVendue = quantiteVendue;
     }
 
     public  static  MyDrugEmballageDTO convertToDTO (MyDrugEmballage myDrugEmballage ) {

@@ -70,23 +70,24 @@ public class VenteDrugController {
 			System.out.println("Client : " + client);
 
 			// Récupérer les IDs des médicaments associés à la vente
-			List<Integer> drugIds = venteDrugService.getAllLignesByVenteDrug(venteDrug);
-			System.out.println("Les drugIds : " + drugIds);
-			List<DrugResponse> drugResponses = new ArrayList<>();
-			for (Integer drugId  : drugIds)  {
-				MyDrug myDrug = myDrugService.getMyDrugById(drugId)   ;
-				DrugResponse drugResponse = DrugResponse.drugToResponse(myDrug);
-				Integer stockVente = entrepotService.getStockByEntrepotAndDrug(EntrepotConstants.VENTE_ID, myDrug.getId())
-						.getQuantiteStock();
-				Integer stockMagasin = entrepotService.getStockByEntrepotAndDrug(EntrepotConstants.MAGASIN_ID, myDrug.getId())
+			List<LigneVenteDrug> ligneVenteDrugList = venteDrugService.getAllLigneVenteDrug(venteDrug);
+			//System.out.println("Les drugIds : " + myDrugEmballageIds);
+			List<MyDrugEmballageDTO> drugEmballageDTOList = new ArrayList<>();
+			for (LigneVenteDrug ligneVenteDrug  : ligneVenteDrugList)  {
+				Integer myDrugEmballageId = ligneVenteDrug.getMyDrugEmballage().getId();
+				MyDrugEmballage myDrugEmballage = myDrugService.getMyDrugEmballageById(myDrugEmballageId);   ;
+				MyDrugEmballageDTO myDrugEmballageDTO = MyDrugEmballageDTO.convertToDTO(myDrugEmballage);
+				Integer stockVente = entrepotService.getStockEntrepotByDrugEmballageAndEntrepot(EntrepotConstants.VENTE_ID, myDrugEmballageId, ligneVenteDrug.getId().getNumeroLot())
 						.getQuantiteStock();
 
-				drugResponse.setStockLocal(stockVente);
-				drugResponse.setStockMag(stockMagasin);
-				drugResponse.setQuantity( venteDrugService.getDrugQuantFromDrugId(venteDrugId, drugId));
-				drugResponses.add( drugResponse) ;
+				Integer stockMagasin = entrepotService.getStockEntrepotByDrugEmballageAndEntrepot(EntrepotConstants.MAGASIN_ID, myDrugEmballageId, ligneVenteDrug.getId().getNumeroLot())
+						.getQuantiteStock();
+				myDrugEmballageDTO.setStockVente(stockVente);
+				myDrugEmballageDTO.setStockMagasin(stockMagasin);
+				myDrugEmballageDTO.setQuantiteVendue(ligneVenteDrug.getQuantity());
+				drugEmballageDTOList.add( myDrugEmballageDTO) ;
 			}
-			model.addAttribute("drugs", drugResponses)  ;
+			model.addAttribute("drugs", drugEmballageDTOList)  ;
 
 
 			// Récupérer l'assurance utilisée (si applicable)
@@ -187,10 +188,11 @@ public class VenteDrugController {
 	        @RequestParam(value = "assuranceSelectionneeValue", required = false) String assurance,
 	        @RequestParam("partAssurance") Float partAssurance,
 	        @RequestParam("total") String[] totalArray,
+	        @RequestParam("numeroLots") String[] numeroLots,
 	        @RequestParam("medicamentIds") String[] medicamentIdsArray, // Change here to String[]
 	        @RequestParam("quantity") String[] quantites, @RequestParam("pu") String[] prices,
 	        @RequestParam("validate") Integer validate, Model model) {
-		
+
 		VenteDrug venteDrug;
 		
 		// Si venteDrugId est présent, récupérer la vente existante
@@ -283,7 +285,7 @@ public class VenteDrugController {
 				String medicamentIdStr = medicamentIdsArray[i];
 				
 				// Convertir l'ID en entier
-				Integer drugId = Integer.parseInt(medicamentIdStr.trim());
+				Integer myDrugEmballageId = Integer.parseInt(medicamentIdStr.trim());
 				
 				// Recupérer quantité
 				String quantityStr = quantites[i];
@@ -293,21 +295,21 @@ public class VenteDrugController {
 				String priceStr = prices[i];
 				Integer price = Integer.parseInt(priceStr.trim());
 				
-				MyDrug myDrug = myDrugService.getMyDrugById(drugId);
+				MyDrugEmballage myDrugEmballage = myDrugService.getMyDrugEmballageById(myDrugEmballageId);
 				
 				LigneVenteDrug ligneVenteDrug = new LigneVenteDrug();
 				
 				LigneVenteDrug.LigneVenteDrugId ligneVenteDrugId = new LigneVenteDrug.LigneVenteDrugId(venteDrug.getId(),
-				        myDrug.getId());
+						myDrugEmballage.getId(), numeroLots[i]);
 				ligneVenteDrug.setId(ligneVenteDrugId);
 				
 				System.out.println("Contenu ligneVENTE :" + ligneVenteDrug);
 				
-				System.out.println("DRug ID :" + drugId);
+				System.out.println("DRug ID :" + myDrugEmballageId);
 				
 				//Modification de ligneService
 				
-				System.out.println("MyDRug :" + myDrug);
+				System.out.println("MyDRug :" + myDrugEmballage);
 				//ligneVenteDrug.setMyDrug(myDrug);
 				ligneVenteDrug.setVenteDrug(venteDrug);
 				
