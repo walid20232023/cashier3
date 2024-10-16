@@ -4,6 +4,7 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 
+import org.openmrs.module.mycashier.LigneApprovis;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.MycashierConfig;
 import org.openmrs.module.mycashier.Approvisionnement;
@@ -69,4 +70,18 @@ public interface ApprovisionnementService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
     void deleteAllLignesApprovis(Integer approvisionnementId);
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	LigneApprovis saveLigneApprovisionnment(LigneApprovis ligneApprovis);
+
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<LigneApprovis> getAllLignesByApprovisionnementId(Integer approvisionnementId);
+
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+    List<LigneApprovis> searchLigneApprovis(String medicament, String dateDebut, String dateFin, String numeroLot, Integer entrepotSourceId, Integer entrepotCibleId, String perimeAvant);
 }

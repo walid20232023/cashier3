@@ -276,7 +276,7 @@ public class VenteDrugController {
 			venteDrugService.deleteAllLigneVente(venteDrugId);
 			
 			System.out.println("après delet  existing");
-			
+
 			// Traiter les médicaments sélectionnés
 			for (int i = 0; i < medicamentIdsArray.length; i++) {
 				// Récupérer l'ID du médicament en utilisant l'index i

@@ -59,4 +59,9 @@ public interface EntrepotService {
 	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
 	@Transactional
     StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer id, Integer entrepotSourceId, String numeroLot);
+
+
+	@Authorized(MycashierConfig.MODULE_PRIVILEGE)
+	@Transactional
+    List<StockEntrepot> searchStockEntrepot(String medicament, Integer entrepotId, Integer assuranceId, String numeroLot, Integer emballageId, String forme, String perimeAvant);
 }

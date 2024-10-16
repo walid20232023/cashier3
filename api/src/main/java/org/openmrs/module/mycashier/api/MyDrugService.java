@@ -3,10 +3,7 @@ package org.openmrs.module.mycashier.api;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mycashier.MyDrugEmballage;
-import org.openmrs.module.mycashier.MycashierConfig;
-import org.openmrs.module.mycashier.MyDrug;
-import org.openmrs.module.mycashier.Emballage;
+import org.openmrs.module.mycashier.*;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,4 +45,11 @@ public interface MyDrugService {
 
 	@Transactional
     MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId);
+
+	@Transactional
+    List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance);
+
+
+	@Transactional
+	AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId);
 }

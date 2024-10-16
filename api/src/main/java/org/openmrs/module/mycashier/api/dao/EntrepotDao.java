@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -181,6 +182,64 @@ public class EntrepotDao {
 
 		// Retourner le premier résultat trouvé
 		return (StockEntrepot) criteria.uniqueResult();
+	}
+
+	@Transactional
+	public List<StockEntrepot> searchStockEntrepot(String medicament, Integer entrepotId, Integer assuranceId, String numeroLot, Integer emballageId, String forme, String perimeAvant) {
+		// Initialiser la session et la liste de résultats
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(StockEntrepot.class, "stockEntrepot");
+
+		// Jointure pour accéder aux propriétés du médicament
+		criteria.createAlias("stockEntrepot.myDrugEmballage", "myDrugEmballage");
+		criteria.createAlias("myDrugEmballage.myDrug", "myDrug");
+
+		// Filtrer par nom de médicament, DCI ou groupe thérapeutique
+		if (medicament != null && !medicament.isEmpty()) {
+			criteria.add(Restrictions.or(
+					Restrictions.ilike("myDrug.name", "%" + medicament + "%"),
+					Restrictions.or(
+							Restrictions.ilike("myDrug.dci", "%" + medicament + "%"),
+							Restrictions.ilike("myDrug.groupeTherap", "%" + medicament + "%")
+					)
+			));
+		}
+
+		// Filtrer par entrepôt
+		if (entrepotId != null) {
+			criteria.add(Restrictions.eq("stockEntrepot.entrepot.id", entrepotId));
+		}
+
+		// Filtrer par assurance
+		if (assuranceId != null) {
+			criteria.createAlias("stockEntrepot.client", "client");
+			criteria.createAlias("client.assuranceList", "assurance");
+			criteria.add(Restrictions.eq("assurance.id", assuranceId));
+		}
+
+		// Filtrer par numéro de lot
+		if (numeroLot != null && !numeroLot.isEmpty()) {
+			criteria.add(Restrictions.ilike("stockEntrepot.numeroLot", "%" + numeroLot + "%"));
+		}
+
+		// Filtrer par emballage
+		if (emballageId != null) {
+			criteria.add(Restrictions.eq("myDrugEmballage.emballage.id", emballageId));
+		}
+
+		// Filtrer par forme
+		if (forme != null && !forme.isEmpty()) {
+			criteria.add(Restrictions.ilike("myDrug.forme", "%" + forme + "%"));
+		}
+
+		// Filtrer par date de péremption antérieure à perimeAvant
+		if (perimeAvant != null && !perimeAvant.isEmpty()) {
+			LocalDate expirationDate = LocalDate.parse(perimeAvant);
+			criteria.add(Restrictions.lt("stockEntrepot.datePeremption", expirationDate));
+		}
+
+		// Exécuter la requête et retourner les résultats
+		return criteria.list();
 	}
 
 }

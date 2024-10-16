@@ -37,7 +37,10 @@ public class SearchController {
 	
 	@Autowired
 	private PaymentService paymentService;
-	
+
+	@Autowired
+	private ApprovisionnementService approvisionnementService;
+
 	/**
 	 * //------------------Search client Controller------------------------------------------------
 	 * 
@@ -246,5 +249,159 @@ public class SearchController {
 		System.out.println("Liste de réponses des paiements : " + responseList.size());
 		System.out.println("Les reponses list  : " + responseList);
 		return responseList;
+	}
+
+
+
+	//----------------------RECHERCHE DE MY DRUG EMBALLAGE----------------------------------------------------------------
+
+	@ResponseBody
+	@RequestMapping(value = "/searchPaymentDrug.form", method = RequestMethod.GET, produces = "application/json")
+	public List<MyDrugEmballageDTO> searchMyDrugEmballages(
+
+			@RequestParam(value = "medicament", required = false) String medicament,
+			@RequestParam(value = "emballage", required = false) String emballage,
+			@RequestParam(value = "forme", required = false) String forme,
+			@RequestParam(value = "assurance", required = false) String assurance) throws ParseException {
+
+		System.out.println("Entrée dans le controleur de recherche des paiements");
+		System.out.println("medicament :" + medicament);
+		System.out.println("emballage :" + emballage);
+		System.out.println("forme :" + forme);
+		System.out.println("assurance :" + assurance);
+
+		List<MyDrugEmballageDTO> responseList = new ArrayList<>();
+
+		// Rechercher les my drug emballages  en fonction des critères donnés
+		List<AssuranceMyDrugPrice> assuranceMyDrugPriceList= myDrugService.searchAssuranceMyDrugPrice(medicament,
+				emballage, forme, assurance);
+
+		System.out.println("Taille des  éléments récupérés : " + assuranceMyDrugPriceList.size());
+
+		for (AssuranceMyDrugPrice assuranceMyDrugPrice : assuranceMyDrugPriceList) {
+			try {
+				// Recupérer myDrugEmballage
+				MyDrugEmballage myDrugEmballage = assuranceMyDrugPrice.getMyDrugEmballage();
+				MyDrugEmballageDTO myDrugEmballageDTO = MyDrugEmballageDTO.convertToDTO(myDrugEmballage)  ;
+				myDrugEmballageDTO.setPrixAssurance(assuranceMyDrugPrice.getPrice());
+
+				responseList.add(myDrugEmballageDTO);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Erreur lors du traitement de la recherche: " );
+			}
+		}
+
+		System.out.println("Liste de réponses des myDrugEmballageDTO : " + responseList.size());
+		System.out.println("Les reponses list  : " + responseList);
+		return responseList;
+	}
+
+
+	//----------------------RECHERCHE D'APPROVISIONNEMENT----------------------------------------------------------------
+
+	@ResponseBody
+	@RequestMapping(value = "/searchApprovisionnement.form", method = RequestMethod.GET, produces = "application/json")
+	public List<LigneApprovisDTO> searchApprovisionnement(
+
+			@RequestParam(value = "dateDebut", required = false) String dateDebut,
+			@RequestParam(value = "dateFin", required = false) String dateFin,
+			@RequestParam(value = "medicament", required = false) String medicament,
+			@RequestParam(value = "numeroLot", required = false) String numeroLot,
+			@RequestParam(value = "entrepotSourceId", required = false) Integer entrepotSourceId,
+			@RequestParam(value = "entrepotCibleId", required = false) Integer entrepotCibleId,
+			@RequestParam(value = "perimeAvant", required = false) String perimeAvant) throws ParseException {
+
+		System.out.println("Entrée dans le controleur de recherche des approvisionnements");
+		System.out.println("medicament :" + medicament);
+		System.out.println("dateDebut :" + dateDebut);
+		System.out.println("dateFin :" + dateFin);
+		System.out.println("numeroLot :" + numeroLot);
+		System.out.println("entrepotSourceId :" + entrepotSourceId);
+		System.out.println("entrepotCibleId :" + entrepotCibleId);
+		System.out.println("perimeAvant :" + perimeAvant);
+
+		List<LigneApprovisDTO> responseList = new ArrayList<>();
+
+		// Rechercher les lignes approvionnements en fonction des critères donnés
+		List<LigneApprovis> ligneApprovisList= approvisionnementService.searchLigneApprovis(medicament,
+				dateDebut, dateFin, numeroLot, entrepotSourceId, entrepotCibleId, perimeAvant);
+
+		System.out.println("Taille des  éléments récupérés : " + ligneApprovisList.size());
+
+		for (LigneApprovis ligneApprovis : ligneApprovisList) {
+			try {
+				// Recupérer LigneApprovis
+				LigneApprovisDTO ligneApprovisDTO = LigneApprovisDTO.convertToDTO(ligneApprovis)  ;
+				ligneApprovisDTO.setDateApprovisionnement(ligneApprovis.getApprovisionnement().getDateTimeApprovisionnement());
+				ligneApprovisDTO.setEntrepotSource(ligneApprovis.getApprovisionnement().getEntrepotSource());
+				ligneApprovisDTO.setEntrepotCible(ligneApprovis.getApprovisionnement().getEntrepotCible());
+
+				responseList.add(ligneApprovisDTO);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Erreur lors du traitement de la recherche: " );
+			}
+		}
+
+		System.out.println("Liste de réponses des ligneApprovisDTO : " + responseList.size());
+		System.out.println("Les reponses list  : " + responseList);
+		return responseList;
+	}
+
+
+	public class StockController {
+		//----------------------RECHERCHE DE STOCK ENTREPOT ----------------------------------------------------------------
+		@ResponseBody
+		@RequestMapping(value = "/searchStockEntrepot.form", method = RequestMethod.GET, produces = "application/json")
+		public List<MyDrugEmballageDTO> searchStockEntrepot(
+				@RequestParam(value = "medicament", required = false) String medicament,
+				@RequestParam(value = "numeroLot", required = false) String numeroLot,
+				@RequestParam(value = "entrepotId", required = false) Integer entrepotId,
+				@RequestParam(value = "assuranceId", required = false) Integer assuranceId,
+				@RequestParam(value = "emballageId", required = false) Integer emballageId,
+				@RequestParam(value = "perimeAvant", required = false) String perimeAvant,
+				@RequestParam(value = "forme", required = false) String forme) throws ParseException {
+
+			System.out.println("Entrée dans le controleur de recherche des Strock entrepot");
+			System.out.println("medicament :" + medicament);
+			System.out.println("entrepotId :" + entrepotId);
+			System.out.println("assuranceId :" + assuranceId);
+			System.out.println("numeroLot :" + numeroLot);
+			System.out.println("emballageId :" + emballageId);
+			System.out.println("perimeAvant :" + perimeAvant);
+			System.out.println("forme :" + forme);
+
+			List<MyDrugEmballageDTO> responseList = new ArrayList<>();
+
+			// Rechercher les lignes Stock entrepot en fonction des critères donnés
+			List<StockEntrepot> stockEntrepotList = entrepotService.searchStockEntrepot(medicament,
+					entrepotId, assuranceId, numeroLot, emballageId, forme, perimeAvant);
+
+			System.out.println("Taille des  éléments récupérés : " + stockEntrepotList.size());
+
+			for (StockEntrepot stockEntrepot : stockEntrepotList) {
+				try {
+					MyDrugEmballage myDrugEmballage = stockEntrepot.getMyDrugEmballage();
+					// Recupérer stockEntrepot
+					MyDrugEmballageDTO myDrugEmballageDTO = MyDrugEmballageDTO.convertToDTO(myDrugEmballage);
+					myDrugEmballageDTO.setDatePeremption(stockEntrepot.getDatePeremption());
+					myDrugEmballageDTO.setNumeroLot(stockEntrepot.getNumeroLot());
+					AssuranceMyDrugPrice assuranceMyDrugPrice =
+							myDrugService.getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(
+									myDrugEmballage, assuranceId);
+					myDrugEmballageDTO.setPrixAssurance(assuranceMyDrugPrice.getPrice());
+
+					responseList.add(myDrugEmballageDTO);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Erreur lors du traitement de la recherche: ");
+				}
+			}
+
+			System.out.println("Liste de réponses des StockEntrepotDTO : " + responseList.size());
+			System.out.println("Les reponses list  : " + responseList);
+			return responseList;
+		}
 	}
 }

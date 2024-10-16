@@ -7,6 +7,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
+import org.openmrs.module.mycashier.AssuranceMyDrugPrice;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.MyDrug;
 
@@ -141,6 +142,54 @@ public class MyDrugDao {
 	public MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId) {
 		DbSession session = sessionFactory.getCurrentSession();
 		return (MyDrugEmballage) session.get(MyDrugEmballage.class, myDrugEmballageId);
+	}
+
+	@Transactional
+	public List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance) {
+		DbSession session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(AssuranceMyDrugPrice.class, "assuranceMyDrugPrice");
+
+		// Jointure sur MyDrugEmballage pour accéder aux propriétés de MyDrug et d'Emballage
+		criteria.createAlias("assuranceMyDrugPrice.myDrugEmballage", "myDrugEmballage");
+		criteria.createAlias("myDrugEmballage.myDrug", "myDrug");
+		criteria.createAlias("myDrugEmballage.emballage", "emballage");
+		criteria.createAlias("assuranceMyDrugPrice.assurance", "assurance");
+
+		// Filtrer par nom de médicament, DCI ou groupe thérapeutique
+		if (medicament != null && !medicament.isEmpty()) {
+			criteria.add(Restrictions.or(
+					Restrictions.ilike("myDrug.name", "%" + medicament + "%"),
+					Restrictions.or(
+							Restrictions.ilike("myDrug.dci", "%" + medicament + "%"),
+							Restrictions.ilike("myDrug.groupeTherap", "%" + medicament + "%")
+					)
+			));
+		}
+
+		if (emballage != null && !emballage.isEmpty()) {
+			criteria.add(Restrictions.like("emballage.name", "%" + emballage + "%"));
+		}
+
+		if (forme != null && !forme.isEmpty()) {
+			criteria.add(Restrictions.like("myDrug.forme", "%" + forme + "%"));
+		}
+
+		if (assurance != null && !assurance.isEmpty()) {
+			criteria.add(Restrictions.like("assurance.name", "%" + assurance + "%"));
+		}
+
+		return criteria.list();
+	}
+
+	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AssuranceMyDrugPrice.class);
+
+		// Ajouter les restrictions pour filtrer par myDrugEmballage et assuranceId
+		criteria.add(Restrictions.eq("myDrugEmballage", myDrugEmballage));
+		criteria.add(Restrictions.eq("assurance.id", assuranceId));
+
+		// Retourner le premier résultat trouvé ou null s'il n'existe pas
+		return (AssuranceMyDrugPrice) criteria.uniqueResult();
 	}
 
 }

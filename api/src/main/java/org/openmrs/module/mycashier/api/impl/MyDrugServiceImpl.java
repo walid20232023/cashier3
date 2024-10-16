@@ -2,6 +2,7 @@ package org.openmrs.module.mycashier.api.impl;
 
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.mycashier.AssuranceMyDrugPrice;
 import org.openmrs.module.mycashier.Emballage;
 import org.openmrs.module.mycashier.MyDrug;
 import org.openmrs.module.mycashier.MyDrugEmballage;
@@ -10,6 +11,7 @@ import org.openmrs.module.mycashier.api.dao.MyDrugDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service("MyDrugService")
@@ -71,5 +73,15 @@ public class MyDrugServiceImpl implements MyDrugService {
 	@Override
 	public MyDrugEmballage getMyDrugEmballageById(Integer myDrugEmballageId) {
 		return dao.getMyDrugEmballageById (myDrugEmballageId) ;
+	}
+
+	@Override
+	public List<AssuranceMyDrugPrice> searchAssuranceMyDrugPrice(String medicament, String emballage, String forme, String assurance) {
+		return dao.searchAssuranceMyDrugPrice(medicament, emballage, forme, assurance);
+	}
+
+	@Override
+	public AssuranceMyDrugPrice getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(MyDrugEmballage myDrugEmballage, Integer assuranceId) {
+		return dao.getAssuranceMyDrugPriceByMyDrugEmballageAndAssuranceId(myDrugEmballage, assuranceId) ;
 	}
 }
