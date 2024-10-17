@@ -11,6 +11,8 @@ import org.openmrs.module.mycashier.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,6 +53,7 @@ public class ManageController {
 	private ClientService clientService;
 	
 	//______________________________AFFICHAGE ASSURANCES____________________________________________________________________
+	
 	/**
 	 * @ResponseBody
 	 * @RequestMapping(value = "/assuranceList.form", method = RequestMethod.GET, produces =
@@ -529,6 +532,99 @@ public class ManageController {
 			model.addAttribute("errorMessage", "Error saving Drug: " + e.getMessage());
 			return "module/mycashier/drugForm";
 		}
+	}
+	
+	//______________________________AFFICHAGE FORMULAIRE MY DRUG EMBALLAGE_____________________________________________________
+	@RequestMapping(value = "/myDrugEmballage.form", method = RequestMethod.GET)
+	public String showAddOrUpdateMyDrugEmballageForm(
+	        @RequestParam(value = "id", required = false) Integer myDrugEmballageId, Model model) {
+		
+		if (myDrugEmballageId != null) {
+			// Récupération de l'approvisionnement
+			MyDrugEmballage myDrugEmballage = myDrugService.getMyDrugEmballageById(myDrugEmballageId);
+			if (myDrugEmballage != null) {
+				
+				// Transformation des MyDrugEmballage en DTO et ajout au modèle
+				MyDrugEmballageDTO myDrugEmballageDTO = MyDrugEmballageDTO.convertToDTO(myDrugEmballage);
+				
+				myDrugEmballageDTO.setPrice(myDrugEmballage.getPrice());
+				myDrugEmballageDTO.setQuantityEmballage(myDrugEmballage.getQuantity());
+				
+				//Récupérer les assuranceMyDrugPrice pour ce myDrugEmballage
+				
+				List<AssuranceMyDrugPrice> assuranceMyDrugPriceList = myDrugService
+				        .getAllAssuranceMyDrugPrices(myDrugEmballageId);
+				model.addAttribute("myDrugEmballageDTO", myDrugEmballageDTO);
+				model.addAttribute("assuranceMyDrugPriceList", assuranceMyDrugPriceList);
+				
+			}
+		}
+		
+		return "module/mycashier/myDrugEmballageForm";
+	}
+	
+	//______________________________SAVE MY DRUG EMBALLAGE_____________________________________________________
+	@RequestMapping(value = "/saveMyDrugEmballage.form", method = RequestMethod.POST)
+	@Transactional(rollbackFor = Exception.class)
+	public String saveMyDrugEmballage(@RequestParam(value = "id", required = false) Integer myDrugEmballageId,
+	        @RequestParam("myDrugId") Integer myDrugId, @RequestParam("emballageId") Integer emballageId,
+	        @RequestParam("quantiteEmballage") Integer quantiteEmballage,
+	        @RequestParam(value = "agentReceveurId", required = false) Integer agentReceveurId,
+	        @RequestParam("assurancesIds") List<Integer> assurancesIds,
+	        @RequestParam("prixAssurances") List<Float> prixAssurances, @RequestParam("taux") List<Float> taux, Model model) {
+		
+		MyDrugEmballage myDrugEmballage;
+		if (myDrugEmballageId != null) {
+			myDrugEmballage = myDrugService.getMyDrugEmballageById(myDrugEmballageId);
+			if (myDrugEmballage == null) {
+				model.addAttribute("error", "MyDrugEmballage spécifié est introuvable.");
+				return "module/mycashier/myDrugEmballageForm";
+			}
+		} else {
+			myDrugEmballage = new MyDrugEmballage();
+		}
+		
+		MyDrug myDrug = myDrugService.getMyDrugById(myDrugId);
+		Emballage emballage = emballageService.getEmballageById(emballageId);
+		
+		if (myDrug == null || emballage == null) {
+			model.addAttribute("error", "MyDrug ou Emballage non trouvé.");
+			return "module/mycashier/myDrugEmballageForm";
+		}
+		
+		myDrugEmballage.setMyDrug(myDrug);
+		myDrugEmballage.setEmballage(emballage);
+		myDrugEmballage.setQuantity(quantiteEmballage);
+		
+		myDrugService.saveMyDrugEmballage(myDrugEmballage);
+		
+		myDrugService.deleteAllAssuranceMyDrigPrice(myDrugEmballage);
+		
+		if (assurancesIds.size() == prixAssurances.size() && assurancesIds.size() == taux.size()) {
+			for (int i = 0; i < assurancesIds.size(); i++) {
+				AssuranceMyDrugPrice assuranceMyDrugPrice = new AssuranceMyDrugPrice();
+				assuranceMyDrugPrice.setMyDrugEmballage(myDrugEmballage);
+				assuranceMyDrugPrice.setAssurance(assuranceService.getAssuranceById(assurancesIds.get(i)));
+				assuranceMyDrugPrice.setPrice(prixAssurances.get(i));
+				assuranceMyDrugPrice.setTaux(taux.get(i));
+				
+				myDrugService.saveAssuranceMyDrugPrice(assuranceMyDrugPrice);
+			}
+		} else {
+			model.addAttribute("error", "Les listes d'assurances, prix et taux doivent être de la même taille.");
+			return "module/mycashier/myDrugEmballageForm";
+		}
+		
+		return "module/mycashier/myDrugEmballageList";
+	}
+	
+	// --------------------AFFICHER LA LISTE MY_DRUG_EMBALLAGE----------------------------------
+	@RequestMapping(value = "/myDrugEmballageList.form", method = RequestMethod.GET)
+	public String myDrugEmballageList(ModelMap model) {
+		// Vous pouvez ajouter des attributs au modèle ici si nécessaire
+		// Par exemple, model.addAttribute("someAttribute", someValue);
+		
+		return "module/mycashier/myDrugEmballageList";
 	}
 	
 }

@@ -26,6 +26,7 @@ org/openmrs/module/mycashier/MyDrugAvarie.class
 org/openmrs/module/mycashier/Assurance.class
 org/openmrs/module/mycashier/PaymentDrugResponse.class
 org/openmrs/module/mycashier/api/impl/VersementServiceImpl.class
+org/openmrs/module/mycashier/MyDrugEmballageDTO.class
 org/openmrs/module/mycashier/api/dao/MyDrugAvarieDao.class
 org/openmrs/module/mycashier/api/impl/MyDrugServiceImpl.class
 org/openmrs/module/mycashier/LigneVenteDrug$LigneVenteDrugId.class
@@ -34,7 +35,6 @@ org/openmrs/module/mycashier/api/InventaireService.class
 org/openmrs/module/mycashier/api/dao/ApprovisionnementDao.class
 org/openmrs/module/mycashier/StockEntrepot.class
 org/openmrs/module/mycashier/Inventaire.class
-org/openmrs/module/mycashier/LigneApprovis$LigneApprovisId.class
 org/openmrs/module/mycashier/Emballage.class
 org/openmrs/module/mycashier/MyService.class
 org/openmrs/module/mycashier/VenteDrugResponse.class
@@ -55,6 +55,7 @@ org/openmrs/module/mycashier/api/ServService.class
 org/openmrs/module/mycashier/api/VenteServService.class
 org/openmrs/module/mycashier/api/dao/AgentDao.class
 org/openmrs/module/mycashier/api/impl/AgentServiceImpl.class
+org/openmrs/module/mycashier/LigneApprovisDTO.class
 org/openmrs/module/mycashier/MycashierActivator.class
 org/openmrs/module/mycashier/MyDrugEmballage.class
 org/openmrs/module/mycashier/LigneVenteService$LigneVenteServiceId.class
@@ -64,9 +65,7 @@ org/openmrs/module/mycashier/api/MyDrugAvarieService.class
 org/openmrs/module/mycashier/MycashierConfig.class
 org/openmrs/module/mycashier/Approvisionnement.class
 org/openmrs/module/mycashier/EntrepotConstants.class
-org/openmrs/module/mycashier/MyDrugEmballage$MyDrugEmballageId.class
 org/openmrs/module/mycashier/Item.class
-org/openmrs/module/mycashier/StockEntrepot$StockEntrepotId.class
 org/openmrs/module/mycashier/Client.class
 org/openmrs/module/mycashier/api/impl/EntrepotServiceImpl.class
 org/openmrs/module/mycashier/api/MycashierService.class
@@ -75,6 +74,7 @@ org/openmrs/module/mycashier/api/impl/VenteDrugServiceImpl.class
 org/openmrs/module/mycashier/DateFormater.class
 org/openmrs/module/mycashier/ClientAssurance.class
 org/openmrs/module/mycashier/api/dao/ProvisionDao.class
+org/openmrs/module/mycashier/AssuranceMyDrugPrice.class
 org/openmrs/module/mycashier/api/dao/EmballageDao.class
 org/openmrs/module/mycashier/api/dao/ClientDao.class
 org/openmrs/module/mycashier/api/impl/PaymentServiceImpl.class

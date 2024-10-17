@@ -87,40 +87,6 @@ public class VenteDrugDao {
 	}
 	
 	@Transactional
-	public void addLigneToVenteDrug(MyDrug myDrug, VenteDrug venteDrug, Integer quantity) {
-		DbSession session = sessionFactory.getCurrentSession();
-		
-		// Check if LigneVenteDrug entry exists
-		Criteria criteria = session.createCriteria(LigneVenteDrug.class);
-		criteria.add(Restrictions.eq("id.venteDrugId", venteDrug.getId()));
-		criteria.add(Restrictions.eq("id.myDrugId", myDrug.getId()));
-		
-		LigneVenteDrug ligneVenteDrug = (LigneVenteDrug) criteria.uniqueResult();
-		
-		if (ligneVenteDrug != null) {
-			// Update quantity if the entry already exists
-			// Here, you might need to implement a way to update the quantity.
-			// For example, you can add a `quantity` field in the LigneVenteDrug class
-			// and update it accordingly.
-			// Assuming there's a `quantity` field in LigneVenteDrug:
-			ligneVenteDrug.setQuantity(quantity);
-			session.update(ligneVenteDrug);
-		} else {
-			// Create new LigneVenteDrug entry if it does not exist
-			LigneVenteDrug newLigneVenteDrug = new LigneVenteDrug();
-			LigneVenteDrug.LigneVenteDrugId ligneVenteDrugId = new LigneVenteDrug.LigneVenteDrugId(venteDrug.getId(),
-			        myDrug.getId());
-			newLigneVenteDrug.setId(ligneVenteDrugId);
-			newLigneVenteDrug.setVenteDrug(venteDrug);
-		//	newLigneVenteDrug.setMyDrug(myDrug);
-			// Assuming there's a `quantity` field in LigneVenteDrug:
-			newLigneVenteDrug.setQuantity(quantity);
-			
-			session.save(newLigneVenteDrug);
-		}
-	}
-	
-	@Transactional
 	public VenteDrug deleteVenteDrug(VenteDrug venteDrug) {
 		DbSession session = sessionFactory.getCurrentSession();
 		session.delete(venteDrug);
@@ -289,4 +255,13 @@ public class VenteDrugDao {
 		query.executeUpdate();
 	}
 	
+	public List<LigneVenteDrug> getAllLigneVenteDrug(VenteDrug venteDrug) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LigneVenteDrug.class);
+		
+		// Ajouter la restriction pour filtrer les lignes de vente par venteDrug
+		criteria.add(Restrictions.eq("venteDrug", venteDrug));
+		
+		// Exécuter la requête et retourner les résultats sous forme de liste
+		return criteria.list();
+	}
 }

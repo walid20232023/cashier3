@@ -12,8 +12,6 @@ public class MyDrug {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-
-	
 	@Column(name = "name")
 	private String name;
 	
@@ -22,6 +20,9 @@ public class MyDrug {
 	
 	@Column(name = "groupe_therap")
 	private String groupeTherap;
+	
+	@Column(name = "forme")
+	private String forme;
 	
 	@Column(name = "dci")
 	private String dci;
@@ -71,7 +72,7 @@ public class MyDrug {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -104,4 +105,11 @@ public class MyDrug {
 		this.drugId = drugId;
 	}
 	
+	public String getForme() {
+		return forme;
+	}
+	
+	public void setForme(String forme) {
+		this.forme = forme;
+	}
 }

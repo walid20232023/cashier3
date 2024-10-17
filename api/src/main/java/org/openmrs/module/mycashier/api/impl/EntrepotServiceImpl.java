@@ -12,6 +12,7 @@ import org.openmrs.module.mycashier.api.dao.EntrepotDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service("entrepotService")
@@ -79,16 +80,22 @@ public class EntrepotServiceImpl implements EntrepotService {
 	public Entrepot deleteEntrepot(Entrepot entrepot) throws APIException {
 		return dao.deleteEntrepot(entrepot);
 	}
-
+	
 	@Override
 	public Integer getStockByMyDrugEmballage(Integer myDrugEmballageId, Integer entrepotId) {
 		return dao.getStockByMyDrugEmballage(myDrugEmballageId, entrepotId);
 	}
-
+	
 	@Override
-	public StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer myDrugEmballageId, Integer entrepotSourceId, String numeroLot) {
+	public StockEntrepot getStockEntrepotByDrugEmballageAndEntrepot(Integer myDrugEmballageId, Integer entrepotSourceId,
+	        String numeroLot) {
 		return dao.getStockEntrepotByDrugEmballageAndEntrepot(myDrugEmballageId, entrepotSourceId, numeroLot);
 	}
-
-
+	
+	@Override
+	public List<StockEntrepot> searchStockEntrepot(String medicament, Integer entrepotId, Integer assuranceId,
+	        String numeroLot, Integer emballageId, String forme, String perimeAvant) {
+		return dao.searchStockEntrepot(medicament, entrepotId, assuranceId, numeroLot, emballageId, forme, perimeAvant);
+	}
+	
 }
