@@ -113,6 +113,11 @@
                 <i class="bi bi-clock-history"></i> <!-- Icône pour historique des ventes -->
                 Approvisionnement
             </a>
+
+             <a  href="${pageContext.request.contextPath}/module/mycashier/displayStock.form" class="button">
+                 <i class="bi bi-clock-history"></i>
+                            Stock des médicaments
+            </a>
         </div>
         <div class="info-box frame">
             <p>Bienvenue dans la section de gestion des ventes. Utilisez les boutons ci-dessus pour effectuer les différentes opérations de vente. Assurez-vous de suivre les procédures standard pour chaque opération.</p>
