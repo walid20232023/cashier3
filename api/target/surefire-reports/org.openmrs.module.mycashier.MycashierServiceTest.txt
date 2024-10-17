@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.mycashier.MycashierServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.22 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.667 s -- in org.openmrs.module.mycashier.MycashierServiceTest

@@ -25,10 +25,7 @@ public class LigneVenteDrug {
 	
 	@Column(name = "price")
 	private Integer price;
-	
-	@Column(name = "numero_lot")
-	private String numeroLot;
-	
+
 	// Constructeurs
 	
 	public LigneVenteDrug() {
