@@ -12,6 +12,6 @@ public class StockController {
 	public String displayStock(ModelMap model) {
 		// Vous pouvez ajouter des attributs au modèle ici si nécessaire pour la vue
 		
-		return "module/mycashier/displayStock";
+		return "module/mycashier/stockList";
 	}
 }
