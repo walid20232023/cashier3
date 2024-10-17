@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de Vente</title>
+    <title>Formulaire de création de médicament</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <style>
@@ -52,7 +52,7 @@
             background-color: #e8f5e9;
         }
         .medicament-col {
-            width: 30%; /* Augmenter la largeur pour le champ Médicament */
+            width: 30%;
         }
         .quantity-col, .pu-col, .total-col, .stock-ph-col, .stock-mg-col {
             width: 10%;
@@ -78,15 +78,15 @@
         }
         /* Style spécifique pour les champs d'assurance */
         .form-group.assurance input {
-            background-color: #e0f7fa; /* Bleu clair */
-            border: 1px solid #b2ebf2; /* Bordure légèrement plus foncée */
-            border-radius: 4px; /* Coins légèrement arrondis */
+            background-color: #e0f7fa;
+            border: 1px solid #b2ebf2;
+            border-radius: 4px;
         }
         .form-group.assurance {
-            border: 1px solid #b2ebf2; /* Bordure autour du champ */
-            border-radius: 4px; /* Coins légèrement arrondis */
-            padding: 10px; /* Espacement intérieur */
-            margin-bottom: 10px; /* Espacement entre les champs */
+            border: 1px solid #b2ebf2;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
         #partAssurance, #partClient, #total {
@@ -94,6 +94,9 @@
             color: #2c3e50;
             background-color: #ecf0f1;
             text-align: right;
+            border-radius: 6px;
+            padding: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         button.btn-success {
@@ -101,76 +104,71 @@
             border-color: #27ae60;
         }
 
-     #partAssurance, #partClient, #total {
-         font-weight: bold;
-         color: #2c3e50;
-         background-color: #ecf0f1;
-         text-align: right;
-         border-radius: 6px; /* Ajout de bordures arrondies */
-         padding: 8px; /* Ajout d'un peu d'espace intérieur */
-         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère pour l'effet de relief */
-     }
+        #partAssurance, #partClient, #total {
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #ecf0f1;
+            text-align: right;
+            border-radius: 6px;
+            padding: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-     button.btn-success {
-         background-color: #27ae60;
-         border-color: #27ae60;
-         border-radius: 8px; /* Bordures arrondies */
-         padding: 10px 20px; /* Augmentation de la taille du bouton */
-         transition: background-color 0.3s ease, transform 0.3s ease; /* Transition douce */
-     }
+        button.btn-success {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            border-radius: 8px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
 
-     button.btn-success:hover {
-         background-color: #229954; /* Changement de couleur au survol */
-         transform: scale(1.05); /* Léger zoom au survol */
-     }
+        button.btn-success:hover {
+            background-color: #229954;
+            transform: scale(1.05);
+        }
 
-     /* Styles pour les champs de texte */
-     .custom-input {
-         font-weight: bold;
-         color: #34495e; /* Couleur bleu-gris */
-         background-color: #eaf2f8; /* Bleu très clair */
-         border: 2px solid #5dade2; /* Bordure bleu moyen */
-         border-radius: 8px; /* Bordures arrondies */
-         text-align: right;
-         padding: 10px; /* Espace intérieur pour plus de confort */
-         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre intérieure pour un effet enfoncé */
-     }
+        /* Styles pour les champs de texte */
+        .custom-input {
+            font-weight: bold;
+            color: #34495e;
+            background-color: #eaf2f8;
+            border: 2px solid #5dade2;
+            border-radius: 8px;
+            text-align: right;
+            padding: 10px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-     /* Style pour le bouton */
-     .custom-button {
-         font-size: 1rem; /* Taille du texte réduite */
-         padding: 8px 16px; /* Taille ajustée pour un bouton plus petit */
-         background-color: #3498db; /* Bleu vif */
-         border-color: #2980b9; /* Bleu foncé */
-         border-radius: 8px; /* Bordures arrondies */
-         transition: background-color 0.3s ease, transform 0.3s ease; /* Transition douce */
-         align-self: center; /* Alignement centré verticalement */
-     }
+        /* Style pour le bouton */
+        .custom-button {
+            font-size: 1rem;
+            padding: 8px 16px;
+            background-color: #3498db;
+            border-color: #2980b9;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: center;
+        }
 
-     .custom-button:hover {
-         background-color: #2980b9; /* Couleur de survol */
-         transform: scale(1.05); /* Léger zoom au survol */
-     }
+        .custom-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
 
-     /* Bouton Valider désactivé (gris clair) */
-     .btn-disabled {
-         background-color: lightgray;
-         color: #fff;
-         cursor: not-allowed;
-         border-color: lightgray;
-     }
+        /* Bouton Valider désactivé (gris clair) */
+        .btn-disabled {
+            background-color: lightgray;
+            color: #fff;
+            cursor: not-allowed;
+            border-color: lightgray;
+        }
 
-     /* Bouton Valider activé (rouge vif) */
-     .btn-enabled {
-         background-color: red;
-         color: #fff;
-         border-color: red;
-     }
-
-
-
-
-
+        /* Bouton Valider activé (rouge vif) */
+        .btn-enabled {
+            background-color: red;
+            color: #fff;
+            border-color: red;
+        }
     </style>
 </head>
 <body>
@@ -251,12 +249,12 @@
                             '<td>' + item.quantityEmballage + '</td>' +
                             '<td>' + item.datePeremption + '</td>' +
                             '<td>' + item.numeroLot + '</td>' +
-                        '</tr>';
+                            '</tr>';
                         $('#resultsBody').append(row);
                     });
                 },
-                error: function(xhr, status, error) {
-                    console.error('Erreur de recherche:', error);
+                error: function() {
+                    alert('Erreur lors de la récupération des données.');
                 }
             });
         }

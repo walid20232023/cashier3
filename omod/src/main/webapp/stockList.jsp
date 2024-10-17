@@ -5,8 +5,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Stock selon les entrepot</title>
-    <!-- Intégration de Bootstrap et d'un style personnalisé -->
+    <title>Stock selon les entrepôts</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -38,7 +37,6 @@
             background-color: #004d40;
         }
 
-        /* Style du tableau */
         .table-striped tbody tr {
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -57,93 +55,103 @@
             vertical-align: middle;
         }
     </style>
-    <script src="https://code.jentrepotSourceId.com/jentrepotSourceId-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function searchVenteDrug() {
-            var dateDebut = $('#dateDebut').val();
-            var dateFin = $('#dateFin').val();
-            var medicament = $('#medicament').val();
-            var numeroLot = $('#numeroLot').val();
-            var entrepotSourceId = $('#entrepotSourceId').val();
+            const dateDebut = $('#dateDebut').val() || new Date().toISOString().split('T')[0];
+            const dateFin = $('#dateFin').val() || new Date(new Date().setDate(new Date().getDate() - 3)).toISOString().split('T')[0];
+            const medicament = $('#medicament').val();
+            const numeroLot = $('#numeroLot').val();
+            const entrepotSourceId = $('#entrepotSourceId').val();
             const contextPath = '${pageContext.request.contextPath}';
 
-            // Gestion des dates
-            if (!dateDebut) {
-                let today = new Date().toISOString().split('T')[0];
-                dateDebut = today;
-                $('#dateDebut').val(today);
+            // Validation des dates
+            if (new Date(dateDebut) > new Date(dateFin)) {
+                alert("Erreur : La date de début doit être antérieure ou égale à la date de fin.");
+                return;
             }
 
-            if (!dateFin) {
-                let dateMinus3 = new Date();
-                dateMinus3.setDate(dateMinus3.getDate() - 3);
-                dateFin = dateMinus3.toISOString().split('T')[0];
-                $('#dateFin').val(dateFin);
-            }
-
-            var start = new Date(dateDebut);
-            var end = new Date(dateFin);
-
-            if (dateDebut || dateFin) {
-                if (start < end) {
-                    alert("Erreur : La date de début doit être antérieure ou égale à la date de fin.");
-                    return;
-                }
-            }
-
-            // Requête AJAX pour chercher les ventes
             $.ajax({
                 url: contextPath + '/module/mycashier/searchVenteDrug.form',
                 type: 'GET',
                 data: {
-                    dateDebut: dateDebut,
-                    dateFin: dateFin,
-                    medicament: medicament,
-                    numeroLot: numeroLot,
-                    entrepotSourceId: entrepotSourceId
+                    dateDebut,
+                    dateFin,
+                    medicament,
+                    numeroLot,
+                    entrepotSourceId
                 },
-             success: function (data) {
-                               $('#resultsTable tbody').empty();
-                               data.forEach(function (item) {
-                                   var medicaments = [item.drug1, item.drug2, item.drug3].filter(Boolean).join(' ');
+                success: function (data) {
+                    $('#resultsTable tbody').empty();
+                    data.forEach(item => {
+                        const medicaments = [item.drug1, item.drug2, item.drug3].filter(Boolean).join(' ');
+                        const row = `<tr data-id="${item.venteDrugId}">
+                            <td>${item.dateVente}</td>
+                            <td>${item.medicament}</td>
+                            <td>${item.numeroLot}</td>
+                            <td>${item.preparateur}</td>
+                            <td>${medicaments}</td>
+                            <td>${item.total}</td>
+                            <td>${item.reste}</td>
+                            <input type="hidden" class="venteDrugId" value="${item.venteDrugId}"/>
+                        </tr>`;
+                        $('#resultsTable tbody').append(row);
+                    });
 
-                                   var row = '<tr data-id="' + item.venteDrugId + '">' +
-                                       '<td>' + item.dateVente + '</td>' +
-                                       '<td>' + item.medicament + '</td>' +
-                                       '<td>' + item.numeroLot + '</td>' +
-                                       '<td>' + item.preparateur  + '</td>' +
-                                       '<td>' + medicaments  + '</td>' +
-                                       '<td>' + item.total  + '</td>' +
-                                       '<td>' + item.reste + '</td>' +
-                                        
-
-                                        '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
-                                       '</tr>';
-                                   $('#resultsTable tbody').append(row);
-                               });
-
-
-                // Ajout d'un événement de clic pour chaque ligne du tableau
-                $('#resultsTable tbody tr').click(function () {
-                    var venteDrugId = $(this).find('.venteDrugId').val();
-                    window.location.href = contextPath + '/module/mycashier/venteProduit.form?venteDrugId=' + venteDrugId;
-                });
-                           },
-            error: function (xhr, status, error) {
-                console.error("Erreur lors de la requête : ", error);
-            }
-
-,
+                    // Ajout d'un événement de clic pour chaque ligne du tableau
+                    $('#resultsTable tbody tr').click(function () {
+                        const venteDrugId = $(this).find('.venteDrugId').val();
+                        window.location.href = contextPath + '/module/mycashier/venteProduit.form?venteDrugId=' + venteDrugId;
+                    });
+                },
                 error: function (xhr, status, error) {
                     console.error("Erreur lors de la requête : ", error);
                 }
             });
         }
 
-         $(document).ready(function () {
-                    searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
+        $(document).ready(function () {
+            searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
+        });
+
+        function searchStock() {
+            const params = {
+                medicament: $('#medicament').val(),
+                numeroLot: $('#numeroLot').val(),
+                entrepotId: $('#entrepotId').val(),
+                assuranceId: $('#assuranceId').val(),
+                emballageId: $('#emballageId').val(),
+                perimeAvant: $('#perimeAvant').val(),
+                forme: $('#forme').val()
+            };
+
+            axios.get('<c:url value="/searchStockEntrepot.form"/>', { params })
+                .then(response => {
+                    const stockData = response.data;
+                    const stockTable = $('#stockTable');
+                    stockTable.empty();
+
+                    stockData.forEach(stock => {
+                        const row = `<tr>
+                            <td>${stock.medicamentName || ''}</td>
+                            <td>${stock.numeroLot || ''}</td>
+                            <td>${stock.entrepotName || ''}</td>
+                            <td>${stock.prixAssurance || ''}</td>
+                            <td>${stock.quantiteStock || ''}</td>
+                            <td>${stock.quantiteBoite || ''}</td>
+                            <td>${stock.quantitePlaquette || ''}</td>
+                            <td>${stock.quantiteUnitaire || ''}</td>
+                            <td>${stock.datePeremption ? new Date(stock.datePeremption).toLocaleDateString('fr-FR') : ''}</td>
+                        </tr>`;
+                        stockTable.append(row);
+                    });
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la recherche du stock:", error);
                 });
+        }
     </script>
 </head>
 <body>
@@ -208,45 +216,6 @@
         </tbody>
     </table>
 </div>
-
-<script>
-    function searchStock() {
-        const params = {
-            medicament: $('#medicament').val(),
-            numeroLot: $('#numeroLot').val(),
-            entrepotId: $('#entrepotId').val(),
-            assuranceId: $('#assuranceId').val(),
-            emballageId: $('#emballageId').val(),
-            perimeAvant: $('#perimeAvant').val(),
-            forme: $('#forme').val()
-        };
-
-        axios.get('<c:url value="/searchStockEntrepot.form"/>', { params })
-            .then(response => {
-                const stockData = response.data;
-                const stockTable = $('#stockTable');
-                stockTable.empty();
-
-                stockData.forEach(stock => {
-                    const row = `<tr>
-                        <td>${stock.medicamentName || ''}</td>
-                        <td>${stock.numeroLot || ''}</td>
-                        <td>${stock.entrepotName || ''}</td>
-                        <td>${stock.prixAssurance || ''}</td>
-                        <td>${stock.quantiteStock || ''}</td>
-                        <td>${stock.quantiteBoite || ''}</td>
-                        <td>${stock.quantitePlaquette || ''}</td>
-                        <td>${stock.quantiteUnitaire || ''}</td>
-                        <td><fmt:formatDate value="${stock.datePeremption}" pattern="yyyy-MM-dd"/></td>
-                    </tr>`;
-                    stockTable.append(row);
-                });
-            })
-            .catch(error => {
-                console.error("Erreur lors de la recherche du stock:", error);
-            });
-    }
-</script>
 
 </body>
 </html>

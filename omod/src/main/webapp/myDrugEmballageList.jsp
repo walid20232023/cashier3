@@ -5,7 +5,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ventes en attente de paiements</title>
+    <title>Liste des médicaments</title>
     <!-- Intégration de Bootstrap et d'un style personnalisé -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -74,6 +74,7 @@
             return new Date(dateString).toLocaleDateString('fr-FR', options);
         }
 
+        // Fonction pour rechercher les ventes de médicaments
         function searchVenteDrug() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
@@ -82,11 +83,10 @@
             var query = $('#query').val();
             const contextPath = '${pageContext.request.contextPath}';
 
-            // Gestion des dates
+            // Gestion des dates par défaut
             if (!startDate) {
-                let today = new Date().toISOString().split('T')[0];
-                startDate = today;
-                $('#startDate').val(today);
+                startDate = new Date().toISOString().split('T')[0];
+                $('#startDate').val(startDate);
             }
 
             if (!endDate) {
@@ -96,14 +96,12 @@
                 $('#endDate').val(endDate);
             }
 
+            // Validation des dates
             var start = new Date(startDate);
             var end = new Date(endDate);
-
-            if (startDate || endDate) {
-                if (start <  end) {
-                    alert("Erreur : La date de début doit être antérieure ou égale à la date de fin.");
-                    return;
-                }
+            if (start > end) {
+                alert("Erreur : La date de début doit être antérieure ou égale à la date de fin.");
+                return;
             }
 
             // Requête AJAX pour chercher les ventes
@@ -123,29 +121,24 @@
                     data.forEach(function (item) {
                         var medicaments = [item.drug1, item.drug2, item.drug3].filter(Boolean).join(' ');
 
+                        var row = '<tr data-id="' + item.venteDrugId + '">' +
+                            '<td>' + formatDate(item.dateVente) + '</td>' + // Formatage de la date
+                            '<td>' + item.clientNom + '</td>' +
+                            '<td>' + item.clientPrenom + '</td>' +
+                            '<td>' + item.preparateur + '</td>' +
+                            '<td>' + medicaments + '</td>' +
+                            '<td>' + item.total + '</td>' +
+                            '<td>' + item.reste + '</td>' +
+                            '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
+                            '</tr>';
+                        $('#resultsTable tbody').append(row);
+                    });
 
-
-                       var row = '<tr data-id="' + item.venteDrugId + '">' +
-                           '<td>' + item.dateVente + '</td>' +
-                           '<td>' + item.clientNom + '</td>' +
-                           '<td>' + item.clientPrenom + '</td>' +
-                           '<td>' + item.preparateur  + '</td>' +
-                           '<td>' + medicaments  + '</td>' +
-                           '<td>' + item.total  + '</td>' +
-                           '<td>' + item.reste + '</td>' +
-
-
-                              '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
-                                  '</tr>';
-                            $('#resultsTable tbody').append(row);
-                       });
-
-                  // Ajout d'un événement de clic pour chaque ligne du tableau
-                  $('#resultsTable tbody tr').click(function () {
-                      var venteDrugId = $(this).find('.venteDrugId').val();
-                      window.location.href = contextPath + '/module/mycashier/paymentDrug.form?venteDrugId=' + venteDrugId;
-                  });
-
+                    // Ajout d'un événement de clic pour chaque ligne du tableau
+                    $('#resultsTable tbody tr').click(function () {
+                        var venteDrugId = $(this).find('.venteDrugId').val();
+                        window.location.href = contextPath + '/module/mycashier/paymentDrug.form?venteDrugId=' + venteDrugId;
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Erreur lors de la requête : ", error);
@@ -153,41 +146,37 @@
             });
         }
 
-         $(document).ready(function () {
-                    searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
-                });
+        $(document).ready(function () {
+            searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
+        });
     </script>
 </head>
+<body>
 <div class="container mt-5">
     <h2 class="mb-4">Liste My Drug Emballage</h2>
 
     <!-- Formulaire de recherche -->
     <div class="card p-4 mb-4">
         <form id="searchForm" class="form-inline">
-            <input type="text" class="form-control mr-2" name="medicament" placeholder="Médicament">
-            <input type="text" class="form-control mr-2" name="numeroLot" placeholder="Numéro de lot">
-            <input type="number" class="form-control mr-2" name="entrepotId" placeholder="ID Entrepôt">
-            <input type="number" class="form-control mr-2" name="assuranceId" placeholder="ID Assurance">
-            <input type="number" class="form-control mr-2" name="emballageId" placeholder="ID Emballage">
-            <input type="text" class="form-control mr-2" name="perimeAvant" placeholder="Péremption avant (AAAA-MM-JJ)">
-            <input type="text" class="form-control mr-2" name="forme" placeholder="Forme">
-            <button type="button" class="btn btn-primary" onclick="searchStockEntrepot()">Rechercher</button>
+            <input type="text" class="form-control mr-2" id="clientNom" placeholder="Nom du client">
+            <input type="text" class="form-control mr-2" id="clientPrenom" placeholder="Prénom du client">
+            <input type="text" class="form-control mr-2" id="startDate" placeholder="Date de début (AAAA-MM-JJ)">
+            <input type="text" class="form-control mr-2" id="endDate" placeholder="Date de fin (AAAA-MM-JJ)">
+            <button type="button" class="btn btn-primary" onclick="searchVenteDrug()">Rechercher</button>
         </form>
     </div>
 
     <!-- Tableau pour afficher les résultats -->
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead class="thead-dark">
             <tr>
-                <th>ID</th>
-                <th>Médicament</th>
-                <th>Numéro de Lot</th>
-                <th>Date de Péremption</th>
-                <th>Prix Assurance</th>
-                <th>Quantité Stock</th>
-                <th>Quantité Boîte</th>
-                <th>Quantité Plaquette</th>
-                <th>Quantité Unitaire</th>
+                <th>Date de Vente</th>
+                <th>Nom du Client</th>
+                <th>Prénom du Client</th>
+                <th>Préparateur</th>
+                <th>Médicaments</th>
+                <th>Total</th>
+                <th>Reste</th>
             </tr>
         </thead>
         <tbody id="resultsTable">
@@ -215,7 +204,7 @@
                                 <td>${item.id}</td>
                                 <td>${item.medicament}</td>
                                 <td>${item.numeroLot}</td>
-                                <td>${item.datePeremption ? item.datePeremption : 'N/A'}</td>
+                                <td>${item.datePeremption ? formatDate(item.datePeremption) : 'N/A'}</td>
                                 <td>${item.prixAssurance ? item.prixAssurance : 'N/A'}</td>
                                 <td>${item.quantiteStock}</td>
                                 <td>${item.quantiteBoite}</td>
