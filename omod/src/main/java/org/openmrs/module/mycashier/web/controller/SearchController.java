@@ -40,34 +40,22 @@ public class SearchController {
 	
 	@Autowired
 	private ApprovisionnementService approvisionnementService;
-	
-	/**
-	 * //------------------Search client Controller------------------------------------------------
-	 * 
-	 * @ResponseBody
-	 * @RequestMapping(value = "/searchClient", method = RequestMethod.GET) public List<Client>
-	 *                       searchClient(@RequestParam("query") String query) {
-	 *                       System.out.println("Méthode client appellée"); return
-	 *                       clientService.searchClients(query); }
-	 **/
-	
-	//------------------Search drug Controller------------------------------------------------
+
+	//------------------Search client Controller------------------------------------------------
 	@ResponseBody
 	@RequestMapping(value = "/searchClient.form", method = RequestMethod.GET, produces = "application/json")
 	public List<ClientResponse> searchClient(@RequestParam("query") String query) {
-		
-		System.out.println("Debut méthode");
+		System.out.println("Début méthode");
 		List<Client> clients = clientService.searchClients(query);
-		List<ClientResponse> clientResponses = new ArrayList<ClientResponse>();
+		List<ClientResponse> clientResponses = new ArrayList<>();
+
 		for (Client client : clients) {
 			ClientResponse clientResponse = ClientResponse.clientToResponse(client);
 			clientResponses.add(clientResponse);
-			
 			System.out.println("client Date : " + client.getBirthDate());
 			System.out.println("clientResponse Date : " + clientResponse.getBirthDate());
-			
 		}
-		
+
 		return clientResponses;
 	}
 	
@@ -254,7 +242,7 @@ public class SearchController {
 	//----------------------RECHERCHE DE MY DRUG EMBALLAGE----------------------------------------------------------------
 	
 	@ResponseBody
-	@RequestMapping(value = "/searchPaymentDrug.form", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/searchMyDrugEmballage.form", method = RequestMethod.GET, produces = "application/json")
 	public List<MyDrugEmballageDTO> searchMyDrugEmballages(
 
 			@RequestParam(value = "medicament", required = false) String medicament,

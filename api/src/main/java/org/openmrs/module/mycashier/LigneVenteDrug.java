@@ -25,7 +25,7 @@ public class LigneVenteDrug {
 	
 	@Column(name = "price")
 	private Integer price;
-
+	
 	// Constructeurs
 	
 	public LigneVenteDrug() {
@@ -100,11 +100,6 @@ public class LigneVenteDrug {
 			this.venteDrugId = venteDrugId;
 			this.myDrugEmballageId = myDrugEmballageId;
 			this.numeroLot = numeroLot;
-		}
-		
-		// Getters and Setters
-		public Integer getVenteDrugId() {
-			return venteDrugId;
 		}
 		
 		public void setVenteDrugId(Integer venteDrugId) {
