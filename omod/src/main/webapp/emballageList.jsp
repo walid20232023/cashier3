@@ -1,14 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/template/include.jsp"%>
-<%@ include file="/WEB-INF/template/header.jsp"%>
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/template/include.jsp" %>
+<%@ include file="/WEB-INF/template/header.jsp" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Liste des Assurances</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Emballages</title>
     <style>
-        /* Style for the table */
+        /* Style pour le tableau */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -24,9 +25,11 @@
             background-color: #4CAF50;
             color: white;
         }
-        tr:hover {background-color: #f5f5f5;}
+        tr:hover {
+            background-color: #f5f5f5;
+        }
 
-        /* Style for the add button */
+        /* Style pour le bouton d'ajout */
         .add-button {
             display: inline-block;
             padding: 10px 20px;
@@ -36,12 +39,13 @@
             background-color: #4CAF50;
             text-decoration: none;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         .add-button:hover {
             background-color: #45a049;
         }
 
-        /* General style for the page */
+        /* Style général pour la page */
         .container {
             padding: 20px;
         }
@@ -50,9 +54,9 @@
 <body>
 
 <div class="container">
-    <h1>Liste de types de services</h1>
+    <h1>Liste des Types de Services</h1>
     <a href="<%= request.getContextPath() %>/module/mycashier/emballageForm.form" class="add-button">
-        <i class="icon-plus"></i> Ajouter un emballage
+        <i class="icon-plus"></i> Ajouter un Emballage
     </a>
     <table>
         <thead>
@@ -70,6 +74,6 @@
     </table>
 </div>
 
-<%@ include file="/WEB-INF/template/footer.jsp"%>
+<%@ include file="/WEB-INF/template/footer.jsp" %>
 </body>
 </html>

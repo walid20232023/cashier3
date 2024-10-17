@@ -85,8 +85,8 @@
             var start = new Date(startDate);
             var end = new Date(endDate);
 
-            if (startDate || endDate) {
-                if (start < end) {
+            if (startDate && endDate) {
+                if (start > end) {
                     alert("Erreur : La date de début doit être antérieure ou égale à la date de fin.");
                     return;
                 }
@@ -103,47 +103,39 @@
                     clientPrenom: clientPrenom,
                     query: query
                 },
-             success: function (data) {
-                               $('#resultsTable tbody').empty();
-                               data.forEach(function (item) {
-                                   var medicaments = [item.drug1, item.drug2, item.drug3].filter(Boolean).join(' ');
+                success: function (data) {
+                    $('#resultsTable tbody').empty();
+                    data.forEach(function (item) {
+                        var medicaments = [item.drug1, item.drug2, item.drug3].filter(Boolean).join(', ');
 
-                                   var row = '<tr data-id="' + item.venteDrugId + '">' +
-                                       '<td>' + item.dateVente + '</td>' +
-                                       '<td>' + item.clientNom + '</td>' +
-                                       '<td>' + item.clientPrenom + '</td>' +
-                                       '<td>' + item.preparateur  + '</td>' +
-                                       '<td>' + medicaments  + '</td>' +
-                                       '<td>' + item.total  + '</td>' +
-                                       '<td>' + item.reste + '</td>' +
-                                        
+                        var row = '<tr data-id="' + item.venteDrugId + '">' +
+                            '<td>' + item.dateVente + '</td>' +
+                            '<td>' + item.clientNom + '</td>' +
+                            '<td>' + item.clientPrenom + '</td>' +
+                            '<td>' + item.preparateur + '</td>' +
+                            '<td>' + medicaments + '</td>' +
+                            '<td>' + item.total + '</td>' +
+                            '<td>' + item.reste + '</td>' +
+                            '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
+                            '</tr>';
+                        $('#resultsTable tbody').append(row);
+                    });
 
-                                        '<input type="hidden" class="venteDrugId" value="' + item.venteDrugId + '"/>' +
-                                       '</tr>';
-                                   $('#resultsTable tbody').append(row);
-                               });
-
-
-                // Ajout d'un événement de clic pour chaque ligne du tableau
-                $('#resultsTable tbody tr').click(function () {
-                    var venteDrugId = $(this).find('.venteDrugId').val();
-                    window.location.href = contextPath + '/module/mycashier/venteProduit.form?venteDrugId=' + venteDrugId;
-                });
-                           },
-            error: function (xhr, status, error) {
-                console.error("Erreur lors de la requête : ", error);
-            }
-
-,
+                    // Ajout d'un événement de clic pour chaque ligne du tableau
+                    $('#resultsTable tbody tr').click(function () {
+                        var venteDrugId = $(this).find('.venteDrugId').val();
+                        window.location.href = contextPath + '/module/mycashier/venteProduit.form?venteDrugId=' + venteDrugId;
+                    });
+                },
                 error: function (xhr, status, error) {
                     console.error("Erreur lors de la requête : ", error);
                 }
             });
         }
 
-         $(document).ready(function () {
-                    searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
-                });
+        $(document).ready(function () {
+            searchVenteDrug(); // Lancer la recherche par défaut lors du chargement de la page
+        });
     </script>
 </head>
 <body>

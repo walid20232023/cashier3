@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/module/mycashier")
-public class ApprovisController<ApprovisionnementDTO> {
+public class ApprovisController {
 	
 	@Autowired
 	private ApprovisionnementService approvisionnementService;
@@ -132,7 +132,9 @@ public class ApprovisController<ApprovisionnementDTO> {
 		approvisionnement.setEntrepotSource(entrepotService.getEntrepotById(entrepotSourceId));
 		approvisionnement.setEntrepotCible(entrepotService.getEntrepotById(entrepotCibleId));
 		approvisionnement.setAgentEmetteur(agentService.getAgentById(agentEmetteurId));
-		approvisionnement.setAgentReceveur(agentService.getAgentById(agentReceveurId));
+		if (!(agentReceveurId == null)) {
+			approvisionnement.setAgentReceveur(agentService.getAgentById(agentReceveurId));
+		}
 		approvisionnement.setDateTimeApprovisionnement(LocalDateTime.now());
 		approvisionnement.setEmetteurHasValidated(emetteurHasValidated);
 		if (receveurHasValidated.equals(1)) {
@@ -181,7 +183,6 @@ public class ApprovisController<ApprovisionnementDTO> {
 			//Actualiser les quantités
 			stockEntrepotSource.setQuantiteStock(stockEntrepot - quantiteSaisie);
 			stockEntrepotCible.setQuantiteStock(stockEntrepot + quantiteSaisie);
-			
 		}
 		
 		model.addAttribute("success", "L'approvisionnement a été sauvegardé avec succès.");
