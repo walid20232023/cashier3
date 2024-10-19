@@ -116,6 +116,13 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
-	
+
+	<web>
+		<staticFiles>
+			<include>/resources/</include>
+		</staticFiles>
+	</web>
+
+
 </module>
 

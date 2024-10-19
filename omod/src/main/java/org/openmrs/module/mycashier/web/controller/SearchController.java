@@ -40,7 +40,7 @@ public class SearchController {
 	
 	@Autowired
 	private ApprovisionnementService approvisionnementService;
-
+	
 	//------------------Search client Controller------------------------------------------------
 	@ResponseBody
 	@RequestMapping(value = "/searchClient.form", method = RequestMethod.GET, produces = "application/json")
