@@ -1,5 +1,4 @@
 <!-- Bootstrap Icons CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
 <link rel="shortcut icon" type="image/ico" href="http://localhost:8080/openmrs/images/openmrs-favicon.ico">
 <link rel="icon" type="image/png\" href="http://localhost:8080/openmrs/images/openmrs-favicon.png">
@@ -8,8 +7,8 @@
 
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/bootstrap.min.css"/> <!-- Bootstrap: Global styles -->
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/jquery-ui-1.9.2.custom.min.css"/> <!-- jQuery UI styles -->
+<openmrs:htmlInclude file="/moduleResources/mycashier/css/font-awesome-4.7.0/css/font-awesome.css"/> <!-- jQuery UI styles -->
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/jquery.toastmessage.css"/> <!-- Toast Message styles -->
-<openmrs:htmlInclude file="/moduleResources/mycashier/css/csrfguard"/>
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/referenceapplication.css"/> <!-- Specific app styles -->
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/header.css"/>
 <openmrs:htmlInclude file="/moduleResources/mycashier/css/home.css"/>

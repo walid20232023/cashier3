@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/template/include.jsp"%>
 
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gestion des Ventes</title>
+    <title>Gestion de la pharmacie</title>
     <%@include file="tete.jsp"%>
 </head>
 <body>
@@ -63,7 +64,7 @@
     </nav>
     <div id="session-location">
         <div id="spinner" style="position:absolute; display:none">
-            <img src="./static/spinner.gif">
+            <img src="${pageContext.request.contextPath}/moduleResources/mycashier/css/spinner.gif">
         </div>
         <ul class="select">
             <li class="selected" locationuuid="b1a8b05e-3542-4037-bbd3-998ee9c40574" locationid="6"
@@ -107,6 +108,7 @@
                 <i class="icon-ok medium"></i>
 
             </div>
+
             <div class="close-icon"><i class="icon-remove"></i></div>
         </div>
     </div>
@@ -116,86 +118,49 @@
         </div>
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12" id="title"  id="title">
-                <h2> Connecté en tant que Super User (admin) au Inpatient Ward. </h2>
+                <h2> PHARMATIE </h2>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 homeList" id="apps">
 
-                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension1"
-                   href="index_vente.html"
+                <a href="${pageContext.request.contextPath}/module/mycashier/venteProduit.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-credit-card"></i>
-                    Vente des produits
+                    <i class="bi bi-currency-dollar"></i>
+                    Créer une vente
                 </a>
-                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension2"
-                   href="index_caisse.html"
+                <a href="${pageContext.request.contextPath}/module/mycashier/venteProduitList.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-credit-card"></i>
-                    Caisse
+                    <i class="bi bi-pencil"></i>
+                    Éditer une vente
                 </a>
-                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension"
-                   href="http://localhost:8080/openmrs/coreapps/findpatient/findPatient.page?app=coreapps.findPatient"
+                <a href="${pageContext.request.contextPath}/module/mycashier/validatedDrugsList.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-search"></i>
-                    Rechercher dossier de patient
+                    <i class="bi bi-bag-plus"></i>
+                    Encaisser une vente
                 </a>
-                <a id="org-openmrs-module-coreapps-activeVisitsHomepageLink-org-openmrs-module-coreapps-activeVisitsHomepageLink-extension"
-                   href="http://localhost:8080/openmrs/coreapps/activeVisits.page?app=coreapps.activeVisits"
+                <a href="${pageContext.request.contextPath}/module/mycashier/validatedDrugsList.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-calendar"></i>
-                    Consultations actives
+                    <i class="bi bi-cash"></i>
+                    Encaisser une vente
                 </a>
 
-                <a id="referenceapplication-vitals-referenceapplication-vitals-extension"
-                   href="http://localhost:8080/openmrs/coreapps/findpatient/findPatient.page?app=referenceapplication.vitals"
+                <a href="${pageContext.request.contextPath}/module/mycashier/searchPaymentDrugForm.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-vitals"></i>
-                    Enregistrer signes vitaux
+                    <i class="bi bi-archive"></i>
+                    Historique des ventes
                 </a>
-                <a id="referenceapplication-registrationapp-registerPatient-homepageLink-referenceapplication-registrationapp-registerPatient-homepageLink-extension"
-                   href="http://localhost:8080/openmrs/registrationapp/registerPatient.page?appId=referenceapplication.registrationapp.registerPatient"
+                <a href="${pageContext.request.contextPath}/module/mycashier/actionsApprovis.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-user"></i>
-                    Enregistrer patient
+                    <i class="bi bi-bag-check"></i>
+                    Approvisionnement
                 </a>
 
-                <a id="appointmentschedulingui-homeAppLink-appointmentschedulingui-homeAppLink-extension"
-                   href="http://localhost:8080/openmrs//appointmentschedulingui/home.page"
+                <a href="${pageContext.request.contextPath}/module/mycashier/displayStock.form"
                    class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-calendar"></i>
-                    Programmation des rendez-vous
+                    <i class="bi bi-clock-history"></i>
+                    Stock des médicaments
                 </a>
-                <a id="reportingui-reports-homepagelink-reportingui-reports-homepagelink-extension"
-                   href="http://localhost:8080/openmrs/reportingui/reportsapp/home.page"
-                   class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-list-alt"></i>
-
-                    Rapports
-                </a>
-
-                <a id="coreapps-datamanagement-homepageLink-coreapps-datamanagement-homepageLink-extension"
-                   href="http://localhost:8080/openmrs/coreapps/datamanagement/dataManagement.page"
-                   class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-hdd"></i>
-
-                    Gestion des données
-                </a>
-
-                <a id="org-openmrs-module-adminui-configuremetadata-homepageLink-org-openmrs-module-adminui-configuremetadata-homepageLink-extension"
-                   href="http://localhost:8080/openmrs/adminui/metadata/configureMetadata.page"
-                   class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-tasks"></i>
-                    Configurer les métadonnées
-                </a>
-
-                <a id="coreapps-systemadministration-homepageLink-coreapps-systemadministration-homepageLink-extension"
-                   href="http://localhost:8080/openmrs/coreapps/systemadministration/systemAdministration.page"
-                   class="btn btn-default btn-lg button app big align-self-center" type="button">
-                    <i class="icon-cogs"></i>
-                    Administration système
-                </a>
-
             </div>
         </div>
 
