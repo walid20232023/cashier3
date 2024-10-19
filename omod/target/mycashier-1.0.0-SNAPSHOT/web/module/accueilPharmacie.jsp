@@ -1,133 +1,241 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/template/include.jsp"%>
-<%@ include file="/WEB-INF/template/header.jsp"%>
+
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Gestion des Ventes</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            padding: 40px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            max-width: 1200px;
-            margin: 40px auto;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header h2 {
-            font-size: 2em;
-            color: #5A9D78 ; /* Vert ajusté pour les titres */
-        }
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-around;
-        }
-        .button {
-            background-color: #5A9D78 ; /* Vert ajusté pour les boutons */
-            border: none;
-            color: white !important; /* Texte en blanc */
-            padding: 20px 40px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .button:hover {
-            background-color: #1D6F3E; /* Vert légèrement plus sombre pour le survol */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        .button i {
-            display: block;
-            margin: 0 auto 10px;
-            font-size: 24px; /* Taille de l'icône */
-        }
-        .info-box {
-            background-color: #e8f5e9;
-            border-left: 6px solid #5A9D78 ; /* Bordure ajustée */
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 16px;
-            color: #555;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .frame {
-            border: 2px solid #5A9D78 ; /* Bordure ajustée */
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-        }
-    </style>
+    <%@include file="tete.jsp"%>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>Gestion des Ventes</h2>
-        </div>
-        <div class="button-container">
-          <a href="${pageContext.request.contextPath}/module/mycashier/venteProduit.form" class="button">
-              <i class="bi bi-plus-circle"></i> <!-- Icône pour créer une vente -->
-              Créer une vente
-          </a>
 
-            <a href="${pageContext.request.contextPath}/module/mycashier/venteProduitList.form"  class="button">
-                <i class="bi bi-pencil-square"></i> <!-- Icône pour éditer une vente -->
-                Éditer une vente
-            </a>
-            <a href="${pageContext.request.contextPath}/module/mycashier/validatedDrugsList.form"  class="button">
-                <i class="bi bi-cash"></i> <!-- Icône pour encaisser une vente -->
-                Encaisser une vente
-            </a>
-            <a href="/listStock" class="button">
-                <i class="bi bi-box"></i> <!-- Icône pour liste des stocks -->
-                Liste des stocks
-            </a>
-            <a  href="${pageContext.request.contextPath}/module/mycashier/searchPaymentDrugForm.form" class="button">
-                <i class="bi bi-clock-history"></i> <!-- Icône pour historique des ventes -->
-                Historique des ventes
-            </a>
-            <a  href="${pageContext.request.contextPath}/module/mycashier/actionsApprovis.form" class="button">
-                <i class="bi bi-clock-history"></i> <!-- Icône pour historique des ventes -->
-                Approvisionnement
-            </a>
-
-             <a  href="${pageContext.request.contextPath}/module/mycashier/displayStock.form" class="button">
-                 <i class="bi bi-clock-history"></i>
-                            Stock des médicaments
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark navigation">
+        <div class="logo">
+            <a href="http://localhost:8080/openmrs/">
+                <img src="${pageContext.request.contextPath}/moduleResources/mycashier/css/openmrs-with-title-small.png">
             </a>
         </div>
-        <div class="info-box frame">
-            <p>Bienvenue dans la section de gestion des ventes. Utilisez les boutons ci-dessus pour effectuer les différentes opérations de vente. Assurez-vous de suivre les procédures standard pour chaque opération.</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto user-options">
+                <li class="nav-item identifier" style="cursor: pointer;">
+
+
+                    <i class="icon-user small"></i>
+                    admin
+
+                    <i class="icon-caret-down appui-icon-caret-down link"></i><i class="icon-caret-up link appui-toggle"
+                                                                                 style="display: none;"></i>
+                    <ul id="user-account-menu" class="appui-toggle">
+
+                        <li>
+                            <a id="" href="http://localhost:8080/openmrs/adminui/myaccount/myAccount.page">
+                                Mon compte
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+                <li class="change-location">
+                    <a href="javascript:void(0);">
+                        <i class="icon-map-marker small"></i>
+                        <span id="selected-location" data-bind="text: text"
+                              location-uuid="b1a8b05e-3542-4037-bbd3-998ee9c40574">Inpatient Ward</span>
+                        <i class="icon-caret-down link" style=""></i>
+                    </a>
+                </li>
+                <li class="nav-item logout">
+                    <a href="http://localhost:8080/openmrs/appui/header/logout.action?successUrl=openmrs">
+                        Déconnexion
+                        <i class="icon-signout small"></i>
+                    </a>
+                </li>
+            </ul>
+
+
+        </div>
+    </nav>
+    <div id="session-location">
+        <div id="spinner" style="position:absolute; display:none">
+            <img src="./static/spinner.gif">
+        </div>
+        <ul class="select">
+            <li class="selected" locationuuid="b1a8b05e-3542-4037-bbd3-998ee9c40574" locationid="6"
+                locationname="Inpatient Ward">Inpatient Ward
+            </li>
+            <li locationuuid="2131aff8-2e2a-480a-b7ab-4ac53250262b" locationid="4" locationname="Isolation Ward">
+                Isolation Ward
+            </li>
+            <li locationuuid="7fdfa2cb-bc95-405a-88c6-32b7673c0453" locationid="3" locationname="Laboratory">
+                Laboratory
+            </li>
+            <li locationuuid="58c57d25-8d39-41ab-8422-108a0c277d98" locationid="7" locationname="Outpatient Clinic">
+                Outpatient Clinic
+            </li>
+            <li locationuuid="7f65d926-57d6-4402-ae10-a5b3bcbf7986" locationid="2" locationname="Pharmacy">Pharmacy</li>
+            <li locationuuid="6351fcf4-e311-4a19-90f9-35667d99a8af" locationid="5" locationname="Registration Desk">
+                Registration Desk
+            </li>
+        </ul>
+
+    </div>
+</header>
+
+<ul id="breadcrumbs"></ul>
+
+<div id="body-wrapper">
+    <script type="text/javascript"> </script>
+
+    <div id="error-message" class="note-container">
+        <div class="note error" style="display: none">
+            <div class="text">
+                <i class="icon-remove medium"></i>
+
+            </div>
+            <div class="close-icon"><i class="icon-remove"></i></div>
         </div>
     </div>
-    <!-- Optional: Add Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div id="info-message" class="note-container">
+        <div class="note success" style="display: none">
+            <div class="text">
+                <i class="icon-ok medium"></i>
+
+            </div>
+            <div class="close-icon"><i class="icon-remove"></i></div>
+        </div>
+    </div>
+    <div id="content" class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 homeNotification"> </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12" id="title"  id="title">
+                <h2> Connecté en tant que Super User (admin) au Inpatient Ward. </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 homeList" id="apps">
+
+                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension1"
+                   href="index_vente.html"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-credit-card"></i>
+                    Vente des produits
+                </a>
+                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension2"
+                   href="index_caisse.html"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-credit-card"></i>
+                    Caisse
+                </a>
+                <a id="coreapps-activeVisitsHomepageLink-coreapps-activeVisitsHomepageLink-extension"
+                   href="http://localhost:8080/openmrs/coreapps/findpatient/findPatient.page?app=coreapps.findPatient"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-search"></i>
+                    Rechercher dossier de patient
+                </a>
+                <a id="org-openmrs-module-coreapps-activeVisitsHomepageLink-org-openmrs-module-coreapps-activeVisitsHomepageLink-extension"
+                   href="http://localhost:8080/openmrs/coreapps/activeVisits.page?app=coreapps.activeVisits"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-calendar"></i>
+                    Consultations actives
+                </a>
+
+                <a id="referenceapplication-vitals-referenceapplication-vitals-extension"
+                   href="http://localhost:8080/openmrs/coreapps/findpatient/findPatient.page?app=referenceapplication.vitals"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-vitals"></i>
+                    Enregistrer signes vitaux
+                </a>
+                <a id="referenceapplication-registrationapp-registerPatient-homepageLink-referenceapplication-registrationapp-registerPatient-homepageLink-extension"
+                   href="http://localhost:8080/openmrs/registrationapp/registerPatient.page?appId=referenceapplication.registrationapp.registerPatient"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-user"></i>
+                    Enregistrer patient
+                </a>
+
+                <a id="appointmentschedulingui-homeAppLink-appointmentschedulingui-homeAppLink-extension"
+                   href="http://localhost:8080/openmrs//appointmentschedulingui/home.page"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-calendar"></i>
+                    Programmation des rendez-vous
+                </a>
+                <a id="reportingui-reports-homepagelink-reportingui-reports-homepagelink-extension"
+                   href="http://localhost:8080/openmrs/reportingui/reportsapp/home.page"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-list-alt"></i>
+
+                    Rapports
+                </a>
+
+                <a id="coreapps-datamanagement-homepageLink-coreapps-datamanagement-homepageLink-extension"
+                   href="http://localhost:8080/openmrs/coreapps/datamanagement/dataManagement.page"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-hdd"></i>
+
+                    Gestion des données
+                </a>
+
+                <a id="org-openmrs-module-adminui-configuremetadata-homepageLink-org-openmrs-module-adminui-configuremetadata-homepageLink-extension"
+                   href="http://localhost:8080/openmrs/adminui/metadata/configureMetadata.page"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-tasks"></i>
+                    Configurer les métadonnées
+                </a>
+
+                <a id="coreapps-systemadministration-homepageLink-coreapps-systemadministration-homepageLink-extension"
+                   href="http://localhost:8080/openmrs/coreapps/systemadministration/systemAdministration.page"
+                   class="btn btn-default btn-lg button app big align-self-center" type="button">
+                    <i class="icon-cogs"></i>
+                    Administration système
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script id="breadcrumb-template" type="text/template">
+    <li>
+        {{ if (!first) { }}
+        <i class="icon-chevron-right link"></i>
+        {{ } }}
+        {{ if (!last && breadcrumb.link) { }}
+        <a href="{{= breadcrumb.link }}">
+            {{ } }}
+            {{ if (breadcrumb.icon) { }}
+            <i class="{{= breadcrumb.icon }} small"></i>
+            {{ } }}
+            {{ if (breadcrumb.label) { }}
+            {{= breadcrumb.label }}
+            {{ } }}
+            {{ if (!last && breadcrumb.link) { }}
+        </a>
+        {{ } }}
+    </li>
+</script>
+<script type="text/javascript">
+    jq(function () {
+        emr.updateBreadcrumbs();
+    });
+
+    // global error handler
+    jq(document).ajaxError(function (event, jqxhr) {
+        emr.redirectOnAuthenticationFailure(jqxhr);
+    });
+
+    var featureToggles = {};
+
+
+</script>
 </body>
 </html>
 
-<%@ include file="/WEB-INF/template/footer.jsp"%>
+
