@@ -1,32 +1,96 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
-<%@ include file="/WEB-INF/template/header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Actions Approvisionnement</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'/>">
-    <link rel="stylesheet" href="<c:url value='/resources/css/openmrs.css'/>"> <!-- Assurez-vous que le chemin est correct -->
+    <%@include file="layouts/_head.jsp"%>
+    <title>Gestion d'approvisionnement</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Actions Approvisionnement</h2>
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-4">
-                <a href="<c:url value='/module/mycashier/approvisForm.form'/>" class="btn btn-primary btn-lg btn-block">Créer un Approvisionnement</a>
+
+
+<%@include file="layouts/_header.jsp"%>
+
+<div id="body-wrapper">
+    <script type="text/javascript"> </script>
+
+    <div id="error-message" class="note-container">
+        <div class="note error" style="display: none">
+            <div class="text">
+                <i class="icon-remove medium"></i>
+
             </div>
-            <div class="col-md-4">
-                <a href="<c:url value='/module/mycashier/approvisionnementList.form'/>" class="btn btn-secondary btn-lg btn-block">Historique des Approvisionnements</a>
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-info btn-lg btn-block" disabled>Approvisionnements en Cours de Préparation</button>
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-warning btn-lg btn-block" disabled>Approvisionnements en Attente de Validation</button>
-            </div>
+            <div class="close-icon"><i class="icon-remove"></i></div>
         </div>
     </div>
-    <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'/>"></script> <!-- Assurez-vous que le chemin est correct -->
+    <div id="info-message" class="note-container">
+        <div class="note success" style="display: none">
+            <div class="text">
+                <i class="icon-ok medium"></i>
+
+            </div>
+
+            <div class="close-icon"><i class="icon-remove"></i></div>
+        </div>
+    </div>
+    <div id="content" class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 homeNotification"> </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12" id="title">
+                <ul id="breadcrumbs">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/"><i class="icon-home small"></i></a>
+                    </li>
+                    <li>
+                        <i class="icon-chevron-right link"></i>
+                        <a href="${pageContext.request.contextPath}/module/mycashier/accueilPharmacie.form">
+                            Pharamacie
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-chevron-right link"></i>
+                        Approvisionnement
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 homeList" id="apps">
+
+                <a href="${pageContext.request.contextPath}/module/mycashier/approvisForm.form'"
+                   class="btn-secondary btn-lg button app big align-self-center" type="button">
+                    <i class="bi bi-currency-dollar"></i>
+                    Créer un Approvisionnement
+                </a>
+                <a href="${pageContext.request.contextPath}/module/mycashier/approvisionnementList.form"
+                   class="btn-secondary btn-lg button app big align-self-center" type="button">
+                    <i class="bi bi-pencil"></i>
+                    Historique des Approvisionnements
+                </a>
+                <a href="${pageContext.request.contextPath}/module/mycashier/searchPaymentDrugForm.form"
+                   class="btn-secondary btn-lg button app big align-self-center" type="button">
+                    <i class="bi bi-archive"></i>
+                    Approvisionnements en Cours de Préparation
+                </a>
+                <a href="${pageContext.request.contextPath}/module/mycashier/actionsApprovis.form"
+                   class="btn-secondary btn-lg button app big align-self-center" type="button">
+                    <i class="bi bi-bag-check"></i>
+                    Approvisionnements en Attente de Validation
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<%@include file="layouts/_footer.jsp"%>
+
 </body>
 </html>

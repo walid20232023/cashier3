@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item logout">
-                    <a href="http://localhost:8080/openmrs/appui/header/logout.action?successUrl=openmrs">
+                    <a href="/appui/header/logout.action?successUrl=openmrs">
                         Déconnexion
                         <i class="icon-signout small"></i>
                     </a>
